@@ -239,7 +239,11 @@
 
         /* Chart containers */
         .chart-container {
-            height: 350px;
+            height: 400px;
+        }
+
+        .chart-container-large {
+            height: 450px;
         }
 
         /* Summary row */
@@ -428,7 +432,7 @@
                 </div>
                 <div class="card">
                     <div class="card-title">Revenue by Category</div>
-                    <div id="chart-categories" class="chart-container"></div>
+                    <div id="chart-categories" class="chart-container-large"></div>
                 </div>
             </div>
         </div>
@@ -467,7 +471,7 @@
                             </tr>
 
                             <tr>
-                                <td><strong>Daily Operations (Supplies/Groceries)</strong></td>
+                                <td><strong>Daily Ops</strong></td>
                                 <td class="text-right font-mono">€11,300.54</td>
                                 <td class="text-right">21.8%</td>
                                 <td class="text-muted"></td>
@@ -481,7 +485,7 @@
                             </tr>
 
                             <tr>
-                                <td><strong>Social Security & Taxes</strong></td>
+                                <td><strong>Taxes</strong></td>
                                 <td class="text-right font-mono">€6,240.75</td>
                                 <td class="text-right">12.1%</td>
                                 <td class="text-muted"></td>
@@ -534,7 +538,7 @@
 
                 <div class="card">
                     <div class="card-title">Expense Distribution</div>
-                    <div id="chart-expenses" class="chart-container"></div>
+                    <div id="chart-expenses" class="chart-container-large"></div>
                 </div>
             </div>
 
@@ -1361,54 +1365,80 @@
 
         Plotly.newPlot('chart-financial', [trace1, trace2, trace3], layout1, {responsive: true});
 
-        // Categories Chart
-        var categories = ['Comidas / Refeições', 'Comidas / Bolos', 'Cafetaria / Cafetaria', 'Comidas / Tostas', 'Comidas / Sobremesas', 'Bebidas / Sumos', 'Bebidas / Agua', 'Comidas / Biscoitos'];
+        // Categories Chart - Shorten labels for readability
+        var categoriesRaw = ['Comidas / Refeições', 'Comidas / Bolos', 'Cafetaria / Cafetaria', 'Comidas / Tostas', 'Comidas / Sobremesas', 'Bebidas / Sumos', 'Bebidas / Agua', 'Comidas / Biscoitos'];
+        var categories = categoriesRaw.map(c => {
+            // Shorten long category names
+            return c.replace('Comidas / ', '').replace('Bebidas / ', '').replace('Cafetaria / ', '').replace('Take Away / ', 'TA: ');
+        });
         var catRevenue = [5731.04, 5224.39, 3794.32, 2959.7, 1589.49, 1329.15, 637.24, 528.8];
 
         var trace4 = {
             labels: categories,
             values: catRevenue,
             type: 'pie',
-            hole: 0.4,
-            textinfo: 'label+percent',
-            textposition: 'outside',
+            hole: 0.45,
+            textinfo: 'percent',
+            textposition: 'inside',
+            insidetextorientation: 'horizontal',
+            hoverinfo: 'label+value+percent',
+            textfont: { size: 12, color: '#fff' },
             marker: {
-                colors: ['#3498db', '#2ecc71', '#e74c3c', '#f39c12', '#9b59b6', '#1abc9c', '#e67e22', '#34495e']
+                colors: ['#3498db', '#2ecc71', '#e74c3c', '#f39c12', '#9b59b6', '#1abc9c', '#e67e22', '#34495e'],
+                line: { color: '#1a1a1a', width: 2 }
             }
         };
 
         var layout2 = {
             paper_bgcolor: 'transparent',
             plot_bgcolor: 'transparent',
-            font: { color: '#a0a0a0', size: 11 },
-            margin: { t: 20, r: 20, b: 20, l: 20 },
-            showlegend: false
+            font: { color: '#a0a0a0', size: 12 },
+            margin: { t: 30, r: 30, b: 30, l: 30 },
+            showlegend: true,
+            legend: {
+                orientation: 'h',
+                y: -0.15,
+                x: 0.5,
+                xanchor: 'center',
+                font: { size: 11 }
+            }
         };
 
         Plotly.newPlot('chart-categories', [trace4], layout2, {responsive: true});
 
         // Expenses Chart
-        var expenseLabels = ['Salaries', 'Daily Operations (Supplies/Groceries)', 'Rent', 'Social Security & Taxes', 'Utilities', 'Accounting', 'Supplies', 'Insurance', 'Other'];
+        var expenseLabels = ['Salaries', 'Daily Ops', 'Rent', 'Taxes', 'Utilities', 'Accounting', 'Supplies', 'Insurance', 'Other'];
         var expenseValues = [21467.22, 11300.539999999999, 6750.0, 6240.75, 2860.15, 1291.5, 1174.6, 521.21, 128.91];
 
         var trace5 = {
             labels: expenseLabels,
             values: expenseValues,
             type: 'pie',
-            hole: 0.4,
-            textinfo: 'label+percent',
-            textposition: 'outside',
+            hole: 0.45,
+            textinfo: 'percent',
+            textposition: 'inside',
+            insidetextorientation: 'horizontal',
+            hoverinfo: 'label+value+percent',
+            textfont: { size: 12, color: '#fff' },
             marker: {
-                colors: ['#e74c3c', '#f39c12', '#3498db', '#9b59b6', '#1abc9c', '#e67e22', '#95a5a6', '#34495e']
+                colors: ['#e74c3c', '#f39c12', '#3498db', '#9b59b6', '#1abc9c', '#e67e22', '#95a5a6', '#34495e'],
+                line: { color: '#1a1a1a', width: 2 }
             }
         };
 
         var layout3 = {
             paper_bgcolor: 'transparent',
             plot_bgcolor: 'transparent',
-            font: { color: '#a0a0a0', size: 11 },
-            margin: { t: 20, r: 20, b: 20, l: 20 },
-            showlegend: false
+            font: { color: '#a0a0a0', size: 12 },
+            margin: { t: 30, r: 30, b: 30, l: 30 },
+            showlegend: true,
+            legend: {
+                orientation: 'h',
+                y: -0.15,
+                x: 0.5,
+                xanchor: 'center',
+                font: { size: 11 }
+            }
         };
 
         Plotly.newPlot('chart-expenses', [trace5], layout3, {responsive: true});
