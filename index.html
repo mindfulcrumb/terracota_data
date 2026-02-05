@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terracota Cafe - Business Analysis</title>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0f0f0f;
+            --bg-secondary: #1a1a1a;
+            --bg-card: #222222;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --accent-green: #00d26a;
+            --accent-red: #ff4757;
+            --accent-yellow: #ffa502;
+            --accent-blue: #3498db;
+            --border-color: #333333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        /* Header */
+        .header {
+            margin-bottom: 48px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header h1 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .header .subtitle {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        /* Metric Cards */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+            margin-bottom: 48px;
+        }
+
+        .metric-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .metric-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .metric-value {
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        .metric-value.positive { color: var(--accent-green); }
+        .metric-value.negative { color: var(--accent-red); }
+        .metric-value.warning { color: var(--accent-yellow); }
+        .metric-value.neutral { color: var(--text-primary); }
+
+        .metric-change {
+            font-size: 13px;
+            margin-top: 8px;
+            color: var(--text-secondary);
+        }
+
+        /* Section */
+        .section {
+            margin-bottom: 48px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .card-full {
+            grid-column: 1 / -1;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 12px 16px;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        td {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background: rgba(255,255,255,0.02);
+        }
+
+        .text-right { text-align: right; }
+        .text-green { color: var(--accent-green); }
+        .text-red { color: var(--accent-red); }
+        .text-yellow { color: var(--accent-yellow); }
+        .text-muted { color: var(--text-secondary); }
+        .font-mono { font-family: 'SF Mono', Monaco, monospace; }
+
+        /* Status badges */
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .badge-green {
+            background: rgba(0, 210, 106, 0.15);
+            color: var(--accent-green);
+        }
+
+        .badge-red {
+            background: rgba(255, 71, 87, 0.15);
+            color: var(--accent-red);
+        }
+
+        .badge-yellow {
+            background: rgba(255, 165, 2, 0.15);
+            color: var(--accent-yellow);
+        }
+
+        .badge-blue {
+            background: rgba(52, 152, 219, 0.15);
+            color: var(--accent-blue);
+        }
+
+        /* Action Box */
+        .action-box {
+            background: var(--bg-secondary);
+            border-left: 3px solid var(--accent-yellow);
+            padding: 20px 24px;
+            margin-bottom: 16px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .action-box.critical {
+            border-left-color: var(--accent-red);
+        }
+
+        .action-box.success {
+            border-left-color: var(--accent-green);
+        }
+
+        .action-box h4 {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .action-box p {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        /* Chart containers */
+        .chart-container {
+            height: 350px;
+        }
+
+        /* Summary row */
+        .summary-row {
+            background: var(--bg-secondary);
+            font-weight: 600;
+        }
+
+        .summary-row td {
+            border-top: 2px solid var(--border-color);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .metrics-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Terracota Cafe</h1>
+            <p class="subtitle">Business Performance Report &bull; August - December 2025</p>
+        </div>
+
+        <!-- Key Metrics -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-label">Total Revenue</div>
+                <div class="metric-value neutral">€52,733</div>
+                <div class="metric-change">5 months</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Total Expenses</div>
+                <div class="metric-value neutral">€51,735</div>
+                <div class="metric-change">Fixed + Operations</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Net Profit</div>
+                <div class="metric-value positive">€998</div>
+                <div class="metric-change">1.9% margin</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Products to Remove</div>
+                <div class="metric-value warning">13</div>
+                <div class="metric-change">€442 at risk (1.8%)</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Daily Breakeven</div>
+                <div class="metric-value neutral">€343</div>
+                <div class="metric-change">€10,293/month</div>
+            </div>
+        </div>
+
+        <!-- Priority Actions -->
+        <div class="section">
+            <div class="section-header">
+                <h2 class="section-title">Priority Actions</h2>
+            </div>
+
+            <div class="action-box critical">
+                <h4>1. Cut Winter Labor Costs</h4>
+                <p>November & December labor is 54-72% of revenue vs 25-35% industry benchmark. Potential savings: €2,500-3,500/month.</p>
+            </div>
+
+            <div class="action-box">
+                <h4>2. Remove 13 Dog Products</h4>
+                <p>Low popularity + low margin products. Only €442 revenue at risk (1.8% of total). Simplifies menu & reduces waste.</p>
+            </div>
+
+            <div class="action-box success">
+                <h4>3. Promote Coffee Products</h4>
+                <p>Coffee has 75% margin vs 50% on meals. Push espresso (€945), Meia Leite (€1,025), Cappuccino (€425) for better profitability.</p>
+            </div>
+        </div>
+
+        <!-- Monthly Performance -->
+        <div class="section">
+            <div class="section-header">
+                <h2 class="section-title">Monthly Performance</h2>
+            </div>
+
+            <div class="card card-full">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Month</th>
+                            <th class="text-right">Entrada (Card)</th>
+                            <th class="text-right">Mesa 20 (Cash)</th>
+                            <th class="text-right">Total Revenue</th>
+                            <th class="text-right">Expenses</th>
+                            <th class="text-right">Net Profit</th>
+                            <th class="text-right">Margin</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td><strong>August</strong></td>
+                            <td class="text-right font-mono">€9,775.87</td>
+                            <td class="text-right font-mono">€2,768.92</td>
+                            <td class="text-right font-mono">€12,544.79</td>
+                            <td class="text-right font-mono">€9,734.66</td>
+                            <td class="text-right font-mono text-green">€2,810.13</td>
+                            <td class="text-right">22.4%</td>
+                            <td><span class="badge badge-green">Profit</span></td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>September</strong></td>
+                            <td class="text-right font-mono">€9,003.44</td>
+                            <td class="text-right font-mono">€2,893.45</td>
+                            <td class="text-right font-mono">€11,896.89</td>
+                            <td class="text-right font-mono">€9,054.55</td>
+                            <td class="text-right font-mono text-green">€2,842.34</td>
+                            <td class="text-right">23.9%</td>
+                            <td><span class="badge badge-green">Profit</span></td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>October</strong></td>
+                            <td class="text-right font-mono">€9,340.79</td>
+                            <td class="text-right font-mono">€3,113.09</td>
+                            <td class="text-right font-mono">€12,453.88</td>
+                            <td class="text-right font-mono">€12,066.54</td>
+                            <td class="text-right font-mono text-green">€387.34</td>
+                            <td class="text-right">3.1%</td>
+                            <td><span class="badge badge-green">Profit</span></td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>November</strong></td>
+                            <td class="text-right font-mono">€6,264.81</td>
+                            <td class="text-right font-mono">€1,892.02</td>
+                            <td class="text-right font-mono">€8,156.83</td>
+                            <td class="text-right font-mono">€11,347.94</td>
+                            <td class="text-right font-mono text-red">€-3,191.11</td>
+                            <td class="text-right">-39.1%</td>
+                            <td><span class="badge badge-red">Loss</span></td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>December</strong></td>
+                            <td class="text-right font-mono">€5,967.16</td>
+                            <td class="text-right font-mono">€1,713.29</td>
+                            <td class="text-right font-mono">€7,680.45</td>
+                            <td class="text-right font-mono">€9,531.19</td>
+                            <td class="text-right font-mono text-red">€-1,850.74</td>
+                            <td class="text-right">-24.1%</td>
+                            <td><span class="badge badge-red">Loss</span></td>
+                        </tr>
+
+                        <tr class="summary-row">
+                            <td><strong>TOTAL</strong></td>
+                            <td class="text-right font-mono">€40,352.07</td>
+                            <td class="text-right font-mono">€12,380.77</td>
+                            <td class="text-right font-mono"><strong>€52,732.84</strong></td>
+                            <td class="text-right font-mono"><strong>€51,734.88</strong></td>
+                            <td class="text-right font-mono text-green"><strong>€997.96</strong></td>
+                            <td class="text-right"><strong>1.9%</strong></td>
+                            <td><span class="badge badge-green">Profit</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="section">
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-title">Revenue vs Expenses</div>
+                    <div id="chart-financial" class="chart-container"></div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Revenue by Category</div>
+                    <div id="chart-categories" class="chart-container"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Expense Breakdown -->
+        <div class="section">
+            <div class="section-header">
+                <h2 class="section-title">Where Your Money Goes (Expense Breakdown)</h2>
+            </div>
+
+            <div class="card card-full" style="margin-bottom: 24px;">
+                <p style="color: var(--text-secondary); margin-bottom: 16px; font-size: 14px;">
+                    This shows exactly where every euro of expenses goes. Use this to identify areas where you can cut costs.
+                </p>
+            </div>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-title">Expenses by Category (5 Months)</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th class="text-right">Amount</th>
+                                <th class="text-right">% of Total</th>
+                                <th>Note</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td><strong>Salaries</strong></td>
+                                <td class="text-right font-mono">€21,467.22</td>
+                                <td class="text-right">41.5%</td>
+                                <td class="text-red">Target: 25-35% of revenue</td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Daily Operations (Supplies/Groceries)</strong></td>
+                                <td class="text-right font-mono">€11,300.54</td>
+                                <td class="text-right">21.8%</td>
+                                <td class="text-muted"></td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Rent</strong></td>
+                                <td class="text-right font-mono">€6,750.00</td>
+                                <td class="text-right">13.0%</td>
+                                <td class="text-green">Target: 5-10% of revenue</td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Social Security & Taxes</strong></td>
+                                <td class="text-right font-mono">€6,240.75</td>
+                                <td class="text-right">12.1%</td>
+                                <td class="text-muted"></td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Utilities</strong></td>
+                                <td class="text-right font-mono">€2,860.15</td>
+                                <td class="text-right">5.5%</td>
+                                <td class="text-muted">Normal range</td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Accounting</strong></td>
+                                <td class="text-right font-mono">€1,291.50</td>
+                                <td class="text-right">2.5%</td>
+                                <td class="text-muted"></td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Supplies</strong></td>
+                                <td class="text-right font-mono">€1,174.60</td>
+                                <td class="text-right">2.3%</td>
+                                <td class="text-muted"></td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Insurance</strong></td>
+                                <td class="text-right font-mono">€521.21</td>
+                                <td class="text-right">1.0%</td>
+                                <td class="text-muted"></td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Other</strong></td>
+                                <td class="text-right font-mono">€128.91</td>
+                                <td class="text-right">0.2%</td>
+                                <td class="text-muted"></td>
+                            </tr>
+
+                            <tr class="summary-row">
+                                <td><strong>TOTAL FIXED EXPENSES</strong></td>
+                                <td class="text-right font-mono"><strong>€51,734.88</strong></td>
+                                <td class="text-right"><strong>100%</strong></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Expense Distribution</div>
+                    <div id="chart-expenses" class="chart-container"></div>
+                </div>
+            </div>
+
+            <div class="card card-full">
+                <div class="card-title">Key Expense Insights</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th class="text-right">Your Number</th>
+                            <th class="text-right">Industry Target</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Salaries as % of Revenue</strong></td>
+                            <td class="text-right font-mono">40.7%</td>
+                            <td class="text-right">25-35%</td>
+                            <td><span class="badge badge-red">Too High</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Rent as % of Revenue</strong></td>
+                            <td class="text-right font-mono">12.8%</td>
+                            <td class="text-right">5-10%</td>
+                            <td><span class="badge badge-green">OK</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Total Fixed Costs as % of Revenue</strong></td>
+                            <td class="text-right font-mono">98.1%</td>
+                            <td class="text-right">60-70%</td>
+                            <td><span class="badge badge-red">Too High</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Menu Engineering -->
+        <div class="section">
+            <div class="section-header">
+                <h2 class="section-title">Menu Engineering Matrix</h2>
+            </div>
+
+            <div class="card card-full" style="margin-bottom: 24px;">
+                <div class="card-title">What do these categories mean?</div>
+                <p style="color: var(--text-secondary); margin-bottom: 16px; font-size: 14px;">
+                    Menu Engineering is a restaurant industry standard method to classify products based on <strong>how much they sell</strong> (popularity) and <strong>how much profit they make per item</strong> (profitability).
+                </p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Popularity</th>
+                            <th>Profit Margin</th>
+                            <th>What It Means</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="badge badge-green">Star</span></td>
+                            <td class="text-green">High</td>
+                            <td class="text-green">High</td>
+                            <td>Your best products. Customers love them AND they make good money.</td>
+                            <td><strong>PROMOTE</strong> - Feature these prominently</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge badge-yellow">Plowhorse</span></td>
+                            <td class="text-green">High</td>
+                            <td class="text-red">Low</td>
+                            <td>Popular but not profitable. People buy them but you barely make money.</td>
+                            <td><strong>REPRICE</strong> - Raise price or cut costs</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                            <td class="text-red">Low</td>
+                            <td class="text-green">High</td>
+                            <td>Good profit margin but few people order them. Hidden potential.</td>
+                            <td><strong>MARKET</strong> - Better positioning, staff recommendations</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge badge-red">Dog</span></td>
+                            <td class="text-red">Low</td>
+                            <td class="text-red">Low</td>
+                            <td>Nobody buys them AND they don't make money. Worst performers.</td>
+                            <td><strong>REMOVE</strong> - Take off the menu</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-title">
+                        <span class="badge badge-green">Stars</span>
+                        47 products - PROMOTE
+                    </div>
+                    <p class="text-muted" style="margin-bottom: 16px; font-size: 13px;">High popularity + High profitability. Feature prominently.</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th class="text-right">Units</th>
+                                <th class="text-right">Revenue</th>
+                                <th class="text-right">Margin</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td>Bolo à Fatia Tradicional</td>
+                                <td class="text-right font-mono">271</td>
+                                <td class="text-right font-mono">€1159.06</td>
+                                <td class="text-right text-green">60%</td>
+                            </tr>
+
+                            <tr>
+                                <td>Meia Leite</td>
+                                <td class="text-right font-mono">693</td>
+                                <td class="text-right font-mono">€1024.98</td>
+                                <td class="text-right text-green">75%</td>
+                            </tr>
+
+                            <tr>
+                                <td>Espresso</td>
+                                <td class="text-right font-mono">1043</td>
+                                <td class="text-right font-mono">€945.04</td>
+                                <td class="text-right text-green">75%</td>
+                            </tr>
+
+                            <tr>
+                                <td>Bolo Vulcão c/ Cobertura</td>
+                                <td class="text-right font-mono">313</td>
+                                <td class="text-right font-mono">€937.38</td>
+                                <td class="text-right text-green">60%</td>
+                            </tr>
+
+                            <tr>
+                                <td>Bolos Secos</td>
+                                <td class="text-right font-mono">267</td>
+                                <td class="text-right font-mono">€755.24</td>
+                                <td class="text-right text-green">60%</td>
+                            </tr>
+
+                            <tr>
+                                <td>Tarte Semifrio</td>
+                                <td class="text-right font-mono">210</td>
+                                <td class="text-right font-mono">€715.64</td>
+                                <td class="text-right text-green">60%</td>
+                            </tr>
+
+                            <tr>
+                                <td>bolo abacaxi</td>
+                                <td class="text-right font-mono">145</td>
+                                <td class="text-right font-mono">€558.79</td>
+                                <td class="text-right text-green">60%</td>
+                            </tr>
+
+                            <tr>
+                                <td>Sumo Natural Laranja</td>
+                                <td class="text-right font-mono">147</td>
+                                <td class="text-right font-mono">€493.21</td>
+                                <td class="text-right text-green">65%</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">
+                        <span class="badge badge-red">Dogs</span>
+                        13 products - REMOVE
+                    </div>
+                    <p class="text-muted" style="margin-bottom: 16px; font-size: 13px;">Low popularity + Low profitability. Remove from menu.</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th class="text-right">Units</th>
+                                <th class="text-right">Revenue</th>
+                                <th class="text-right">Days</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td>Salada Salmão</td>
+                                <td class="text-right font-mono">13</td>
+                                <td class="text-right font-mono">€151.19</td>
+                                <td class="text-right text-muted">11</td>
+                            </tr>
+
+                            <tr>
+                                <td>Salada à Chefe</td>
+                                <td class="text-right font-mono">13</td>
+                                <td class="text-right font-mono">€121.60</td>
+                                <td class="text-right text-muted">10</td>
+                            </tr>
+
+                            <tr>
+                                <td>Lasanha</td>
+                                <td class="text-right font-mono">4</td>
+                                <td class="text-right font-mono">€41.40</td>
+                                <td class="text-right text-muted">4</td>
+                            </tr>
+
+                            <tr>
+                                <td>Brigadeiro 8uni</td>
+                                <td class="text-right font-mono">4</td>
+                                <td class="text-right font-mono">€33.90</td>
+                                <td class="text-right text-muted">3</td>
+                            </tr>
+
+                            <tr>
+                                <td>Salada Vegetariana</td>
+                                <td class="text-right font-mono">3</td>
+                                <td class="text-right font-mono">€27.00</td>
+                                <td class="text-right text-muted">2</td>
+                            </tr>
+
+                            <tr>
+                                <td>Quiche Especialidades</td>
+                                <td class="text-right font-mono">5</td>
+                                <td class="text-right font-mono">€24.50</td>
+                                <td class="text-right text-muted">2</td>
+                            </tr>
+
+                            <tr>
+                                <td>Pão Forma, Manteiga, Queijo e </td>
+                                <td class="text-right font-mono">5</td>
+                                <td class="text-right font-mono">€15.00</td>
+                                <td class="text-right text-muted">5</td>
+                            </tr>
+
+                            <tr>
+                                <td>Croissant</td>
+                                <td class="text-right font-mono">6</td>
+                                <td class="text-right font-mono">€7.84</td>
+                                <td class="text-right text-muted">5</td>
+                            </tr>
+
+                            <tr>
+                                <td>Cookies Especialidades</td>
+                                <td class="text-right font-mono">2</td>
+                                <td class="text-right font-mono">€7.00</td>
+                                <td class="text-right text-muted">2</td>
+                            </tr>
+
+                            <tr>
+                                <td>Pain au Chocolat</td>
+                                <td class="text-right font-mono">3</td>
+                                <td class="text-right font-mono">€5.20</td>
+                                <td class="text-right text-muted">1</td>
+                            </tr>
+
+                            <tr>
+                                <td>Pão Rustico c/ Manteiga, Queij</td>
+                                <td class="text-right font-mono">1</td>
+                                <td class="text-right font-mono">€4.00</td>
+                                <td class="text-right text-muted">1</td>
+                            </tr>
+
+                            <tr>
+                                <td>Docinhos Especialidades</td>
+                                <td class="text-right font-mono">1</td>
+                                <td class="text-right font-mono">€3.50</td>
+                                <td class="text-right text-muted">1</td>
+                            </tr>
+
+                            <tr>
+                                <td>sumol ananas</td>
+                                <td class="text-right font-mono">4</td>
+                                <td class="text-right font-mono">€0.00</td>
+                                <td class="text-right text-muted">4</td>
+                            </tr>
+
+                            <tr class="summary-row">
+                                <td><strong>TOTAL</strong></td>
+                                <td></td>
+                                <td class="text-right font-mono text-red"><strong>€442.13</strong></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">
+                        <span class="badge badge-yellow">Plowhorses</span>
+                        21 products - REPRICE
+                    </div>
+                    <p class="text-muted" style="margin-bottom: 16px; font-size: 13px;">High popularity but low margin. Raise prices or cut costs.</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th class="text-right">Units</th>
+                                <th class="text-right">Revenue</th>
+                                <th class="text-right">Margin</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td>MENU Prato do Dia</td>
+                                <td class="text-right font-mono">432</td>
+                                <td class="text-right font-mono">€4115.16</td>
+                                <td class="text-right text-yellow">50%</td>
+                            </tr>
+
+                            <tr>
+                                <td>Prato do DIA</td>
+                                <td class="text-right font-mono">145</td>
+                                <td class="text-right font-mono">€955.26</td>
+                                <td class="text-right text-yellow">50%</td>
+                            </tr>
+
+                            <tr>
+                                <td>Bolo à Fatia Especialidades</td>
+                                <td class="text-right font-mono">190</td>
+                                <td class="text-right font-mono">€867.77</td>
+                                <td class="text-right text-yellow">60%</td>
+                            </tr>
+
+                            <tr>
+                                <td>Tosta Abacate</td>
+                                <td class="text-right font-mono">68</td>
+                                <td class="text-right font-mono">€624.50</td>
+                                <td class="text-right text-yellow">55%</td>
+                            </tr>
+
+                            <tr>
+                                <td>Bolo Seco c/ Cobertura</td>
+                                <td class="text-right font-mono">165</td>
+                                <td class="text-right font-mono">€551.85</td>
+                                <td class="text-right text-yellow">60%</td>
+                            </tr>
+
+                            <tr>
+                                <td>Tosta Ovos Mexidos</td>
+                                <td class="text-right font-mono">70</td>
+                                <td class="text-right font-mono">€515.57</td>
+                                <td class="text-right text-yellow">55%</td>
+                            </tr>
+
+                            <tr>
+                                <td>Tosta Mista</td>
+                                <td class="text-right font-mono">176</td>
+                                <td class="text-right font-mono">€514.78</td>
+                                <td class="text-right text-yellow">55%</td>
+                            </tr>
+
+                            <tr>
+                                <td>Meia Torrada</td>
+                                <td class="text-right font-mono">191</td>
+                                <td class="text-right font-mono">€366.45</td>
+                                <td class="text-right text-yellow">55%</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">
+                        <span class="badge badge-blue">Puzzles</span>
+                        51 products - MARKET BETTER
+                    </div>
+                    <p class="text-muted" style="margin-bottom: 16px; font-size: 13px;">High margin but low sales. Better positioning & promotion.</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th class="text-right">Units</th>
+                                <th class="text-right">Revenue</th>
+                                <th class="text-right">Margin</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td>Bolo Especialidades</td>
+                                <td class="text-right font-mono">2</td>
+                                <td class="text-right font-mono">€80.00</td>
+                                <td class="text-right">60%</td>
+                            </tr>
+
+                            <tr>
+                                <td>Bolo com Cobertura</td>
+                                <td class="text-right font-mono">3</td>
+                                <td class="text-right font-mono">€60.00</td>
+                                <td class="text-right">60%</td>
+                            </tr>
+
+                            <tr>
+                                <td>Iced Capuccino</td>
+                                <td class="text-right font-mono">13</td>
+                                <td class="text-right font-mono">€48.10</td>
+                                <td class="text-right">75%</td>
+                            </tr>
+
+                            <tr>
+                                <td>Bolo de Aniversário</td>
+                                <td class="text-right font-mono">1</td>
+                                <td class="text-right font-mono">€45.00</td>
+                                <td class="text-right">60%</td>
+                            </tr>
+
+                            <tr>
+                                <td>Batidos</td>
+                                <td class="text-right font-mono">11</td>
+                                <td class="text-right font-mono">€44.00</td>
+                                <td class="text-right">65%</td>
+                            </tr>
+
+                            <tr>
+                                <td>Gelado</td>
+                                <td class="text-right font-mono">11</td>
+                                <td class="text-right font-mono">€41.30</td>
+                                <td class="text-right">60%</td>
+                            </tr>
+
+                            <tr>
+                                <td>Sopa Dia</td>
+                                <td class="text-right font-mono">9</td>
+                                <td class="text-right font-mono">€32.48</td>
+                                <td class="text-right">60%</td>
+                            </tr>
+
+                            <tr>
+                                <td>Biscoito Milho</td>
+                                <td class="text-right font-mono">8</td>
+                                <td class="text-right font-mono">€32.00</td>
+                                <td class="text-right">60%</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Products -->
+        <div class="section">
+            <div class="section-header">
+                <h2 class="section-title">Top 10 Products (Pareto)</h2>
+            </div>
+
+            <div class="card card-full">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 40px;">#</th>
+                            <th>Product</th>
+                            <th>Category</th>
+                            <th class="text-right">Units Sold</th>
+                            <th class="text-right">Revenue</th>
+                            <th class="text-right">% of Total</th>
+                            <th class="text-right">Cumulative</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td class="text-muted">1</td>
+                            <td><strong>MENU Prato do Dia</strong></td>
+                            <td class="text-muted">Comidas / Refeições</td>
+                            <td class="text-right font-mono">432</td>
+                            <td class="text-right font-mono">€4115.16</td>
+                            <td class="text-right">16.9%</td>
+                            <td class="text-right text-green">16.9%</td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">2</td>
+                            <td><strong>Bolo à Fatia Tradicional</strong></td>
+                            <td class="text-muted">Comidas / Bolos</td>
+                            <td class="text-right font-mono">271</td>
+                            <td class="text-right font-mono">€1159.06</td>
+                            <td class="text-right">4.8%</td>
+                            <td class="text-right text-green">21.7%</td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">3</td>
+                            <td><strong>Meia Leite</strong></td>
+                            <td class="text-muted">Cafetaria / Cafetaria</td>
+                            <td class="text-right font-mono">693</td>
+                            <td class="text-right font-mono">€1024.98</td>
+                            <td class="text-right">4.2%</td>
+                            <td class="text-right text-green">25.9%</td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">4</td>
+                            <td><strong>Prato do DIA</strong></td>
+                            <td class="text-muted">Comidas / Refeições</td>
+                            <td class="text-right font-mono">145</td>
+                            <td class="text-right font-mono">€955.26</td>
+                            <td class="text-right">3.9%</td>
+                            <td class="text-right text-green">29.8%</td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">5</td>
+                            <td><strong>Espresso</strong></td>
+                            <td class="text-muted">Cafetaria / Cafetaria</td>
+                            <td class="text-right font-mono">1043</td>
+                            <td class="text-right font-mono">€945.04</td>
+                            <td class="text-right">3.9%</td>
+                            <td class="text-right text-green">33.7%</td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">6</td>
+                            <td><strong>Bolo Vulcão c/ Cobertura</strong></td>
+                            <td class="text-muted">Comidas / Bolos</td>
+                            <td class="text-right font-mono">313</td>
+                            <td class="text-right font-mono">€937.38</td>
+                            <td class="text-right">3.9%</td>
+                            <td class="text-right text-green">37.6%</td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">7</td>
+                            <td><strong>Bolo à Fatia Especialidades</strong></td>
+                            <td class="text-muted">Comidas / Bolos</td>
+                            <td class="text-right font-mono">190</td>
+                            <td class="text-right font-mono">€867.77</td>
+                            <td class="text-right">3.6%</td>
+                            <td class="text-right text-green">41.1%</td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">8</td>
+                            <td><strong>Bolos Secos</strong></td>
+                            <td class="text-muted">Comidas / Bolos</td>
+                            <td class="text-right font-mono">267</td>
+                            <td class="text-right font-mono">€755.24</td>
+                            <td class="text-right">3.1%</td>
+                            <td class="text-right text-green">44.2%</td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">9</td>
+                            <td><strong>Tarte Semifrio</strong></td>
+                            <td class="text-muted">Comidas / Sobremesas</td>
+                            <td class="text-right font-mono">210</td>
+                            <td class="text-right font-mono">€715.64</td>
+                            <td class="text-right">2.9%</td>
+                            <td class="text-right text-green">47.2%</td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">10</td>
+                            <td><strong>Tosta Abacate</strong></td>
+                            <td class="text-muted">Comidas / Tostas</td>
+                            <td class="text-right font-mono">68</td>
+                            <td class="text-right font-mono">€624.50</td>
+                            <td class="text-right">2.6%</td>
+                            <td class="text-right text-green">49.7%</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <p class="text-muted" style="margin-top: 16px; font-size: 13px;">
+                    <strong>Pareto Insight:</strong> 31 products (24%) generate 80% of revenue. Focus marketing on these top performers.
+                </p>
+            </div>
+        </div>
+
+        <!-- Category Performance -->
+        <div class="section">
+            <div class="section-header">
+                <h2 class="section-title">Category Performance</h2>
+            </div>
+
+            <div class="card card-full">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th class="text-right">Products</th>
+                            <th class="text-right">Units Sold</th>
+                            <th class="text-right">Revenue</th>
+                            <th class="text-right">% of Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td><strong>Comidas / Refeições</strong></td>
+                            <td class="text-right">6</td>
+                            <td class="text-right font-mono">661</td>
+                            <td class="text-right font-mono">€5731.04</td>
+                            <td class="text-right">23.6%</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Comidas / Bolos</strong></td>
+                            <td class="text-right">11</td>
+                            <td class="text-right font-mono">1465</td>
+                            <td class="text-right font-mono">€5224.39</td>
+                            <td class="text-right">21.5%</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Cafetaria / Cafetaria</strong></td>
+                            <td class="text-right">22</td>
+                            <td class="text-right font-mono">2672</td>
+                            <td class="text-right font-mono">€3794.32</td>
+                            <td class="text-right">15.6%</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Comidas / Tostas</strong></td>
+                            <td class="text-right">14</td>
+                            <td class="text-right font-mono">735</td>
+                            <td class="text-right font-mono">€2959.70</td>
+                            <td class="text-right">12.2%</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Comidas / Sobremesas</strong></td>
+                            <td class="text-right">13</td>
+                            <td class="text-right font-mono">666</td>
+                            <td class="text-right font-mono">€1589.49</td>
+                            <td class="text-right">6.5%</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Bebidas / Sumos</strong></td>
+                            <td class="text-right">20</td>
+                            <td class="text-right font-mono">549</td>
+                            <td class="text-right font-mono">€1329.15</td>
+                            <td class="text-right">5.5%</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Bebidas / Agua</strong></td>
+                            <td class="text-right">3</td>
+                            <td class="text-right font-mono">531</td>
+                            <td class="text-right font-mono">€637.24</td>
+                            <td class="text-right">2.6%</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Comidas / Biscoitos</strong></td>
+                            <td class="text-right">6</td>
+                            <td class="text-right font-mono">134</td>
+                            <td class="text-right font-mono">€528.80</td>
+                            <td class="text-right">2.2%</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Comidas / Saladas</strong></td>
+                            <td class="text-right">4</td>
+                            <td class="text-right font-mono">53</td>
+                            <td class="text-right font-mono">€525.89</td>
+                            <td class="text-right">2.2%</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Comidas / Pão Queijo</strong></td>
+                            <td class="text-right">6</td>
+                            <td class="text-right font-mono">125</td>
+                            <td class="text-right font-mono">€415.65</td>
+                            <td class="text-right">1.7%</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>EXTRAS /</strong></td>
+                            <td class="text-right">2</td>
+                            <td class="text-right font-mono">51</td>
+                            <td class="text-right font-mono">€351.50</td>
+                            <td class="text-right">1.4%</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Comidas / Quiches</strong></td>
+                            <td class="text-right">3</td>
+                            <td class="text-right font-mono">81</td>
+                            <td class="text-right font-mono">€335.08</td>
+                            <td class="text-right">1.4%</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Bebidas / Cerveja</strong></td>
+                            <td class="text-right">5</td>
+                            <td class="text-right font-mono">159</td>
+                            <td class="text-right font-mono">€229.10</td>
+                            <td class="text-right">0.9%</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Take Away / Bolos Inteiros</strong></td>
+                            <td class="text-right">4</td>
+                            <td class="text-right font-mono">7</td>
+                            <td class="text-right font-mono">€193.00</td>
+                            <td class="text-right">0.8%</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Take Away / Pereciveis</strong></td>
+                            <td class="text-right">3</td>
+                            <td class="text-right font-mono">264</td>
+                            <td class="text-right font-mono">€139.80</td>
+                            <td class="text-right">0.6%</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Cafetaria / Café Staff</strong></td>
+                            <td class="text-right">1</td>
+                            <td class="text-right font-mono">301</td>
+                            <td class="text-right font-mono">€139.06</td>
+                            <td class="text-right">0.6%</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Bebidas / Vinho</strong></td>
+                            <td class="text-right">5</td>
+                            <td class="text-right font-mono">27</td>
+                            <td class="text-right font-mono">€118.86</td>
+                            <td class="text-right">0.5%</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Bebidas / Batidos</strong></td>
+                            <td class="text-right">2</td>
+                            <td class="text-right font-mono">12</td>
+                            <td class="text-right font-mono">€50.50</td>
+                            <td class="text-right">0.2%</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Comidas / Sopa</strong></td>
+                            <td class="text-right">1</td>
+                            <td class="text-right font-mono">9</td>
+                            <td class="text-right font-mono">€32.48</td>
+                            <td class="text-right">0.1%</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Afternoon Tea /</strong></td>
+                            <td class="text-right">1</td>
+                            <td class="text-right font-mono">1</td>
+                            <td class="text-right font-mono">€1.00</td>
+                            <td class="text-right">0.0%</td>
+                        </tr>
+
+                        <tr class="summary-row">
+                            <td><strong>TOTAL</strong></td>
+                            <td class="text-right"><strong>132</strong></td>
+                            <td class="text-right font-mono"><strong>8503</strong></td>
+                            <td class="text-right font-mono"><strong>€24,326.05</strong></td>
+                            <td class="text-right"><strong>100%</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div style="text-align: center; padding: 40px 0; color: var(--text-secondary); font-size: 13px;">
+            <p>Terracota Cafe Business Analysis System</p>
+            <p>Data Period: August - December 2025</p>
+        </div>
+    </div>
+
+    <script>
+        // Financial Chart
+        var months = ['"August"', '"September"', '"October"', '"November"', '"December"'];
+        var revenue = [12544.79, 11896.89, 12453.88, 8156.83, 7680.45];
+        var expenses = [9734.66, 9054.55, 12066.54, 11347.939999999999, 9531.19];
+        var profit = revenue.map((r, i) => r - expenses[i]);
+
+        var trace1 = {
+            x: months,
+            y: revenue,
+            name: 'Revenue',
+            type: 'bar',
+            marker: { color: '#3498db' }
+        };
+
+        var trace2 = {
+            x: months,
+            y: expenses,
+            name: 'Expenses',
+            type: 'bar',
+            marker: { color: '#95a5a6' }
+        };
+
+        var trace3 = {
+            x: months,
+            y: profit,
+            name: 'Net Profit',
+            type: 'scatter',
+            mode: 'lines+markers',
+            yaxis: 'y2',
+            line: { color: profit.map(p => p >= 0 ? '#00d26a' : '#ff4757'), width: 3 },
+            marker: { size: 10, color: profit.map(p => p >= 0 ? '#00d26a' : '#ff4757') }
+        };
+
+        var layout1 = {
+            barmode: 'group',
+            paper_bgcolor: 'transparent',
+            plot_bgcolor: 'transparent',
+            font: { color: '#a0a0a0' },
+            margin: { t: 20, r: 60, b: 40, l: 60 },
+            legend: { orientation: 'h', y: 1.15 },
+            xaxis: { gridcolor: '#333' },
+            yaxis: {
+                gridcolor: '#333',
+                title: 'Amount (€)'
+            },
+            yaxis2: {
+                overlaying: 'y',
+                side: 'right',
+                gridcolor: '#333',
+                title: 'Net (€)'
+            }
+        };
+
+        Plotly.newPlot('chart-financial', [trace1, trace2, trace3], layout1, {responsive: true});
+
+        // Categories Chart
+        var categories = ['Comidas / Refeições', 'Comidas / Bolos', 'Cafetaria / Cafetaria', 'Comidas / Tostas', 'Comidas / Sobremesas', 'Bebidas / Sumos', 'Bebidas / Agua', 'Comidas / Biscoitos'];
+        var catRevenue = [5731.04, 5224.39, 3794.32, 2959.7, 1589.49, 1329.15, 637.24, 528.8];
+
+        var trace4 = {
+            labels: categories,
+            values: catRevenue,
+            type: 'pie',
+            hole: 0.4,
+            textinfo: 'label+percent',
+            textposition: 'outside',
+            marker: {
+                colors: ['#3498db', '#2ecc71', '#e74c3c', '#f39c12', '#9b59b6', '#1abc9c', '#e67e22', '#34495e']
+            }
+        };
+
+        var layout2 = {
+            paper_bgcolor: 'transparent',
+            plot_bgcolor: 'transparent',
+            font: { color: '#a0a0a0', size: 11 },
+            margin: { t: 20, r: 20, b: 20, l: 20 },
+            showlegend: false
+        };
+
+        Plotly.newPlot('chart-categories', [trace4], layout2, {responsive: true});
+
+        // Expenses Chart
+        var expenseLabels = ['Salaries', 'Daily Operations (Supplies/Groceries)', 'Rent', 'Social Security & Taxes', 'Utilities', 'Accounting', 'Supplies', 'Insurance', 'Other'];
+        var expenseValues = [21467.22, 11300.539999999999, 6750.0, 6240.75, 2860.15, 1291.5, 1174.6, 521.21, 128.91];
+
+        var trace5 = {
+            labels: expenseLabels,
+            values: expenseValues,
+            type: 'pie',
+            hole: 0.4,
+            textinfo: 'label+percent',
+            textposition: 'outside',
+            marker: {
+                colors: ['#e74c3c', '#f39c12', '#3498db', '#9b59b6', '#1abc9c', '#e67e22', '#95a5a6', '#34495e']
+            }
+        };
+
+        var layout3 = {
+            paper_bgcolor: 'transparent',
+            plot_bgcolor: 'transparent',
+            font: { color: '#a0a0a0', size: 11 },
+            margin: { t: 20, r: 20, b: 20, l: 20 },
+            showlegend: false
+        };
+
+        Plotly.newPlot('chart-expenses', [trace5], layout3, {responsive: true});
+    </script>
+</body>
+</html>
