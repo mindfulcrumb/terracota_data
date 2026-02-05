@@ -658,6 +658,1796 @@
             </div>
         </div>
 
+        <!-- PARETO CHART -->
+        <div class="section">
+            <h2 class="section-title">📊 Pareto Analysis (80/20 Rule)</h2>
+
+            <div class="card">
+                <div class="card-title">Revenue Concentration</div>
+                <div id="chart-pareto" style="height: 350px;"></div>
+                <p style="margin-top: 12px; font-size: 12px; color: var(--text-secondary);">
+                    <strong>Insight:</strong> 31 products generate 80% of revenue.
+                    Focus marketing and inventory on these items.
+                </p>
+            </div>
+        </div>
+
+        <!-- CATEGORY PERFORMANCE -->
+        <div class="section">
+            <h2 class="section-title">📂 Category Performance</h2>
+
+            <div class="cards-row">
+                <div class="card">
+                    <div class="card-title">Revenue by Category</div>
+                    <div id="chart-categories" style="height: 300px;"></div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Category Details</div>
+                    <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th class="text-right">Revenue</th>
+                                <th class="text-right">Units</th>
+                                <th class="text-right">Margin</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td><strong>Comidas</strong></td>
+                                <td class="text-right font-mono">€17,343</td>
+                                <td class="text-right">3,929</td>
+                                <td class="text-right text-green">56%</td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Cafetaria</strong></td>
+                                <td class="text-right font-mono">€3,933</td>
+                                <td class="text-right">2,973</td>
+                                <td class="text-right text-green">75%</td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Bebidas</strong></td>
+                                <td class="text-right font-mono">€2,365</td>
+                                <td class="text-right">1,278</td>
+                                <td class="text-right text-green">70%</td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>EXTRAS /</strong></td>
+                                <td class="text-right font-mono">€352</td>
+                                <td class="text-right">51</td>
+                                <td class="text-right text-green">60%</td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Take Away</strong></td>
+                                <td class="text-right font-mono">€333</td>
+                                <td class="text-right">271</td>
+                                <td class="text-right text-green">60%</td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Afternoon Tea /</strong></td>
+                                <td class="text-right font-mono">€1</td>
+                                <td class="text-right">1</td>
+                                <td class="text-right text-green">60%</td>
+                            </tr>
+
+                            <tr class="summary-row">
+                                <td><strong>TOTAL</strong></td>
+                                <td class="text-right font-mono"><strong>€24,326</strong></td>
+                                <td class="text-right"><strong>8,503</strong></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MONTHLY TRENDS -->
+        <div class="section">
+            <h2 class="section-title">📈 Monthly Trends</h2>
+
+            <div class="card">
+                <div class="card-title">Product Revenue Over Time (Top 5 Products)</div>
+                <div id="chart-monthly-trends" style="height: 350px;"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Monthly Totals</div>
+                <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Month</th>
+                            <th class="text-right">Product Revenue</th>
+                            <th class="text-right">Units Sold</th>
+                            <th class="text-right">Avg Order</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td><strong>Aug</strong></td>
+                            <td class="text-right font-mono">€4,603</td>
+                            <td class="text-right">1,596</td>
+                            <td class="text-right font-mono">€2.88</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Sep</strong></td>
+                            <td class="text-right font-mono">€5,941</td>
+                            <td class="text-right">2,132</td>
+                            <td class="text-right font-mono">€2.79</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Oct</strong></td>
+                            <td class="text-right font-mono">€5,937</td>
+                            <td class="text-right">2,037</td>
+                            <td class="text-right font-mono">€2.91</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Nov</strong></td>
+                            <td class="text-right font-mono">€4,249</td>
+                            <td class="text-right">1,498</td>
+                            <td class="text-right font-mono">€2.84</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Dec</strong></td>
+                            <td class="text-right font-mono">€3,596</td>
+                            <td class="text-right">1,240</td>
+                            <td class="text-right font-mono">€2.90</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- LOCATION COMPARISON -->
+        <div class="section">
+            <h2 class="section-title">🏪 Location Comparison</h2>
+
+            <div class="card">
+                <div id="chart-locations" style="height: 350px;"></div>
+            </div>
+
+            <div class="cards-row">
+                <div class="card">
+                    <div class="card-title"><span class="location-badge anemona">ANEMONA</span> Summary</div>
+                    <table>
+                        <tr><td>Total Revenue</td><td class="text-right font-mono"><strong>€42,900</strong></td></tr>
+                        <tr><td>Total Expenses</td><td class="text-right font-mono">€55,262</td></tr>
+                        <tr><td>Net Profit</td><td class="text-right font-mono text-red"><strong>€-12,362</strong></td></tr>
+                        <tr><td>Profit Margin</td><td class="text-right">-28.8%</td></tr>
+                        <tr><td>Months Active</td><td class="text-right">6</td></tr>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <div class="card-title"><span class="location-badge ndola">N'DOLA</span> Summary</div>
+                    <table>
+                        <tr><td>Total Revenue</td><td class="text-right font-mono"><strong>€2,597</strong></td></tr>
+                        <tr><td>Total Expenses</td><td class="text-right font-mono">€63</td></tr>
+                        <tr><td>Net Profit</td><td class="text-right font-mono text-green"><strong>€2,534</strong></td></tr>
+                        <tr><td>Profit Margin</td><td class="text-right">97.6%</td></tr>
+                        <tr><td>Months Active</td><td class="text-right">5</td></tr>
+                        <tr><td>% of Total</td><td class="text-right">5.7%</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROFIT MARGINS -->
+        <div class="section">
+            <h2 class="section-title">💰 Profit Margins by Product</h2>
+
+            <div class="cards-row">
+                <div class="card">
+                    <div class="card-title">Top 15 by Estimated Profit</div>
+                    <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th class="text-right">Revenue</th>
+                                <th class="text-right">Est. Profit</th>
+                                <th class="text-right">Margin</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td>MENU Prato do Dia</td>
+                                <td class="text-right font-mono">€4115</td>
+                                <td class="text-right font-mono text-green">€2058</td>
+                                <td class="text-right ">50%</td>
+                            </tr>
+
+                            <tr>
+                                <td>Meia Leite</td>
+                                <td class="text-right font-mono">€1025</td>
+                                <td class="text-right font-mono text-green">€769</td>
+                                <td class="text-right text-green">75%</td>
+                            </tr>
+
+                            <tr>
+                                <td>Espresso</td>
+                                <td class="text-right font-mono">€945</td>
+                                <td class="text-right font-mono text-green">€709</td>
+                                <td class="text-right text-green">75%</td>
+                            </tr>
+
+                            <tr>
+                                <td>Bolo à Fatia Tradicion</td>
+                                <td class="text-right font-mono">€1159</td>
+                                <td class="text-right font-mono text-green">€695</td>
+                                <td class="text-right text-yellow">60%</td>
+                            </tr>
+
+                            <tr>
+                                <td>Bolo Vulcão c/ Cobertu</td>
+                                <td class="text-right font-mono">€937</td>
+                                <td class="text-right font-mono text-green">€562</td>
+                                <td class="text-right text-yellow">60%</td>
+                            </tr>
+
+                            <tr>
+                                <td>Bolo à Fatia Especiali</td>
+                                <td class="text-right font-mono">€868</td>
+                                <td class="text-right font-mono text-green">€521</td>
+                                <td class="text-right text-green">60%</td>
+                            </tr>
+
+                            <tr>
+                                <td>Prato do DIA</td>
+                                <td class="text-right font-mono">€955</td>
+                                <td class="text-right font-mono text-green">€478</td>
+                                <td class="text-right ">50%</td>
+                            </tr>
+
+                            <tr>
+                                <td>Bolos Secos</td>
+                                <td class="text-right font-mono">€755</td>
+                                <td class="text-right font-mono text-green">€453</td>
+                                <td class="text-right text-yellow">60%</td>
+                            </tr>
+
+                            <tr>
+                                <td>Tarte Semifrio</td>
+                                <td class="text-right font-mono">€716</td>
+                                <td class="text-right font-mono text-green">€429</td>
+                                <td class="text-right text-yellow">60%</td>
+                            </tr>
+
+                            <tr>
+                                <td>Tosta Abacate</td>
+                                <td class="text-right font-mono">€624</td>
+                                <td class="text-right font-mono text-green">€343</td>
+                                <td class="text-right text-yellow">55%</td>
+                            </tr>
+
+                            <tr>
+                                <td>bolo abacaxi</td>
+                                <td class="text-right font-mono">€559</td>
+                                <td class="text-right font-mono text-green">€335</td>
+                                <td class="text-right text-green">60%</td>
+                            </tr>
+
+                            <tr>
+                                <td>Bolo Seco c/ Cobertura</td>
+                                <td class="text-right font-mono">€552</td>
+                                <td class="text-right font-mono text-green">€331</td>
+                                <td class="text-right text-yellow">60%</td>
+                            </tr>
+
+                            <tr>
+                                <td>Sumo Natural Laranja</td>
+                                <td class="text-right font-mono">€493</td>
+                                <td class="text-right font-mono text-green">€321</td>
+                                <td class="text-right text-green">65%</td>
+                            </tr>
+
+                            <tr>
+                                <td>Capuccino</td>
+                                <td class="text-right font-mono">€425</td>
+                                <td class="text-right font-mono text-green">€319</td>
+                                <td class="text-right text-green">75%</td>
+                            </tr>
+
+                            <tr>
+                                <td>Americano</td>
+                                <td class="text-right font-mono">€388</td>
+                                <td class="text-right font-mono text-green">€291</td>
+                                <td class="text-right text-green">75%</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">⚠️ Low Margin Products (Revenue > €50)</div>
+                    <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th class="text-right">Revenue</th>
+                                <th class="text-right">Margin</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td>MENU Prato do Dia</td>
+                                <td class="text-right font-mono">€4115</td>
+                                <td class="text-right text-red">50%</td>
+                                <td><span class="badge badge-yellow">Reprice</span></td>
+                            </tr>
+
+                            <tr>
+                                <td>Prato do DIA</td>
+                                <td class="text-right font-mono">€955</td>
+                                <td class="text-right text-red">50%</td>
+                                <td><span class="badge badge-yellow">Reprice</span></td>
+                            </tr>
+
+                            <tr>
+                                <td>MENU Prato do Dia c/ s</td>
+                                <td class="text-right font-mono">€364</td>
+                                <td class="text-right text-red">50%</td>
+                                <td><span class="badge badge-yellow">Reprice</span></td>
+                            </tr>
+
+                            <tr>
+                                <td>Prato F. S.</td>
+                                <td class="text-right font-mono">€140</td>
+                                <td class="text-right text-red">50%</td>
+                                <td><span class="badge badge-yellow">Reprice</span></td>
+                            </tr>
+
+                            <tr>
+                                <td>Sopa do Dia</td>
+                                <td class="text-right font-mono">€116</td>
+                                <td class="text-right text-red">50%</td>
+                                <td><span class="badge badge-yellow">Reprice</span></td>
+                            </tr>
+
+                            <tr>
+                                <td>Tosta Abacate</td>
+                                <td class="text-right font-mono">€624</td>
+                                <td class="text-right text-red">55%</td>
+                                <td><span class="badge badge-yellow">Reprice</span></td>
+                            </tr>
+
+                            <tr>
+                                <td>Meia Torrada</td>
+                                <td class="text-right font-mono">€366</td>
+                                <td class="text-right text-red">55%</td>
+                                <td><span class="badge badge-yellow">Reprice</span></td>
+                            </tr>
+
+                            <tr>
+                                <td>Salada Frango</td>
+                                <td class="text-right font-mono">€226</td>
+                                <td class="text-right text-red">55%</td>
+                                <td><span class="badge badge-yellow">Reprice</span></td>
+                            </tr>
+
+                            <tr>
+                                <td>Quiche c/ Salada</td>
+                                <td class="text-right font-mono">€151</td>
+                                <td class="text-right text-red">55%</td>
+                                <td><span class="badge badge-yellow">Reprice</span></td>
+                            </tr>
+
+                            <tr>
+                                <td>Torrada Pão Alentejano</td>
+                                <td class="text-right font-mono">€124</td>
+                                <td class="text-right text-red">55%</td>
+                                <td><span class="badge badge-yellow">Reprice</span></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    </div>
+                    <p style="margin-top: 12px; font-size: 11px; color: var(--text-secondary);">
+                        * Margins estimated using industry-standard cost ratios
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- FULL PRODUCT LIST -->
+        <div class="section">
+            <h2 class="section-title">📋 Full Product List (132 products)</h2>
+
+            <div class="card">
+                <div class="card-title">All Products Sorted by Revenue</div>
+                <div class="table-wrap" style="max-height: 600px; overflow-y: auto;">
+                <table>
+                    <thead style="position: sticky; top: 0; background: var(--bg-card);">
+                        <tr>
+                            <th>#</th>
+                            <th>Product</th>
+                            <th>Category</th>
+                            <th class="text-right">Units</th>
+                            <th class="text-right">Revenue</th>
+                            <th class="text-right">Profit</th>
+                            <th>Class</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td class="text-muted">1</td>
+                            <td><strong>MENU Prato do Dia</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Refeições</td>
+                            <td class="text-right">432</td>
+                            <td class="text-right font-mono">€4115</td>
+                            <td class="text-right font-mono text-green">€2058</td>
+                            <td><span class="badge badge-yellow">Plowhorse</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">2</td>
+                            <td><strong>Bolo à Fatia Tradicional</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Bolos</td>
+                            <td class="text-right">271</td>
+                            <td class="text-right font-mono">€1159</td>
+                            <td class="text-right font-mono text-green">€695</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">3</td>
+                            <td><strong>Meia Leite</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Cafetaria / Cafetari</td>
+                            <td class="text-right">693</td>
+                            <td class="text-right font-mono">€1025</td>
+                            <td class="text-right font-mono text-green">€769</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">4</td>
+                            <td><strong>Prato do DIA</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Refeições</td>
+                            <td class="text-right">145</td>
+                            <td class="text-right font-mono">€955</td>
+                            <td class="text-right font-mono text-green">€478</td>
+                            <td><span class="badge badge-yellow">Plowhorse</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">5</td>
+                            <td><strong>Espresso</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Cafetaria / Cafetari</td>
+                            <td class="text-right">1043</td>
+                            <td class="text-right font-mono">€945</td>
+                            <td class="text-right font-mono text-green">€709</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">6</td>
+                            <td><strong>Espresso</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Cafetaria / Cafetari</td>
+                            <td class="text-right">1043</td>
+                            <td class="text-right font-mono">€945</td>
+                            <td class="text-right font-mono text-green">€709</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">7</td>
+                            <td><strong>Bolo Vulcão c/ Cobertura</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Bolos</td>
+                            <td class="text-right">313</td>
+                            <td class="text-right font-mono">€937</td>
+                            <td class="text-right font-mono text-green">€562</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">8</td>
+                            <td><strong>Bolo à Fatia Especialidad</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Bolos</td>
+                            <td class="text-right">190</td>
+                            <td class="text-right font-mono">€868</td>
+                            <td class="text-right font-mono text-green">€521</td>
+                            <td><span class="badge badge-yellow">Plowhorse</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">9</td>
+                            <td><strong>Bolos Secos</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Bolos</td>
+                            <td class="text-right">267</td>
+                            <td class="text-right font-mono">€755</td>
+                            <td class="text-right font-mono text-green">€453</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">10</td>
+                            <td><strong>Tarte Semifrio</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Sobremesas</td>
+                            <td class="text-right">210</td>
+                            <td class="text-right font-mono">€716</td>
+                            <td class="text-right font-mono text-green">€429</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">11</td>
+                            <td><strong>Tosta Abacate</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Tostas</td>
+                            <td class="text-right">68</td>
+                            <td class="text-right font-mono">€624</td>
+                            <td class="text-right font-mono text-green">€343</td>
+                            <td><span class="badge badge-yellow">Plowhorse</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">12</td>
+                            <td><strong>bolo abacaxi</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Bolos</td>
+                            <td class="text-right">145</td>
+                            <td class="text-right font-mono">€559</td>
+                            <td class="text-right font-mono text-green">€335</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">13</td>
+                            <td><strong>Bolo Seco c/ Cobertura</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Bolos</td>
+                            <td class="text-right">165</td>
+                            <td class="text-right font-mono">€552</td>
+                            <td class="text-right font-mono text-green">€331</td>
+                            <td><span class="badge badge-yellow">Plowhorse</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">14</td>
+                            <td><strong>Tosta Ovos Mexidos</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Tostas</td>
+                            <td class="text-right">70</td>
+                            <td class="text-right font-mono">€516</td>
+                            <td class="text-right font-mono text-green">€284</td>
+                            <td><span class="badge badge-yellow">Plowhorse</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">15</td>
+                            <td><strong>Tosta Mista</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Tostas</td>
+                            <td class="text-right">176</td>
+                            <td class="text-right font-mono">€515</td>
+                            <td class="text-right font-mono text-green">€283</td>
+                            <td><span class="badge badge-yellow">Plowhorse</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">16</td>
+                            <td><strong>Sumo Natural Laranja</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Bebidas / Sumos</td>
+                            <td class="text-right">147</td>
+                            <td class="text-right font-mono">€493</td>
+                            <td class="text-right font-mono text-green">€321</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">17</td>
+                            <td><strong>Capuccino</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Cafetaria / Cafetari</td>
+                            <td class="text-right">142</td>
+                            <td class="text-right font-mono">€425</td>
+                            <td class="text-right font-mono text-green">€319</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">18</td>
+                            <td><strong>Americano</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Cafetaria / Cafetari</td>
+                            <td class="text-right">198</td>
+                            <td class="text-right font-mono">€388</td>
+                            <td class="text-right font-mono text-green">€291</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">19</td>
+                            <td><strong>Meia Torrada</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Tostas</td>
+                            <td class="text-right">191</td>
+                            <td class="text-right font-mono">€366</td>
+                            <td class="text-right font-mono text-green">€202</td>
+                            <td><span class="badge badge-yellow">Plowhorse</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">20</td>
+                            <td><strong>MENU Prato do Dia c/ sopa</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Refeições</td>
+                            <td class="text-right">31</td>
+                            <td class="text-right font-mono">€364</td>
+                            <td class="text-right font-mono text-green">€182</td>
+                            <td><span class="badge badge-yellow">Plowhorse</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">21</td>
+                            <td><strong>EXTRA comida</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">EXTRAS /</td>
+                            <td class="text-right">47</td>
+                            <td class="text-right font-mono">€349</td>
+                            <td class="text-right font-mono text-green">€209</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">22</td>
+                            <td><strong>Sumo Natural Dia</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Bebidas / Sumos</td>
+                            <td class="text-right">99</td>
+                            <td class="text-right font-mono">€349</td>
+                            <td class="text-right font-mono text-green">€227</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">23</td>
+                            <td><strong>Biscoito Amanteigado</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Biscoitos</td>
+                            <td class="text-right">76</td>
+                            <td class="text-right font-mono">€303</td>
+                            <td class="text-right font-mono text-green">€182</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">24</td>
+                            <td><strong>Brigadeiro 1uni</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Sobremesas</td>
+                            <td class="text-right">263</td>
+                            <td class="text-right font-mono">€297</td>
+                            <td class="text-right font-mono text-green">€178</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">25</td>
+                            <td><strong>Agua c/ Gás</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Bebidas / Agua</td>
+                            <td class="text-right">202</td>
+                            <td class="text-right font-mono">€283</td>
+                            <td class="text-right font-mono text-green">€226</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">26</td>
+                            <td><strong>Tosta Salmão</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Tostas</td>
+                            <td class="text-right">30</td>
+                            <td class="text-right font-mono">€279</td>
+                            <td class="text-right font-mono text-green">€154</td>
+                            <td><span class="badge badge-yellow">Plowhorse</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">27</td>
+                            <td><strong>Salada Frango</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Saladas</td>
+                            <td class="text-right">24</td>
+                            <td class="text-right font-mono">€226</td>
+                            <td class="text-right font-mono text-green">€124</td>
+                            <td><span class="badge badge-yellow">Plowhorse</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">28</td>
+                            <td><strong>Cha</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Cafetaria / Cafetari</td>
+                            <td class="text-right">123</td>
+                            <td class="text-right font-mono">€224</td>
+                            <td class="text-right font-mono text-green">€168</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">29</td>
+                            <td><strong>Agua s/ Gás</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Bebidas / Agua</td>
+                            <td class="text-right">252</td>
+                            <td class="text-right font-mono">€224</td>
+                            <td class="text-right font-mono text-green">€179</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">30</td>
+                            <td><strong>Pingo</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Cafetaria / Cafetari</td>
+                            <td class="text-right">145</td>
+                            <td class="text-right font-mono">€195</td>
+                            <td class="text-right font-mono text-green">€146</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">31</td>
+                            <td><strong>Limonada</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Bebidas / Sumos</td>
+                            <td class="text-right">100</td>
+                            <td class="text-right font-mono">€186</td>
+                            <td class="text-right font-mono text-green">€121</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">32</td>
+                            <td><strong>Pão de Queijo 6uni</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Pão Queijo</td>
+                            <td class="text-right">51</td>
+                            <td class="text-right font-mono">€176</td>
+                            <td class="text-right font-mono text-green">€114</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">33</td>
+                            <td><strong>Tosta Vegetariana</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Tostas</td>
+                            <td class="text-right">19</td>
+                            <td class="text-right font-mono">€172</td>
+                            <td class="text-right font-mono text-green">€94</td>
+                            <td><span class="badge badge-yellow">Plowhorse</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">34</td>
+                            <td><strong>Brigadeiro 12uni</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Sobremesas</td>
+                            <td class="text-right">16</td>
+                            <td class="text-right font-mono">€163</td>
+                            <td class="text-right font-mono text-green">€98</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">35</td>
+                            <td><strong>Bolo Vulcão Especialidade</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Bolos</td>
+                            <td class="text-right">44</td>
+                            <td class="text-right font-mono">€160</td>
+                            <td class="text-right font-mono text-green">€96</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">36</td>
+                            <td><strong>Quiche</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Quiches</td>
+                            <td class="text-right">41</td>
+                            <td class="text-right font-mono">€160</td>
+                            <td class="text-right font-mono text-green">€88</td>
+                            <td><span class="badge badge-yellow">Plowhorse</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">37</td>
+                            <td><strong>Torrada Pão Abobora Noz</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Tostas</td>
+                            <td class="text-right">57</td>
+                            <td class="text-right font-mono">€160</td>
+                            <td class="text-right font-mono text-green">€88</td>
+                            <td><span class="badge badge-yellow">Plowhorse</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">38</td>
+                            <td><strong>Salada Salmão</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Saladas</td>
+                            <td class="text-right">13</td>
+                            <td class="text-right font-mono">€151</td>
+                            <td class="text-right font-mono text-green">€83</td>
+                            <td><span class="badge badge-red">Dog</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">39</td>
+                            <td><strong>Quiche c/ Salada</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Quiches</td>
+                            <td class="text-right">35</td>
+                            <td class="text-right font-mono">€151</td>
+                            <td class="text-right font-mono text-green">€83</td>
+                            <td><span class="badge badge-yellow">Plowhorse</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">40</td>
+                            <td><strong>Super Bock</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Bebidas / Cerveja</td>
+                            <td class="text-right">85</td>
+                            <td class="text-right font-mono">€146</td>
+                            <td class="text-right font-mono text-green">€102</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">41</td>
+                            <td><strong>Cookies Tradicionais</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Sobremesas</td>
+                            <td class="text-right">47</td>
+                            <td class="text-right font-mono">€140</td>
+                            <td class="text-right font-mono text-green">€84</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">42</td>
+                            <td><strong>Prato F. S.</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Refeições</td>
+                            <td class="text-right">15</td>
+                            <td class="text-right font-mono">€140</td>
+                            <td class="text-right font-mono text-green">€70</td>
+                            <td><span class="badge badge-yellow">Plowhorse</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">43</td>
+                            <td><strong>Espresso</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Cafetaria / Café Sta</td>
+                            <td class="text-right">301</td>
+                            <td class="text-right font-mono">€139</td>
+                            <td class="text-right font-mono text-green">€104</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">44</td>
+                            <td><strong>Espresso</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Cafetaria / Café Sta</td>
+                            <td class="text-right">301</td>
+                            <td class="text-right font-mono">€139</td>
+                            <td class="text-right font-mono text-green">€104</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">45</td>
+                            <td><strong>Agua c/ Gás Sabores</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Bebidas / Agua</td>
+                            <td class="text-right">77</td>
+                            <td class="text-right font-mono">€131</td>
+                            <td class="text-right font-mono text-green">€105</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">46</td>
+                            <td><strong>Brigadeiro c/ Café</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Sobremesas</td>
+                            <td class="text-right">87</td>
+                            <td class="text-right font-mono">€127</td>
+                            <td class="text-right font-mono text-green">€76</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">47</td>
+                            <td><strong>Torrada Pão Alentejano</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Tostas</td>
+                            <td class="text-right">43</td>
+                            <td class="text-right font-mono">€124</td>
+                            <td class="text-right font-mono text-green">€68</td>
+                            <td><span class="badge badge-yellow">Plowhorse</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">48</td>
+                            <td><strong>Salada à Chefe</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Saladas</td>
+                            <td class="text-right">13</td>
+                            <td class="text-right font-mono">€122</td>
+                            <td class="text-right font-mono text-green">€67</td>
+                            <td><span class="badge badge-red">Dog</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">49</td>
+                            <td><strong>Embalagem Take Away</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Take Away / Perecive</td>
+                            <td class="text-right">238</td>
+                            <td class="text-right font-mono">€116</td>
+                            <td class="text-right font-mono text-green">€70</td>
+                            <td><span class="badge badge-yellow">Plowhorse</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">50</td>
+                            <td><strong>Sopa do Dia</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Refeições</td>
+                            <td class="text-right">34</td>
+                            <td class="text-right font-mono">€116</td>
+                            <td class="text-right font-mono text-green">€58</td>
+                            <td><span class="badge badge-yellow">Plowhorse</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">51</td>
+                            <td><strong>Pão de Queijo 12uni</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Pão Queijo</td>
+                            <td class="text-right">14</td>
+                            <td class="text-right font-mono">€114</td>
+                            <td class="text-right font-mono text-green">€74</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">52</td>
+                            <td><strong>Biscoito Areia</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Biscoitos</td>
+                            <td class="text-right">29</td>
+                            <td class="text-right font-mono">€110</td>
+                            <td class="text-right font-mono text-green">€66</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">53</td>
+                            <td><strong>Latte</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Cafetaria / Cafetari</td>
+                            <td class="text-right">53</td>
+                            <td class="text-right font-mono">€106</td>
+                            <td class="text-right font-mono text-green">€79</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">54</td>
+                            <td><strong>Torrada Pão forma</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Tostas</td>
+                            <td class="text-right">41</td>
+                            <td class="text-right font-mono">€100</td>
+                            <td class="text-right font-mono text-green">€55</td>
+                            <td><span class="badge badge-yellow">Plowhorse</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">55</td>
+                            <td><strong>Brownie Tradicional</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Bolos</td>
+                            <td class="text-right">33</td>
+                            <td class="text-right font-mono">€98</td>
+                            <td class="text-right font-mono text-green">€59</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">56</td>
+                            <td><strong>coca cola zero</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Bebidas / Sumos</td>
+                            <td class="text-right">68</td>
+                            <td class="text-right font-mono">€96</td>
+                            <td class="text-right font-mono text-green">€62</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">57</td>
+                            <td><strong>Hot Chocolate</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Cafetaria / Cafetari</td>
+                            <td class="text-right">37</td>
+                            <td class="text-right font-mono">€93</td>
+                            <td class="text-right font-mono text-green">€70</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">58</td>
+                            <td><strong>Pão de Queijo 3uni</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Pão Queijo</td>
+                            <td class="text-right">41</td>
+                            <td class="text-right font-mono">€92</td>
+                            <td class="text-right font-mono text-green">€60</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">59</td>
+                            <td><strong>Bolo Especialidades</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Take Away / Bolos In</td>
+                            <td class="text-right">2</td>
+                            <td class="text-right font-mono">€80</td>
+                            <td class="text-right font-mono text-green">€48</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">60</td>
+                            <td><strong>Descafeinado</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Cafetaria / Cafetari</td>
+                            <td class="text-right">88</td>
+                            <td class="text-right font-mono">€75</td>
+                            <td class="text-right font-mono text-green">€56</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">61</td>
+                            <td><strong>Brownie Especialidade</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Bolos</td>
+                            <td class="text-right">19</td>
+                            <td class="text-right font-mono">€73</td>
+                            <td class="text-right font-mono text-green">€44</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">62</td>
+                            <td><strong>Tosta queijo / fiambre</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Tostas</td>
+                            <td class="text-right">25</td>
+                            <td class="text-right font-mono">€72</td>
+                            <td class="text-right font-mono text-green">€39</td>
+                            <td><span class="badge badge-yellow">Plowhorse</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">63</td>
+                            <td><strong>Caramel Latte</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Cafetaria / Cafetari</td>
+                            <td class="text-right">20</td>
+                            <td class="text-right font-mono">€61</td>
+                            <td class="text-right font-mono text-green">€46</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">64</td>
+                            <td><strong>Bolo com Cobertura</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Take Away / Bolos In</td>
+                            <td class="text-right">3</td>
+                            <td class="text-right font-mono">€60</td>
+                            <td class="text-right font-mono text-green">€36</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">65</td>
+                            <td><strong>Cava a Copo</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Bebidas / Vinho</td>
+                            <td class="text-right">17</td>
+                            <td class="text-right font-mono">€57</td>
+                            <td class="text-right font-mono text-green">€37</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">66</td>
+                            <td><strong>Biscoito Cerveja</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Biscoitos</td>
+                            <td class="text-right">14</td>
+                            <td class="text-right font-mono">€56</td>
+                            <td class="text-right font-mono text-green">€34</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">67</td>
+                            <td><strong>Bolo Pote</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Bolos</td>
+                            <td class="text-right">14</td>
+                            <td class="text-right font-mono">€54</td>
+                            <td class="text-right font-mono text-green">€32</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">68</td>
+                            <td><strong>MINI</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Bebidas / Cerveja</td>
+                            <td class="text-right">50</td>
+                            <td class="text-right font-mono">€49</td>
+                            <td class="text-right font-mono text-green">€34</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">69</td>
+                            <td><strong>coca cola</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Bebidas / Sumos</td>
+                            <td class="text-right">35</td>
+                            <td class="text-right font-mono">€48</td>
+                            <td class="text-right font-mono text-green">€31</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">70</td>
+                            <td><strong>Iced Capuccino</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Cafetaria / Cafetari</td>
+                            <td class="text-right">13</td>
+                            <td class="text-right font-mono">€48</td>
+                            <td class="text-right font-mono text-green">€36</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">71</td>
+                            <td><strong>Bolo de Aniversário</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Take Away / Bolos In</td>
+                            <td class="text-right">1</td>
+                            <td class="text-right font-mono">€45</td>
+                            <td class="text-right font-mono text-green">€27</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">72</td>
+                            <td><strong>Batidos</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Bebidas / Batidos</td>
+                            <td class="text-right">11</td>
+                            <td class="text-right font-mono">€44</td>
+                            <td class="text-right font-mono text-green">€29</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">73</td>
+                            <td><strong>Lasanha</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Refeições</td>
+                            <td class="text-right">4</td>
+                            <td class="text-right font-mono">€41</td>
+                            <td class="text-right font-mono text-green">€21</td>
+                            <td><span class="badge badge-red">Dog</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">74</td>
+                            <td><strong>Gelado</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Sobremesas</td>
+                            <td class="text-right">11</td>
+                            <td class="text-right font-mono">€41</td>
+                            <td class="text-right font-mono text-green">€25</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">75</td>
+                            <td><strong>Espresso Duplo</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Cafetaria / Cafetari</td>
+                            <td class="text-right">20</td>
+                            <td class="text-right font-mono">€39</td>
+                            <td class="text-right font-mono text-green">€29</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">76</td>
+                            <td><strong>Brigadeiro 8uni</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Sobremesas</td>
+                            <td class="text-right">4</td>
+                            <td class="text-right font-mono">€34</td>
+                            <td class="text-right font-mono text-green">€20</td>
+                            <td><span class="badge badge-red">Dog</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">77</td>
+                            <td><strong>Sopa Dia</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Sopa</td>
+                            <td class="text-right">9</td>
+                            <td class="text-right font-mono">€32</td>
+                            <td class="text-right font-mono text-green">€19</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">78</td>
+                            <td><strong>Biscoito Milho</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Biscoitos</td>
+                            <td class="text-right">8</td>
+                            <td class="text-right font-mono">€32</td>
+                            <td class="text-right font-mono text-green">€19</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">79</td>
+                            <td><strong>Mocha</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Cafetaria / Cafetari</td>
+                            <td class="text-right">10</td>
+                            <td class="text-right font-mono">€30</td>
+                            <td class="text-right font-mono text-green">€22</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">80</td>
+                            <td><strong>7up</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Bebidas / Sumos</td>
+                            <td class="text-right">13</td>
+                            <td class="text-right font-mono">€28</td>
+                            <td class="text-right font-mono text-green">€18</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">81</td>
+                            <td><strong>Salada Vegetariana</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Saladas</td>
+                            <td class="text-right">3</td>
+                            <td class="text-right font-mono">€27</td>
+                            <td class="text-right font-mono text-green">€15</td>
+                            <td><span class="badge badge-red">Dog</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">82</td>
+                            <td><strong>Iced Latte</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Cafetaria / Cafetari</td>
+                            <td class="text-right">10</td>
+                            <td class="text-right font-mono">€27</td>
+                            <td class="text-right font-mono text-green">€20</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">83</td>
+                            <td><strong>Heineken</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Bebidas / Cerveja</td>
+                            <td class="text-right">20</td>
+                            <td class="text-right font-mono">€25</td>
+                            <td class="text-right font-mono text-green">€18</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">84</td>
+                            <td><strong>Quiche Especialidades</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Quiches</td>
+                            <td class="text-right">5</td>
+                            <td class="text-right font-mono">€24</td>
+                            <td class="text-right font-mono text-green">€13</td>
+                            <td><span class="badge badge-red">Dog</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">85</td>
+                            <td><strong>Biscoito Chocolate</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Biscoitos</td>
+                            <td class="text-right">6</td>
+                            <td class="text-right font-mono">€24</td>
+                            <td class="text-right font-mono text-green">€14</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">86</td>
+                            <td><strong>Vinho Tinto</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Bebidas / Vinho</td>
+                            <td class="text-right">3</td>
+                            <td class="text-right font-mono">€24</td>
+                            <td class="text-right font-mono text-green">€16</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">87</td>
+                            <td><strong>Carioca Limão DUPLO</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Cafetaria / Cafetari</td>
+                            <td class="text-right">15</td>
+                            <td class="text-right font-mono">€23</td>
+                            <td class="text-right font-mono text-green">€17</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">88</td>
+                            <td><strong>Pudim</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Sobremesas</td>
+                            <td class="text-right">7</td>
+                            <td class="text-right font-mono">€21</td>
+                            <td class="text-right font-mono text-green">€13</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">89</td>
+                            <td><strong>compal pessego</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Bebidas / Sumos</td>
+                            <td class="text-right">10</td>
+                            <td class="text-right font-mono">€19</td>
+                            <td class="text-right font-mono text-green">€12</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">90</td>
+                            <td><strong>Iced Coffee</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Cafetaria / Cafetari</td>
+                            <td class="text-right">11</td>
+                            <td class="text-right font-mono">€19</td>
+                            <td class="text-right font-mono text-green">€14</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">91</td>
+                            <td><strong>Leite c/ Chocolate</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Cafetaria / Cafetari</td>
+                            <td class="text-right">9</td>
+                            <td class="text-right font-mono">€18</td>
+                            <td class="text-right font-mono text-green">€14</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">92</td>
+                            <td><strong>compal laranja</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Bebidas / Sumos</td>
+                            <td class="text-right">10</td>
+                            <td class="text-right font-mono">€18</td>
+                            <td class="text-right font-mono text-green">€12</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">93</td>
+                            <td><strong>Kit take away</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Take Away / Perecive</td>
+                            <td class="text-right">22</td>
+                            <td class="text-right font-mono">€17</td>
+                            <td class="text-right font-mono text-green">€10</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">94</td>
+                            <td><strong>Vinho Branco</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Bebidas / Vinho</td>
+                            <td class="text-right">2</td>
+                            <td class="text-right font-mono">€17</td>
+                            <td class="text-right font-mono text-green">€11</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">95</td>
+                            <td><strong>Carioca Limão</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Cafetaria / Cafetari</td>
+                            <td class="text-right">17</td>
+                            <td class="text-right font-mono">€17</td>
+                            <td class="text-right font-mono text-green">€12</td>
+                            <td><span class="badge badge-green">Star</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">96</td>
+                            <td><strong>Iced Americano</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Cafetaria / Cafetari</td>
+                            <td class="text-right">6</td>
+                            <td class="text-right font-mono">€16</td>
+                            <td class="text-right font-mono text-green">€12</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">97</td>
+                            <td><strong>Vinho a COPO</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Bebidas / Vinho</td>
+                            <td class="text-right">4</td>
+                            <td class="text-right font-mono">€16</td>
+                            <td class="text-right font-mono text-green">€10</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">98</td>
+                            <td><strong>Panacotta</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Sobremesas</td>
+                            <td class="text-right">5</td>
+                            <td class="text-right font-mono">€15</td>
+                            <td class="text-right font-mono text-green">€9</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">99</td>
+                            <td><strong>Pão Forma, Manteiga, Quei</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Tostas</td>
+                            <td class="text-right">5</td>
+                            <td class="text-right font-mono">€15</td>
+                            <td class="text-right font-mono text-green">€8</td>
+                            <td><span class="badge badge-red">Dog</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">100</td>
+                            <td><strong>compal frutos vermelhos</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Bebidas / Sumos</td>
+                            <td class="text-right">8</td>
+                            <td class="text-right font-mono">€14</td>
+                            <td class="text-right font-mono text-green">€9</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">101</td>
+                            <td><strong>compal manga/laranja</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Bebidas / Sumos</td>
+                            <td class="text-right">10</td>
+                            <td class="text-right font-mono">€13</td>
+                            <td class="text-right font-mono text-green">€9</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">102</td>
+                            <td><strong>Copo Leite</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Cafetaria / Cafetari</td>
+                            <td class="text-right">13</td>
+                            <td class="text-right font-mono">€13</td>
+                            <td class="text-right font-mono text-green">€10</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">103</td>
+                            <td><strong>Scones</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Sobremesas</td>
+                            <td class="text-right">9</td>
+                            <td class="text-right font-mono">€13</td>
+                            <td class="text-right font-mono text-green">€8</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">104</td>
+                            <td><strong>ice tea pessego</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Bebidas / Sumos</td>
+                            <td class="text-right">12</td>
+                            <td class="text-right font-mono">€12</td>
+                            <td class="text-right font-mono text-green">€8</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">105</td>
+                            <td><strong>Pudim Terracota</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Sobremesas</td>
+                            <td class="text-right">4</td>
+                            <td class="text-right font-mono">€12</td>
+                            <td class="text-right font-mono text-green">€7</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">106</td>
+                            <td><strong>Pão Ddlicia Pequeno</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Pão Queijo</td>
+                            <td class="text-right">8</td>
+                            <td class="text-right font-mono">€12</td>
+                            <td class="text-right font-mono text-green">€8</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">107</td>
+                            <td><strong>Pão de Queijo</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Pão Queijo</td>
+                            <td class="text-right">8</td>
+                            <td class="text-right font-mono">€12</td>
+                            <td class="text-right font-mono text-green">€7</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">108</td>
+                            <td><strong>ice tea limao</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Bebidas / Sumos</td>
+                            <td class="text-right">6</td>
+                            <td class="text-right font-mono">€11</td>
+                            <td class="text-right font-mono text-green">€7</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">109</td>
+                            <td><strong>Pão Delicia</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Pão Queijo</td>
+                            <td class="text-right">3</td>
+                            <td class="text-right font-mono">€10</td>
+                            <td class="text-right font-mono text-green">€7</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">110</td>
+                            <td><strong>compal pera</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Bebidas / Sumos</td>
+                            <td class="text-right">5</td>
+                            <td class="text-right font-mono">€10</td>
+                            <td class="text-right font-mono text-green">€6</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">111</td>
+                            <td><strong>guaraná</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Bebidas / Sumos</td>
+                            <td class="text-right">9</td>
+                            <td class="text-right font-mono">€10</td>
+                            <td class="text-right font-mono text-green">€6</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">112</td>
+                            <td><strong>Bolo Vulcão s/ Cobertura</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Bolos</td>
+                            <td class="text-right">4</td>
+                            <td class="text-right font-mono">€9</td>
+                            <td class="text-right font-mono text-green">€5</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">113</td>
+                            <td><strong>Compal Maca</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Bebidas / Sumos</td>
+                            <td class="text-right">4</td>
+                            <td class="text-right font-mono">€8</td>
+                            <td class="text-right font-mono text-green">€5</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">114</td>
+                            <td><strong>Bolo Simples</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Take Away / Bolos In</td>
+                            <td class="text-right">1</td>
+                            <td class="text-right font-mono">€8</td>
+                            <td class="text-right font-mono text-green">€5</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">115</td>
+                            <td><strong>Croissant</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Tostas</td>
+                            <td class="text-right">6</td>
+                            <td class="text-right font-mono">€8</td>
+                            <td class="text-right font-mono text-green">€4</td>
+                            <td><span class="badge badge-red">Dog</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">116</td>
+                            <td><strong>Cookies Especialidades</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Sobremesas</td>
+                            <td class="text-right">2</td>
+                            <td class="text-right font-mono">€7</td>
+                            <td class="text-right font-mono text-green">€4</td>
+                            <td><span class="badge badge-red">Dog</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">117</td>
+                            <td><strong>sidra maçã</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Bebidas / Cerveja</td>
+                            <td class="text-right">3</td>
+                            <td class="text-right font-mono">€7</td>
+                            <td class="text-right font-mono text-green">€5</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">118</td>
+                            <td><strong>Iced Mocha</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Cafetaria / Cafetari</td>
+                            <td class="text-right">2</td>
+                            <td class="text-right font-mono">€7</td>
+                            <td class="text-right font-mono text-green">€5</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">119</td>
+                            <td><strong>Batidos Especiais</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Bebidas / Batidos</td>
+                            <td class="text-right">1</td>
+                            <td class="text-right font-mono">€6</td>
+                            <td class="text-right font-mono text-green">€4</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">120</td>
+                            <td><strong>Embalagem p/ Bolo c/ Base</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Take Away / Perecive</td>
+                            <td class="text-right">4</td>
+                            <td class="text-right font-mono">€6</td>
+                            <td class="text-right font-mono text-green">€4</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">121</td>
+                            <td><strong>Pain au Chocolat</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Tostas</td>
+                            <td class="text-right">3</td>
+                            <td class="text-right font-mono">€5</td>
+                            <td class="text-right font-mono text-green">€3</td>
+                            <td><span class="badge badge-red">Dog</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">122</td>
+                            <td><strong>Compal</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Bebidas / Sumos</td>
+                            <td class="text-right">3</td>
+                            <td class="text-right font-mono">€5</td>
+                            <td class="text-right font-mono text-green">€3</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">123</td>
+                            <td><strong>Vinho Rosé</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Bebidas / Vinho</td>
+                            <td class="text-right">1</td>
+                            <td class="text-right font-mono">€4</td>
+                            <td class="text-right font-mono text-green">€3</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">124</td>
+                            <td><strong>sumol laranja</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Bebidas / Sumos</td>
+                            <td class="text-right">4</td>
+                            <td class="text-right font-mono">€4</td>
+                            <td class="text-right font-mono text-green">€3</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">125</td>
+                            <td><strong>Pão Rustico c/ Manteiga, </strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Tostas</td>
+                            <td class="text-right">1</td>
+                            <td class="text-right font-mono">€4</td>
+                            <td class="text-right font-mono text-green">€2</td>
+                            <td><span class="badge badge-red">Dog</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">126</td>
+                            <td><strong>Docinhos Especialidades</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Sobremesas</td>
+                            <td class="text-right">1</td>
+                            <td class="text-right font-mono">€4</td>
+                            <td class="text-right font-mono text-green">€2</td>
+                            <td><span class="badge badge-red">Dog</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">127</td>
+                            <td><strong>Biscoito Salgado</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Comidas / Biscoitos</td>
+                            <td class="text-right">1</td>
+                            <td class="text-right font-mono">€3</td>
+                            <td class="text-right font-mono text-green">€2</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">128</td>
+                            <td><strong>EXTRA bebida</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">EXTRAS /</td>
+                            <td class="text-right">4</td>
+                            <td class="text-right font-mono">€2</td>
+                            <td class="text-right font-mono text-green">€2</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">129</td>
+                            <td><strong>compal manga</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Bebidas / Sumos</td>
+                            <td class="text-right">1</td>
+                            <td class="text-right font-mono">€2</td>
+                            <td class="text-right font-mono text-green">€1</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">130</td>
+                            <td><strong>sidra frutos vermelhos</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Bebidas / Cerveja</td>
+                            <td class="text-right">1</td>
+                            <td class="text-right font-mono">€2</td>
+                            <td class="text-right font-mono text-green">€1</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">131</td>
+                            <td><strong>P/ Levar</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Cafetaria / Cafetari</td>
+                            <td class="text-right">4</td>
+                            <td class="text-right font-mono">€2</td>
+                            <td class="text-right font-mono text-green">€1</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">132</td>
+                            <td><strong>ice tea manga</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Bebidas / Sumos</td>
+                            <td class="text-right">1</td>
+                            <td class="text-right font-mono">€2</td>
+                            <td class="text-right font-mono text-green">€1</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">133</td>
+                            <td><strong>Scones adicional</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Afternoon Tea /</td>
+                            <td class="text-right">1</td>
+                            <td class="text-right font-mono">€1</td>
+                            <td class="text-right font-mono text-green">€1</td>
+                            <td><span class="badge badge-blue">Puzzle</span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-muted">134</td>
+                            <td><strong>sumol ananas</strong></td>
+                            <td class="text-muted" style="font-size: 11px;">Bebidas / Sumos</td>
+                            <td class="text-right">4</td>
+                            <td class="text-right font-mono">€0</td>
+                            <td class="text-right font-mono text-green">€0</td>
+                            <td><span class="badge badge-red">Dog</span></td>
+                        </tr>
+
+                        <tr class="summary-row">
+                            <td></td>
+                            <td><strong>TOTAL</strong></td>
+                            <td></td>
+                            <td class="text-right"><strong>8,503</strong></td>
+                            <td class="text-right font-mono"><strong>€24,326</strong></td>
+                            <td class="text-right font-mono text-green"><strong>€14,668</strong></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+
         <div class="footer">
             <p>Terracota Cafe Business Analysis</p>
             <p>Data: August 2025 - January 2026</p>
@@ -687,6 +2477,164 @@
             font: { color: '#a0a0a0', size: 11 },
             margin: { t: 20, r: 20, b: 20, l: 20 },
             showlegend: false
+        }, {responsive: true});
+
+        // Pareto Chart
+        var paretoProducts = ['MENU Prato do Dia', 'Bolo à Fatia Tradicional', 'Meia Leite', 'Prato do DIA', 'Espresso', 'Bolo Vulcão c/ Cobertura', 'Bolo à Fatia Especialidades', 'Bolos Secos', 'Tarte Semifrio', 'Tosta Abacate', 'bolo abacaxi', 'Bolo Seco c/ Cobertura', 'Tosta Ovos Mexidos', 'Tosta Mista', 'Sumo Natural Laranja', 'Capuccino', 'Americano', 'Meia Torrada', 'MENU Prato do Dia c/ sopa', 'EXTRA comida'];
+        var paretoRevenue = [4115.16, 1159.06, 1024.98, 955.26, 945.04, 937.38, 867.77, 755.24, 715.64, 624.5, 558.79, 551.85, 515.57, 514.78, 493.21, 425.4, 387.8, 366.45, 364.12, 349.0];
+        var paretoCumPct = [16.9166798555458, 21.68136627195948, 25.89487401366025, 29.82177542182146, 33.70666425498591, 37.56006421100014, 41.12731002361666, 44.23196532112694, 47.17383216757344, 49.74103892740498, 52.0381237397769, 54.30667946501795, 56.42609465983996, 58.54226230727964, 60.56975957872322, 62.31850218181744, 63.91267797279049, 65.41908776805113, 66.91591935394362, 68.35059534942994];
+
+        Plotly.newPlot('chart-pareto', [
+            {
+                x: paretoProducts,
+                y: paretoRevenue,
+                type: 'bar',
+                name: 'Revenue',
+                marker: { color: '#3498db' }
+            },
+            {
+                x: paretoProducts,
+                y: paretoCumPct,
+                type: 'scatter',
+                mode: 'lines+markers',
+                name: 'Cumulative %',
+                yaxis: 'y2',
+                line: { color: '#00d26a', width: 3 },
+                marker: { size: 8 }
+            }
+        ], {
+            paper_bgcolor: 'transparent',
+            plot_bgcolor: 'transparent',
+            font: { color: '#a0a0a0', size: 10 },
+            margin: { t: 20, r: 50, b: 100, l: 60 },
+            xaxis: { tickangle: -45, tickfont: { size: 9 } },
+            yaxis: { title: 'Revenue (€)', gridcolor: '#333' },
+            yaxis2: { title: 'Cumulative %', overlaying: 'y', side: 'right', range: [0, 100], gridcolor: '#333' },
+            showlegend: true,
+            legend: { x: 0, y: 1.1, orientation: 'h' },
+            shapes: [{
+                type: 'line',
+                x0: 0, x1: 1, xref: 'paper',
+                y0: 80, y1: 80, yref: 'y2',
+                line: { color: '#ff4757', width: 2, dash: 'dash' }
+            }]
+        }, {responsive: true});
+
+        // Category Chart
+        var catNames = ['Comidas', 'Cafetaria', 'Bebidas', 'EXTRAS /', 'Take Away', 'Afternoon Tea /'];
+        var catRevenue = [17342.52, 3933.38, 2364.85, 351.5, 332.8, 1.0];
+
+        Plotly.newPlot('chart-categories', [{
+            labels: catNames,
+            values: catRevenue,
+            type: 'pie',
+            hole: 0.5,
+            textinfo: 'label+percent',
+            textposition: 'outside',
+            textfont: { size: 11, color: '#fff' },
+            marker: {
+                colors: ['#3498db', '#9b59b6', '#1abc9c', '#e74c3c', '#f39c12', '#e67e22'],
+                line: { color: '#1a1a1a', width: 2 }
+            }
+        }], {
+            paper_bgcolor: 'transparent',
+            plot_bgcolor: 'transparent',
+            font: { color: '#a0a0a0', size: 11 },
+            margin: { t: 30, r: 30, b: 30, l: 30 },
+            showlegend: false
+        }, {responsive: true});
+
+        // Monthly Trends Chart
+        var months = ['Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        var traces = [];
+        var colors = ['#3498db', '#e74c3c', '#00d26a', '#f39c12', '#9b59b6'];
+
+        traces.push({
+            x: months,
+            y: [np.float64(710.13), np.float64(1137.93), np.float64(1163.7), np.float64(728.9), np.float64(374.5)],
+            type: 'scatter',
+            mode: 'lines+markers',
+            name: 'MENU Prato do Dia',
+            line: { width: 2 }
+        });
+
+        traces.push({
+            x: months,
+            y: [np.float64(342.47), np.float64(231.19), np.float64(252.0), np.float64(182.4), np.float64(151.0)],
+            type: 'scatter',
+            mode: 'lines+markers',
+            name: 'Bolo à Fatia Tradici',
+            line: { width: 2 }
+        });
+
+        traces.push({
+            x: months,
+            y: [np.float64(221.4), np.float64(276.84000000000003), np.float64(246.32), np.float64(146.32), np.float64(134.1)],
+            type: 'scatter',
+            mode: 'lines+markers',
+            name: 'Meia Leite',
+            line: { width: 2 }
+        });
+
+        traces.push({
+            x: months,
+            y: [np.float64(221.1), np.float64(293.08), np.float64(221.98), np.float64(177.70000000000002), np.float64(41.400000000000006)],
+            type: 'scatter',
+            mode: 'lines+markers',
+            name: 'Prato do DIA',
+            line: { width: 2 }
+        });
+
+        traces.push({
+            x: months,
+            y: [np.float64(226.44), np.float64(283.21), np.float64(252.75), np.float64(185.20000000000002), np.float64(136.5)],
+            type: 'scatter',
+            mode: 'lines+markers',
+            name: 'Espresso',
+            line: { width: 2 }
+        });
+
+        Plotly.newPlot('chart-monthly-trends', traces, {
+            paper_bgcolor: 'transparent',
+            plot_bgcolor: 'transparent',
+            font: { color: '#a0a0a0', size: 11 },
+            margin: { t: 20, r: 20, b: 40, l: 60 },
+            xaxis: { gridcolor: '#333' },
+            yaxis: { title: 'Revenue (€)', gridcolor: '#333' },
+            showlegend: true,
+            legend: { x: 0, y: 1.15, orientation: 'h', font: { size: 10 } }
+        }, {responsive: true});
+
+        // Location Comparison Chart
+        var locationMonths = ['Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan'];
+        var anemonaRev = [9775.87, 8636.99, 8704.39, 5885.71, 5155.4, 4741.73];
+        var ndolaRev = [0, 366.45, 636.4, 379.1, 811.76, 403.0];
+
+        Plotly.newPlot('chart-locations', [
+            {
+                x: locationMonths,
+                y: anemonaRev,
+                type: 'bar',
+                name: 'Anemona',
+                marker: { color: '#3498db' }
+            },
+            {
+                x: locationMonths,
+                y: ndolaRev,
+                type: 'bar',
+                name: "N'Dola",
+                marker: { color: '#9b59b6' }
+            }
+        ], {
+            paper_bgcolor: 'transparent',
+            plot_bgcolor: 'transparent',
+            font: { color: '#a0a0a0', size: 11 },
+            margin: { t: 20, r: 20, b: 40, l: 60 },
+            xaxis: { gridcolor: '#333' },
+            yaxis: { title: 'Revenue (€)', gridcolor: '#333' },
+            barmode: 'group',
+            showlegend: true,
+            legend: { x: 0, y: 1.1, orientation: 'h' }
         }, {responsive: true});
     </script>
 </body>
