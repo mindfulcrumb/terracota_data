@@ -53,7 +53,9 @@ tr:hover td{background:var(--bg3)}
 .pr{width:64px;height:4px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden}
 .pf{height:100%;background:var(--accent);border-radius:2px}
 .ft{text-align:center;padding:var(--s6) 0;color:var(--t3);font-size:13px}
-@media(max-width:768px){.c{padding:var(--s4) var(--s3)}.m{grid-template-columns:1fr}.mc{padding:var(--s3)}.mv{font-size:20px}.cg{grid-template-columns:1fr}.h h1{font-size:24px}table{min-width:360px}th,td{padding:var(--s2);font-size:12px}.pr{width:48px}}
+.month-scroll{display:grid;grid-template-columns:repeat(6,1fr);gap:var(--s2);margin-top:var(--s3)}
+.month-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);text-align:center;padding:var(--s3);position:relative;min-width:0}
+@media(max-width:768px){.c{padding:var(--s4) var(--s3)}.m{grid-template-columns:1fr}.mc{padding:var(--s3)}.mv{font-size:20px}.cg{grid-template-columns:1fr}.h h1{font-size:24px}table{min-width:360px}th,td{padding:var(--s2);font-size:12px}.pr{width:48px}.month-scroll{display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;gap:var(--s2);padding-bottom:var(--s2);scroll-snap-type:x mandatory}.month-card{min-width:100px;flex-shrink:0;scroll-snap-align:start}}
 #login{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:1000}
 #login.hidden{display:none}
 .login-box{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:var(--s5);width:100%;max-width:320px;text-align:center}
@@ -90,42 +92,42 @@ tr:hover td{background:var(--bg3)}
 <section class="s">
 <div class="sh"><h2 class="st">Monthly Overview</h2><span class="tm" style="font-size:13px">6 months trend</span></div>
 <div class="card"><div style="padding:var(--s4)"><div id="monthlyChart" style="height:280px"></div></div></div>
-<div style="display:grid;grid-template-columns:repeat(6,1fr);gap:var(--s2);margin-top:var(--s3)"><div class="card" style="text-align:center;padding:var(--s3);position:relative">
-<div style="position:absolute;top:8px;right:8px;width:8px;height:8px;border-radius:50%;background:var(--pos)" title="Healthy: 23% margin"></div>
-<div style="font-size:12px;font-weight:500;margin-bottom:4px">Aug</div>
-<div style="font-size:10px;padding:2px 6px;border-radius:4px;background:rgba(74,222,128,.15);color:var(--pos);margin-bottom:6px;display:inline-block">23%</div>
-<div style="font-size:15px;font-weight:600;margin-bottom:4px">12,545</div>
-<div class="tp" style="font-size:13px;font-weight:500">+2,833</div>
-</div><div class="card" style="text-align:center;padding:var(--s3);position:relative">
-<div style="position:absolute;top:8px;right:8px;width:8px;height:8px;border-radius:50%;background:var(--pos)" title="Healthy: 24% margin"></div>
-<div style="font-size:12px;font-weight:500;margin-bottom:4px">Sep</div>
-<div style="font-size:10px;padding:2px 6px;border-radius:4px;background:rgba(74,222,128,.15);color:var(--pos);margin-bottom:6px;display:inline-block">24%</div>
-<div style="font-size:15px;font-weight:600;margin-bottom:4px">11,897</div>
-<div class="tp" style="font-size:13px;font-weight:500">+2,842</div>
-</div><div class="card" style="text-align:center;padding:var(--s3);position:relative">
-<div style="position:absolute;top:8px;right:8px;width:8px;height:8px;border-radius:50%;background:var(--neg)" title="Danger: 3% margin"></div>
-<div style="font-size:12px;font-weight:500;margin-bottom:4px">Oct</div>
-<div style="font-size:10px;padding:2px 6px;border-radius:4px;background:rgba(248,113,113,.15);color:var(--neg);margin-bottom:6px;display:inline-block">3%</div>
-<div style="font-size:15px;font-weight:600;margin-bottom:4px">12,454</div>
-<div class="tp" style="font-size:13px;font-weight:500">+387</div>
-</div><div class="card" style="text-align:center;padding:var(--s3);position:relative">
-<div style="position:absolute;top:8px;right:8px;width:8px;height:8px;border-radius:50%;background:var(--neg)" title="Danger: -39% margin"></div>
-<div style="font-size:12px;font-weight:500;margin-bottom:4px">Nov</div>
-<div style="font-size:10px;padding:2px 6px;border-radius:4px;background:rgba(248,113,113,.15);color:var(--neg);margin-bottom:6px;display:inline-block">-39%</div>
-<div style="font-size:15px;font-weight:600;margin-bottom:4px">8,157</div>
-<div class="tn" style="font-size:13px;font-weight:500">-3,191</div>
-</div><div class="card" style="text-align:center;padding:var(--s3);position:relative">
-<div style="position:absolute;top:8px;right:8px;width:8px;height:8px;border-radius:50%;background:var(--neg)" title="Danger: -25% margin"></div>
-<div style="font-size:12px;font-weight:500;margin-bottom:4px">Dec</div>
-<div style="font-size:10px;padding:2px 6px;border-radius:4px;background:rgba(248,113,113,.15);color:var(--neg);margin-bottom:6px;display:inline-block">-25%</div>
-<div style="font-size:15px;font-weight:600;margin-bottom:4px">7,680</div>
-<div class="tn" style="font-size:13px;font-weight:500">-1,913</div>
-</div><div class="card" style="text-align:center;padding:var(--s3);position:relative">
-<div style="position:absolute;top:8px;right:8px;width:8px;height:8px;border-radius:50%;background:var(--pos)" title="Healthy: 52% margin"></div>
-<div style="font-size:12px;font-weight:500;margin-bottom:4px">Jan</div>
-<div style="font-size:10px;padding:2px 6px;border-radius:4px;background:rgba(74,222,128,.15);color:var(--pos);margin-bottom:6px;display:inline-block">52%</div>
-<div style="font-size:15px;font-weight:600;margin-bottom:4px">7,397</div>
-<div class="tp" style="font-size:13px;font-weight:500">+3,847</div>
+<div class="month-scroll"><div class="month-card">
+<div style="position:absolute;top:6px;right:6px;width:6px;height:6px;border-radius:50%;background:var(--pos)" title="Healthy: 23% margin"></div>
+<div style="font-size:11px;font-weight:600;margin-bottom:2px">Aug</div>
+<div style="font-size:9px;padding:2px 5px;border-radius:4px;background:rgba(74,222,128,.15);color:var(--pos);margin-bottom:4px;display:inline-block">23%</div>
+<div style="font-size:14px;font-weight:600;margin-bottom:2px">12,545</div>
+<div class="tp" style="font-size:12px;font-weight:500">+2,833</div>
+</div><div class="month-card">
+<div style="position:absolute;top:6px;right:6px;width:6px;height:6px;border-radius:50%;background:var(--pos)" title="Healthy: 24% margin"></div>
+<div style="font-size:11px;font-weight:600;margin-bottom:2px">Sep</div>
+<div style="font-size:9px;padding:2px 5px;border-radius:4px;background:rgba(74,222,128,.15);color:var(--pos);margin-bottom:4px;display:inline-block">24%</div>
+<div style="font-size:14px;font-weight:600;margin-bottom:2px">11,897</div>
+<div class="tp" style="font-size:12px;font-weight:500">+2,842</div>
+</div><div class="month-card">
+<div style="position:absolute;top:6px;right:6px;width:6px;height:6px;border-radius:50%;background:var(--neg)" title="Danger: 3% margin"></div>
+<div style="font-size:11px;font-weight:600;margin-bottom:2px">Oct</div>
+<div style="font-size:9px;padding:2px 5px;border-radius:4px;background:rgba(248,113,113,.15);color:var(--neg);margin-bottom:4px;display:inline-block">3%</div>
+<div style="font-size:14px;font-weight:600;margin-bottom:2px">12,454</div>
+<div class="tp" style="font-size:12px;font-weight:500">+387</div>
+</div><div class="month-card">
+<div style="position:absolute;top:6px;right:6px;width:6px;height:6px;border-radius:50%;background:var(--neg)" title="Danger: -39% margin"></div>
+<div style="font-size:11px;font-weight:600;margin-bottom:2px">Nov</div>
+<div style="font-size:9px;padding:2px 5px;border-radius:4px;background:rgba(248,113,113,.15);color:var(--neg);margin-bottom:4px;display:inline-block">-39%</div>
+<div style="font-size:14px;font-weight:600;margin-bottom:2px">8,157</div>
+<div class="tn" style="font-size:12px;font-weight:500">-3,191</div>
+</div><div class="month-card">
+<div style="position:absolute;top:6px;right:6px;width:6px;height:6px;border-radius:50%;background:var(--neg)" title="Danger: -25% margin"></div>
+<div style="font-size:11px;font-weight:600;margin-bottom:2px">Dec</div>
+<div style="font-size:9px;padding:2px 5px;border-radius:4px;background:rgba(248,113,113,.15);color:var(--neg);margin-bottom:4px;display:inline-block">-25%</div>
+<div style="font-size:14px;font-weight:600;margin-bottom:2px">7,680</div>
+<div class="tn" style="font-size:12px;font-weight:500">-1,913</div>
+</div><div class="month-card">
+<div style="position:absolute;top:6px;right:6px;width:6px;height:6px;border-radius:50%;background:var(--pos)" title="Healthy: 52% margin"></div>
+<div style="font-size:11px;font-weight:600;margin-bottom:2px">Jan</div>
+<div style="font-size:9px;padding:2px 5px;border-radius:4px;background:rgba(74,222,128,.15);color:var(--pos);margin-bottom:4px;display:inline-block">52%</div>
+<div style="font-size:14px;font-weight:600;margin-bottom:2px">7,397</div>
+<div class="tp" style="font-size:12px;font-weight:500">+3,847</div>
 </div></div></section>
 
 <section class="s">
