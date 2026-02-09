@@ -5,368 +5,1051 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <title>Terracota Hub</title>
 <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--s1:4px;--s2:8px;--s3:16px;--s4:24px;--s5:32px;--s6:48px;--bg:#0f0f0f;--bg2:#1a1a1a;--bg3:#242424;--border:rgba(255,255,255,.08);--t1:rgba(255,255,255,.92);--t2:rgba(255,255,255,.56);--t3:rgba(255,255,255,.32);--accent:#E07A5F;--pos:#4ADE80;--neg:#F87171;--font:'Inter',-apple-system,sans-serif;--r:12px}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:var(--font);background:var(--bg);color:var(--t1);line-height:1.5;-webkit-font-smoothing:antialiased}
+:root {
+  --bg: #09090b;
+  --bg-elevated: #111113;
+  --bg-card: #16161a;
+  --bg-card-hover: #1c1c21;
+  --bg-subtle: rgba(255,255,255,.03);
+  --border: rgba(255,255,255,.06);
+  --border-hover: rgba(255,255,255,.1);
+  --t1: rgba(255,255,255,.95);
+  --t2: rgba(255,255,255,.55);
+  --t3: rgba(255,255,255,.28);
+  --accent: #D4775B;
+  --accent-soft: rgba(212,119,91,.12);
+  --accent-glow: rgba(212,119,91,.06);
+  --pos: #34D399;
+  --pos-soft: rgba(52,211,153,.1);
+  --neg: #F87171;
+  --neg-soft: rgba(248,113,113,.1);
+  --warn: #FBBF24;
+  --warn-soft: rgba(251,191,36,.1);
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --r: 16px;
+  --r-sm: 10px;
+  --r-xs: 6px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.3);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.4);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.5);
+  --shadow-glow: 0 0 40px rgba(212,119,91,.08);
+}
 
-/* Login Screen */
-#login{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:1000}
-#login.hidden{display:none}
-.login-box{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:var(--s5);width:100%;max-width:320px;text-align:center}
-.login-box h2{font-size:24px;font-weight:600;margin-bottom:var(--s2)}
-.login-box p{color:var(--t2);font-size:13px;margin-bottom:var(--s4)}
-.login-box input{width:100%;padding:12px 16px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--t1);font-size:15px;margin-bottom:var(--s3);outline:none;transition:border-color .15s}
-.login-box input:focus{border-color:var(--accent)}
-.login-box button{width:100%;padding:12px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:500;cursor:pointer;transition:background .15s}
-.login-box button:hover{background:#c96a52}
-.login-error{color:var(--neg);font-size:12px;margin-top:var(--s2);display:none}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--t1);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-#dashboard{display:none}
-#dashboard.visible{display:block}
+/* ===== LOGIN ===== */
+#login {
+  position: fixed; inset: 0; z-index: 1000;
+  background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+#login::before {
+  content: '';
+  position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+  background: radial-gradient(ellipse at 50% 50%, rgba(212,119,91,.04) 0%, transparent 60%);
+  animation: loginGlow 8s ease-in-out infinite alternate;
+}
+@keyframes loginGlow {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(2%, -2%); }
+}
+#login.hidden { display: none; }
 
-/* Nav bar */
-.nav{position:sticky;top:0;z-index:100;background:rgba(15,15,15,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 var(--s4)}
-.nav-inner{max-width:1120px;margin:0 auto;display:flex;align-items:center;gap:var(--s4);height:56px;overflow-x:auto}
-.nav-logo{font-size:18px;font-weight:700;color:var(--accent);white-space:nowrap;flex-shrink:0}
-.nav-links{display:flex;gap:var(--s1);flex:1;overflow-x:auto}
-.nav-link{padding:8px 14px;border-radius:8px;font-size:13px;font-weight:500;color:var(--t2);text-decoration:none;white-space:nowrap;transition:all .15s;display:flex;align-items:center;gap:6px}
-.nav-link:hover{color:var(--t1);background:var(--bg3)}
-.nav-link.active{color:var(--accent);background:rgba(224,122,95,.1)}
-.nav-link.external{color:var(--t1)}
-.nav-link .dot{width:6px;height:6px;border-radius:50%;background:var(--pos);flex-shrink:0}
+.login-box {
+  position: relative; z-index: 1;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 48px 40px;
+  width: 100%; max-width: 380px;
+  text-align: center;
+  box-shadow: var(--shadow-lg), 0 0 80px rgba(212,119,91,.03);
+}
+.login-brand {
+  font-size: 11px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .2em;
+  color: var(--accent); margin-bottom: 32px;
+}
+.login-box h2 {
+  font-size: 28px; font-weight: 300; letter-spacing: -.02em;
+  margin-bottom: 8px; color: var(--t1);
+}
+.login-box .subtitle {
+  color: var(--t3); font-size: 14px; font-weight: 400;
+  margin-bottom: 36px;
+}
+.login-box input {
+  width: 100%; padding: 14px 18px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  color: var(--t1); font-size: 15px; font-family: var(--font);
+  outline: none; transition: all .2s ease;
+}
+.login-box input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(212,119,91,.1);
+}
+.login-box input::placeholder { color: var(--t3); }
+.login-btn {
+  width: 100%; padding: 14px; margin-top: 16px;
+  background: var(--accent);
+  color: #fff; border: none;
+  border-radius: var(--r-sm);
+  font-size: 14px; font-weight: 500; font-family: var(--font);
+  letter-spacing: .02em;
+  cursor: pointer;
+  transition: all .2s ease;
+}
+.login-btn:hover { background: #c46a4f; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(212,119,91,.3); }
+.login-btn:active { transform: translateY(0); }
+.login-error { color: var(--neg); font-size: 13px; margin-top: 12px; display: none; }
 
-.c{max-width:1120px;margin:0 auto;padding:var(--s5) var(--s4)}
-.hero{text-align:center;padding:var(--s6) 0 var(--s5)}
-.hero h1{font-size:36px;font-weight:700;letter-spacing:-.02em;margin-bottom:var(--s2)}
-.hero p{color:var(--t2);font-size:15px;max-width:480px;margin:0 auto}
+/* ===== DASHBOARD ===== */
+#dashboard { display: none; }
+#dashboard.visible { display: block; }
 
-/* Tool cards */
-.tools-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s3);margin-bottom:var(--s6)}
-.tool-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:var(--s4);transition:all .2s;cursor:pointer;text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden}
-.tool-card:hover{border-color:rgba(224,122,95,.3);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
-.tool-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent);opacity:0;transition:opacity .2s}
-.tool-card:hover::before{opacity:1}
-.tool-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:var(--s3)}
-.tool-icon.blue{background:rgba(96,165,250,.15)}
-.tool-icon.green{background:rgba(74,222,128,.15)}
-.tool-icon.amber{background:rgba(251,191,36,.15)}
-.tool-name{font-size:15px;font-weight:600;margin-bottom:var(--s1)}
-.tool-desc{font-size:12px;color:var(--t2);line-height:1.6}
-.tool-badge{position:absolute;top:var(--s3);right:var(--s3);display:flex;align-items:center;gap:4px;font-size:11px;font-weight:500;color:var(--pos)}
-.tool-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--pos);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+/* ===== NAV ===== */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(9,9,11,.85);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+}
+.nav-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; align-items: center; gap: 32px;
+  height: 60px;
+}
+.nav-brand {
+  font-size: 11px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .18em;
+  color: var(--accent); white-space: nowrap; flex-shrink: 0;
+}
+.nav-links {
+  display: flex; gap: 2px; flex: 1;
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.nav-links::-webkit-scrollbar { display: none; }
+.nav-link {
+  padding: 8px 16px; border-radius: 8px;
+  font-size: 13px; font-weight: 450;
+  color: var(--t2); text-decoration: none;
+  white-space: nowrap; transition: all .15s ease;
+  display: flex; align-items: center; gap: 8px;
+}
+.nav-link:hover { color: var(--t1); background: rgba(255,255,255,.04); }
+.nav-link.active { color: var(--t1); background: rgba(255,255,255,.06); }
+.nav-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--pos); flex-shrink: 0;
+  box-shadow: 0 0 6px rgba(52,211,153,.4);
+}
 
-/* Divider */
-.section-divider{display:flex;align-items:center;gap:var(--s3);margin:var(--s5) 0;color:var(--t3);font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.1em}
-.section-divider::before,.section-divider::after{content:'';flex:1;height:1px;background:var(--border)}
+/* ===== LAYOUT ===== */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
 
-/* Existing styles */
-.h{margin-bottom:var(--s6)}
-.h h1{font-size:32px;font-weight:600;letter-spacing:-.02em}
-.h p{color:var(--t2);font-size:15px}
-.m{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s3);margin-bottom:var(--s6)}
-.mc{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:var(--s4);transition:transform .15s,border-color .15s}
-.mc:hover{border-color:rgba(255,255,255,.12);transform:translateY(-2px)}
-.ml{font-size:11px;font-weight:500;color:var(--t3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:var(--s2)}
-.mv{font-size:24px;font-weight:600;letter-spacing:-.02em}
-.mv.pos{color:var(--pos)}.mv.neg{color:var(--neg)}
-.s{margin-bottom:var(--s6)}
-.sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--s4);flex-wrap:wrap;gap:var(--s2)}
-.st{font-size:17px;font-weight:600}
-.sb{font-size:11px;font-weight:500;padding:var(--s1) var(--s2);border-radius:6px;background:var(--accent);color:#fff}
-.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:border-color .15s}
-.card:hover{border-color:rgba(255,255,255,.12)}
-.cb{padding:var(--s4)}
-.cg{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--s3)}
-.tc{overflow-x:auto;-webkit-overflow-scrolling:touch}
-table{width:100%;min-width:480px;border-collapse:collapse}
-th{text-align:left;padding:var(--s3);font-size:11px;font-weight:500;color:var(--t3);text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--border);white-space:nowrap}
-td{padding:var(--s3);font-size:13px;border-bottom:1px solid var(--border);white-space:nowrap}
-tr:last-child td{border-bottom:none}
-tr:hover td{background:var(--bg3)}
-.tr{text-align:right}.tp{color:var(--pos)}.tn{color:var(--neg)}.tm{color:var(--t2)}.fw{font-weight:500}
-.b{display:inline-flex;padding:2px 8px;border-radius:100px;font-size:11px;font-weight:500}
-.bp{background:rgba(74,222,128,.15);color:var(--pos)}.bn{background:rgba(248,113,113,.15);color:var(--neg)}.ba{background:rgba(224,122,95,.15);color:var(--accent)}.bm{background:rgba(255,255,255,.06);color:var(--t2)}
-.pr{width:64px;height:4px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden}
-.pf{height:100%;background:var(--accent);border-radius:2px}
-.ft{text-align:center;padding:var(--s6) 0;color:var(--t3);font-size:13px}
-.month-scroll{display:grid;grid-template-columns:repeat(6,1fr);gap:var(--s2);margin-top:var(--s3)}
-.month-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);text-align:center;padding:var(--s3);position:relative;min-width:0}
+/* ===== HERO ===== */
+.hero {
+  padding: 72px 0 56px;
+  text-align: center;
+  position: relative;
+}
+.hero::before {
+  content: '';
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 600px; height: 300px;
+  background: radial-gradient(ellipse, rgba(212,119,91,.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-label {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 11px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .15em;
+  color: var(--accent);
+  margin-bottom: 20px;
+  padding: 6px 16px;
+  background: var(--accent-soft);
+  border: 1px solid rgba(212,119,91,.15);
+  border-radius: 100px;
+}
+.hero h1 {
+  font-size: 42px; font-weight: 300;
+  letter-spacing: -.03em; line-height: 1.15;
+  margin-bottom: 16px;
+  background: linear-gradient(180deg, var(--t1) 0%, rgba(255,255,255,.6) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero p {
+  color: var(--t2); font-size: 16px;
+  max-width: 460px; margin: 0 auto;
+  font-weight: 400; line-height: 1.7;
+}
 
-@media(max-width:768px){
-.c{padding:var(--s4) var(--s3)}
-.hero h1{font-size:26px}
-.hero{padding:var(--s5) 0 var(--s4)}
-.tools-grid{grid-template-columns:1fr}
-.m{grid-template-columns:1fr}
-.mc{padding:var(--s3)}
-.mv{font-size:20px}
-.cg{grid-template-columns:1fr}
-.h h1{font-size:24px}
-table{min-width:360px}
-th,td{padding:var(--s2);font-size:12px}
-.pr{width:48px}
-.month-scroll{display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;gap:var(--s2);padding-bottom:var(--s2);scroll-snap-type:x mandatory}
-.month-card{min-width:100px;flex-shrink:0;scroll-snap-align:start}
-.nav-inner{gap:var(--s3)}
+/* ===== TOOL CARDS ===== */
+.tools-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 16px; margin-bottom: 80px;
+}
+.tool-card {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 28px;
+  text-decoration: none; color: inherit;
+  display: block;
+  transition: all .25s ease;
+  overflow: hidden;
+}
+.tool-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212,119,91,.3), transparent);
+  opacity: 0; transition: opacity .25s ease;
+}
+.tool-card:hover {
+  border-color: var(--border-hover);
+  background: var(--bg-card-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md), var(--shadow-glow);
+}
+.tool-card:hover::before { opacity: 1; }
+
+.tool-status {
+  position: absolute; top: 20px; right: 20px;
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 500; color: var(--pos);
+}
+.tool-status .pulse {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--pos);
+  box-shadow: 0 0 6px rgba(52,211,153,.4);
+  animation: pulse 2.5s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .3; } }
+
+.tool-icon-wrap {
+  width: 44px; height: 44px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 20px;
+}
+.tool-icon-wrap.blue { background: rgba(96,165,250,.08); border: 1px solid rgba(96,165,250,.12); }
+.tool-icon-wrap.green { background: rgba(52,211,153,.08); border: 1px solid rgba(52,211,153,.12); }
+.tool-icon-wrap.amber { background: rgba(251,191,36,.08); border: 1px solid rgba(251,191,36,.12); }
+.tool-icon-wrap svg { width: 20px; height: 20px; }
+
+.tool-name {
+  font-size: 15px; font-weight: 600;
+  margin-bottom: 8px; letter-spacing: -.01em;
+}
+.tool-desc {
+  font-size: 13px; color: var(--t2);
+  line-height: 1.65; font-weight: 400;
+}
+
+/* ===== SECTION DIVIDER ===== */
+.section-divider {
+  display: flex; align-items: center; gap: 20px;
+  margin: 0 0 48px; padding-top: 8px;
+  color: var(--t3); font-size: 11px; font-weight: 500;
+  text-transform: uppercase; letter-spacing: .12em;
+}
+.section-divider::before,
+.section-divider::after {
+  content: ''; flex: 1; height: 1px;
+  background: linear-gradient(90deg, var(--border), transparent);
+}
+.section-divider::after {
+  background: linear-gradient(90deg, transparent, var(--border));
+}
+
+/* ===== METRIC CARDS ===== */
+.metrics {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 16px; margin-bottom: 48px;
+}
+.metric-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 24px 28px;
+  transition: border-color .2s ease;
+}
+.metric-card:hover { border-color: var(--border-hover); }
+.metric-label {
+  font-size: 12px; font-weight: 500;
+  color: var(--t3); text-transform: uppercase;
+  letter-spacing: .06em; margin-bottom: 10px;
+}
+.metric-value {
+  font-size: 28px; font-weight: 600; letter-spacing: -.02em;
+  font-variant-numeric: tabular-nums;
+}
+.metric-value.positive { color: var(--pos); }
+.metric-value.negative { color: var(--neg); }
+
+/* ===== SECTIONS ===== */
+.section { margin-bottom: 48px; }
+.section-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 20px; flex-wrap: wrap; gap: 12px;
+}
+.section-title {
+  font-size: 18px; font-weight: 600; letter-spacing: -.02em;
+}
+.section-meta {
+  font-size: 12px; color: var(--t3); font-weight: 450;
+}
+.section-badge {
+  font-size: 11px; font-weight: 500;
+  padding: 4px 12px; border-radius: 100px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border: 1px solid rgba(212,119,91,.12);
+}
+
+/* ===== CARDS ===== */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  overflow: hidden;
+  transition: border-color .2s ease;
+}
+.card:hover { border-color: var(--border-hover); }
+.card-body { padding: 28px; }
+.card-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+
+/* ===== MONTH PILLS ===== */
+.month-strip {
+  display: grid; grid-template-columns: repeat(6, 1fr);
+  gap: 8px; margin-top: 20px;
+}
+.month-pill {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  text-align: center; padding: 16px 8px;
+  position: relative;
+  transition: border-color .2s ease;
+}
+.month-pill:hover { border-color: var(--border-hover); }
+.month-pill-dot {
+  position: absolute; top: 8px; right: 8px;
+  width: 6px; height: 6px; border-radius: 50%;
+}
+.month-pill-label {
+  font-size: 11px; font-weight: 600;
+  color: var(--t2); margin-bottom: 4px;
+  text-transform: uppercase; letter-spacing: .05em;
+}
+.month-pill-margin {
+  display: inline-block;
+  font-size: 10px; font-weight: 600;
+  padding: 2px 8px; border-radius: 100px;
+  margin-bottom: 8px;
+}
+.month-pill-revenue {
+  font-size: 16px; font-weight: 600;
+  letter-spacing: -.01em; margin-bottom: 2px;
+  font-variant-numeric: tabular-nums;
+}
+.month-pill-net {
+  font-size: 12px; font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ===== TABLES ===== */
+.table-wrap {
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
+}
+table {
+  width: 100%; border-collapse: collapse;
+  min-width: 480px;
+}
+th {
+  text-align: left; padding: 14px 20px;
+  font-size: 11px; font-weight: 500;
+  color: var(--t3); text-transform: uppercase;
+  letter-spacing: .06em;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+  background: var(--bg-subtle);
+}
+td {
+  padding: 14px 20px; font-size: 13px;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap; font-variant-numeric: tabular-nums;
+}
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: rgba(255,255,255,.015); }
+.text-right { text-align: right; }
+.text-muted { color: var(--t2); }
+.text-pos { color: var(--pos); }
+.text-neg { color: var(--neg); }
+.text-bold { font-weight: 600; }
+.row-total td { background: var(--bg-subtle) !important; }
+
+/* ===== BADGES ===== */
+.badge {
+  display: inline-flex; padding: 3px 10px;
+  border-radius: 100px;
+  font-size: 11px; font-weight: 500;
+}
+.badge-pos { background: var(--pos-soft); color: var(--pos); }
+.badge-neg { background: var(--neg-soft); color: var(--neg); }
+.badge-accent { background: var(--accent-soft); color: var(--accent); }
+.badge-muted { background: rgba(255,255,255,.04); color: var(--t2); }
+
+/* ===== PROGRESS BAR ===== */
+.progress {
+  width: 72px; height: 4px;
+  background: rgba(255,255,255,.06);
+  border-radius: 2px; overflow: hidden;
+}
+.progress-fill {
+  height: 100%; background: var(--accent);
+  border-radius: 2px;
+}
+
+/* ===== ALERT BOX ===== */
+.alert {
+  padding: 16px 20px;
+  border-radius: var(--r-sm);
+  font-size: 13px; line-height: 1.6;
+}
+.alert-danger {
+  background: var(--neg-soft);
+  border: 1px solid rgba(248,113,113,.15);
+}
+.alert-title {
+  font-weight: 600; margin-bottom: 4px;
+  display: flex; align-items: center; gap: 6px;
+}
+
+/* ===== KV ROWS ===== */
+.kv-row {
+  display: flex; justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+.kv-row:last-child { border-bottom: none; }
+.kv-label { color: var(--t2); }
+.kv-value { font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* ===== STATUS GRID ===== */
+.status-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.status-block {
+  text-align: center; padding: 16px;
+  border-radius: var(--r-sm);
+}
+.status-block-count {
+  font-size: 28px; font-weight: 600;
+  margin-bottom: 2px;
+}
+.status-block-label {
+  font-size: 11px; color: var(--t2); font-weight: 450;
+}
+
+/* ===== PROGRESS RING ===== */
+.progress-ring-wrap {
+  display: flex; align-items: center; gap: 20px;
+  margin-bottom: 24px;
+}
+.progress-bar-lg {
+  flex: 1; height: 8px;
+  background: rgba(255,255,255,.04);
+  border-radius: 4px; overflow: hidden;
+}
+.progress-bar-lg-fill {
+  height: 100%; background: var(--accent);
+  border-radius: 4px;
+  transition: width .3s ease;
+}
+.progress-pct {
+  font-size: 24px; font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ===== STAFFING TABLE ===== */
+.day-load { font-weight: 500; }
+
+/* ===== INFO BOX ===== */
+.info-box {
+  margin-top: 20px; padding: 16px 20px;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  font-size: 13px; color: var(--t2); line-height: 1.7;
+}
+.info-box strong { color: var(--t1); font-weight: 600; }
+
+/* ===== FOOTER ===== */
+.footer {
+  text-align: center;
+  padding: 64px 0 48px;
+  color: var(--t3); font-size: 12px;
+  letter-spacing: .02em;
+}
+.footer-line {
+  width: 40px; height: 1px;
+  background: var(--border);
+  margin: 0 auto 20px;
+}
+
+/* ===== SCROLLABLE TABLE ===== */
+.scroll-table {
+  max-height: 420px; overflow-y: auto;
+}
+.scroll-table thead { position: sticky; top: 0; z-index: 1; }
+.scroll-table th { background: var(--bg-card); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .container { padding: 0 20px; }
+  .hero { padding: 48px 0 36px; }
+  .hero h1 { font-size: 28px; }
+  .hero p { font-size: 14px; }
+  .tools-grid { grid-template-columns: 1fr; margin-bottom: 56px; }
+  .metrics { grid-template-columns: 1fr; }
+  .metric-value { font-size: 24px; }
+  .card-grid { grid-template-columns: 1fr; }
+  table { min-width: 360px; }
+  th, td { padding: 12px 16px; font-size: 12px; }
+  .progress { width: 48px; }
+  .month-strip {
+    display: flex; overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 8px; padding-bottom: 8px;
+    scroll-snap-type: x mandatory;
+  }
+  .month-pill { min-width: 100px; flex-shrink: 0; scroll-snap-align: start; }
+  .nav { padding: 0 20px; }
+  .nav-inner { gap: 20px; }
+  .status-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .status-block { padding: 12px 8px; }
+  .status-block-count { font-size: 22px; }
+  .section-title { font-size: 16px; }
+  .login-box { margin: 0 20px; padding: 36px 28px; }
 }
 </style>
 </head>
 <body>
 
-<!-- Login Screen -->
+<!-- ===== LOGIN ===== -->
 <div id="login">
-<div class="login-box">
-<h2>Terracota</h2>
-<p>Enter password to access hub</p>
-<input type="password" id="pwd" placeholder="Password" onkeypress="if(event.key==='Enter')checkPwd()">
-<button onclick="checkPwd()">Access Hub</button>
-<div id="loginError" class="login-error">Incorrect password</div>
-</div>
+  <div class="login-box">
+    <div class="login-brand">Terracota</div>
+    <h2>Operations Hub</h2>
+    <p class="subtitle">Enter your access code to continue</p>
+    <input type="password" id="pwd" placeholder="Access code" onkeypress="if(event.key==='Enter')checkPwd()" autocomplete="off" spellcheck="false">
+    <button class="login-btn" onclick="checkPwd()">Continue</button>
+    <div id="loginError" class="login-error">Invalid access code</div>
+  </div>
 </div>
 
-<!-- Main Content -->
+<!-- ===== DASHBOARD ===== -->
 <div id="dashboard">
 
-<!-- Navigation Bar -->
+<!-- Nav -->
 <nav class="nav">
-<div class="nav-inner">
-<span class="nav-logo">Terracota</span>
-<div class="nav-links">
-<a href="#" class="nav-link active">Hub</a>
-<a href="https://terracota-closing-data.vercel.app/dashboard" target="_blank" class="nav-link external"><span class="dot"></span> Live Dashboard</a>
-<a href="https://terracota-closing-data.vercel.app" target="_blank" class="nav-link external"><span class="dot"></span> Daily Closing</a>
-<a href="#analytics" class="nav-link">Analytics</a>
-<a href="#products" class="nav-link">Products</a>
-</div>
-</div>
+  <div class="nav-inner">
+    <span class="nav-brand">Terracota</span>
+    <div class="nav-links">
+      <a href="#" class="nav-link active">Hub</a>
+      <a href="https://terracota-closing-data.vercel.app/dashboard" target="_blank" class="nav-link"><span class="nav-dot"></span> Dashboard</a>
+      <a href="https://terracota-closing-data.vercel.app" target="_blank" class="nav-link"><span class="nav-dot"></span> Daily Closing</a>
+      <a href="#analytics" class="nav-link">Analytics</a>
+      <a href="#products" class="nav-link">Products</a>
+    </div>
+  </div>
 </nav>
 
-<div class="c">
+<div class="container">
 
-<!-- Hero Section -->
+<!-- Hero -->
 <div class="hero">
-<h1>Terracota Operations Hub</h1>
-<p>Central command for all locations. Live data, analytics, and operational tools in one place.</p>
+  <div class="hero-label">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+    Real-time Operations
+  </div>
+  <h1>Terracota Operations Hub</h1>
+  <p>Central command for all locations. Live data, analytics, and operational tools.</p>
 </div>
 
-<!-- Live Tools Grid -->
+<!-- Tool Cards -->
 <div class="tools-grid">
-<a href="https://terracota-closing-data.vercel.app/dashboard" target="_blank" class="tool-card">
-<div class="tool-badge"><span class="dot"></span> Live</div>
-<div class="tool-icon blue">&#x1F4CA;</div>
-<div class="tool-name">Monthly Dashboard</div>
-<div class="tool-desc">Real-time KPIs, bank reconciliation, VAT summary, daily breakdown. Filter by location and month.</div>
-</a>
-<a href="https://terracota-closing-data.vercel.app" target="_blank" class="tool-card">
-<div class="tool-badge"><span class="dot"></span> Live</div>
-<div class="tool-icon green">&#x1F4DD;</div>
-<div class="tool-name">Daily Closing Form</div>
-<div class="tool-desc">Staff submits sales, expenses (with OCR), Table 20 items, VAT. Multi-location with role-based access.</div>
-</a>
-<a href="https://terracota-closing-data.vercel.app/api/export?format=csv" target="_blank" class="tool-card" onclick="event.preventDefault();alert('Export requires admin PIN.\n\nUse curl or fetch:\nfetch(url, { headers: { x-admin-pin: PIN } })\n\nFormats: ?format=csv or ?format=json\nFilters: &from=YYYY-MM-DD&to=YYYY-MM-DD&location=anemona')">
-<div class="tool-icon amber">&#x1F4E5;</div>
-<div class="tool-name">Data Export API</div>
-<div class="tool-desc">CSV or JSON export of all closings. Filter by date range and location. PIN-protected for automation.</div>
-</a>
+  <a href="https://terracota-closing-data.vercel.app/dashboard" target="_blank" class="tool-card">
+    <div class="tool-status"><span class="pulse"></span> Live</div>
+    <div class="tool-icon-wrap blue">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+    </div>
+    <div class="tool-name">Monthly Dashboard</div>
+    <div class="tool-desc">Real-time KPIs, bank reconciliation, VAT summary, and daily breakdown. Filter by location and month.</div>
+  </a>
+  <a href="https://terracota-closing-data.vercel.app" target="_blank" class="tool-card">
+    <div class="tool-status"><span class="pulse"></span> Live</div>
+    <div class="tool-icon-wrap green">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
+    </div>
+    <div class="tool-name">Daily Closing Form</div>
+    <div class="tool-desc">Staff closing submissions with sales, expenses via OCR, Table 20 items, and VAT. Multi-location with role-based access.</div>
+  </a>
+  <a href="#" class="tool-card" onclick="event.preventDefault();alert('Export API\n\nEndpoint: /api/export\nAuth: x-admin-pin header\n\nExamples:\n?format=csv&from=2026-01-01&to=2026-01-31\n?format=json&location=anemona')">
+    <div class="tool-icon-wrap amber">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#FBBF24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    </div>
+    <div class="tool-name">Data Export API</div>
+    <div class="tool-desc">CSV or JSON export of all closings. Filter by date range and location. PIN-protected for automation pipelines.</div>
+  </a>
 </div>
 
-<!-- Divider -->
-<div class="section-divider" id="analytics">Historical Analysis &middot; Aug 2025 – Jan 2026</div>
+<!-- Analytics Divider -->
+<div class="section-divider" id="analytics">Historical Analysis &middot; Aug 2025 &ndash; Jan 2026</div>
 
-<!-- Summary Cards -->
-<div class="m">
-<div class="mc"><div class="ml">Revenue</div><div class="mv">45,497</div></div>
-<div class="mc"><div class="ml">Expenses</div><div class="mv">55,262</div></div>
-<div class="mc"><div class="ml">Net</div><div class="mv neg">-9,765</div></div>
+<!-- Metrics -->
+<div class="metrics">
+  <div class="metric-card">
+    <div class="metric-label">Total Revenue</div>
+    <div class="metric-value">&euro;45,497</div>
+  </div>
+  <div class="metric-card">
+    <div class="metric-label">Total Expenses</div>
+    <div class="metric-value">&euro;55,262</div>
+  </div>
+  <div class="metric-card">
+    <div class="metric-label">Net Result</div>
+    <div class="metric-value negative">&minus;&euro;9,765</div>
+  </div>
 </div>
 
-<!-- Monthly Overview Chart -->
-<section class="s">
-<div class="sh"><h2 class="st">Monthly Overview</h2><span class="tm" style="font-size:13px">6 months trend</span></div>
-<div class="card"><div style="padding:var(--s4)"><div id="monthlyChart" style="height:280px"></div></div></div>
-<div class="month-scroll"><div class="month-card">
-<div style="position:absolute;top:6px;right:6px;width:6px;height:6px;border-radius:50%;background:var(--neg)" title="Danger: 1% margin"></div>
-<div style="font-size:11px;font-weight:600;margin-bottom:2px">Aug</div>
-<div style="font-size:9px;padding:2px 5px;border-radius:4px;background:rgba(248,113,113,.15);color:var(--neg);margin-bottom:4px;display:inline-block">1%</div>
-<div style="font-size:14px;font-weight:600;margin-bottom:2px">9,776</div>
-<div class="tp" style="font-size:12px;font-weight:500">+64</div>
-</div><div class="month-card">
-<div style="position:absolute;top:6px;right:6px;width:6px;height:6px;border-radius:50%;background:var(--neg)" title="Danger: -1% margin"></div>
-<div style="font-size:11px;font-weight:600;margin-bottom:2px">Sep</div>
-<div style="font-size:9px;padding:2px 5px;border-radius:4px;background:rgba(248,113,113,.15);color:var(--neg);margin-bottom:4px;display:inline-block">-1%</div>
-<div style="font-size:14px;font-weight:600;margin-bottom:2px">9,003</div>
-<div class="tn" style="font-size:12px;font-weight:500">-51</div>
-</div><div class="month-card">
-<div style="position:absolute;top:6px;right:6px;width:6px;height:6px;border-radius:50%;background:var(--neg)" title="Danger: -29% margin"></div>
-<div style="font-size:11px;font-weight:600;margin-bottom:2px">Oct</div>
-<div style="font-size:9px;padding:2px 5px;border-radius:4px;background:rgba(248,113,113,.15);color:var(--neg);margin-bottom:4px;display:inline-block">-29%</div>
-<div style="font-size:14px;font-weight:600;margin-bottom:2px">9,341</div>
-<div class="tn" style="font-size:12px;font-weight:500">-2,726</div>
-</div><div class="month-card">
-<div style="position:absolute;top:6px;right:6px;width:6px;height:6px;border-radius:50%;background:var(--neg)" title="Danger: -81% margin"></div>
-<div style="font-size:11px;font-weight:600;margin-bottom:2px">Nov</div>
-<div style="font-size:9px;padding:2px 5px;border-radius:4px;background:rgba(248,113,113,.15);color:var(--neg);margin-bottom:4px;display:inline-block">-81%</div>
-<div style="font-size:14px;font-weight:600;margin-bottom:2px">6,265</div>
-<div class="tn" style="font-size:12px;font-weight:500">-5,083</div>
-</div><div class="month-card">
-<div style="position:absolute;top:6px;right:6px;width:6px;height:6px;border-radius:50%;background:var(--neg)" title="Danger: -61% margin"></div>
-<div style="font-size:11px;font-weight:600;margin-bottom:2px">Dec</div>
-<div style="font-size:9px;padding:2px 5px;border-radius:4px;background:rgba(248,113,113,.15);color:var(--neg);margin-bottom:4px;display:inline-block">-61%</div>
-<div style="font-size:14px;font-weight:600;margin-bottom:2px">5,967</div>
-<div class="tn" style="font-size:12px;font-weight:500">-3,627</div>
-</div><div class="month-card">
-<div style="position:absolute;top:6px;right:6px;width:6px;height:6px;border-radius:50%;background:var(--pos)" title="Healthy: 31% margin"></div>
-<div style="font-size:11px;font-weight:600;margin-bottom:2px">Jan</div>
-<div style="font-size:9px;padding:2px 5px;border-radius:4px;background:rgba(74,222,128,.15);color:var(--pos);margin-bottom:4px;display:inline-block">31%</div>
-<div style="font-size:14px;font-weight:600;margin-bottom:2px">5,145</div>
-<div class="tp" style="font-size:12px;font-weight:500">+1,595</div>
-</div></div></section>
+<!-- Monthly Chart -->
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title">Monthly Overview</h2>
+    <span class="section-meta">6-month trend</span>
+  </div>
+  <div class="card">
+    <div style="padding: 24px 20px 16px;">
+      <div id="monthlyChart" style="height: 300px;"></div>
+    </div>
+  </div>
+  <div class="month-strip">
+    <div class="month-pill">
+      <div class="month-pill-dot" style="background: var(--neg);" title="1% margin"></div>
+      <div class="month-pill-label">Aug</div>
+      <div class="month-pill-margin" style="background: var(--neg-soft); color: var(--neg);">1%</div>
+      <div class="month-pill-revenue">9,776</div>
+      <div class="month-pill-net text-pos">+64</div>
+    </div>
+    <div class="month-pill">
+      <div class="month-pill-dot" style="background: var(--neg);" title="-1% margin"></div>
+      <div class="month-pill-label">Sep</div>
+      <div class="month-pill-margin" style="background: var(--neg-soft); color: var(--neg);">-1%</div>
+      <div class="month-pill-revenue">9,003</div>
+      <div class="month-pill-net text-neg">-51</div>
+    </div>
+    <div class="month-pill">
+      <div class="month-pill-dot" style="background: var(--neg);" title="-29% margin"></div>
+      <div class="month-pill-label">Oct</div>
+      <div class="month-pill-margin" style="background: var(--neg-soft); color: var(--neg);">-29%</div>
+      <div class="month-pill-revenue">9,341</div>
+      <div class="month-pill-net text-neg">-2,726</div>
+    </div>
+    <div class="month-pill">
+      <div class="month-pill-dot" style="background: var(--neg);" title="-81% margin"></div>
+      <div class="month-pill-label">Nov</div>
+      <div class="month-pill-margin" style="background: var(--neg-soft); color: var(--neg);">-81%</div>
+      <div class="month-pill-revenue">6,265</div>
+      <div class="month-pill-net text-neg">-5,083</div>
+    </div>
+    <div class="month-pill">
+      <div class="month-pill-dot" style="background: var(--neg);" title="-61% margin"></div>
+      <div class="month-pill-label">Dec</div>
+      <div class="month-pill-margin" style="background: var(--neg-soft); color: var(--neg);">-61%</div>
+      <div class="month-pill-revenue">5,967</div>
+      <div class="month-pill-net text-neg">-3,627</div>
+    </div>
+    <div class="month-pill">
+      <div class="month-pill-dot" style="background: var(--pos);" title="31% margin"></div>
+      <div class="month-pill-label">Jan</div>
+      <div class="month-pill-margin" style="background: var(--pos-soft); color: var(--pos);">31%</div>
+      <div class="month-pill-revenue">5,145</div>
+      <div class="month-pill-net text-pos">+1,595</div>
+    </div>
+  </div>
+</section>
 
 <!-- Early Warning -->
-<section class="s">
-<div class="sh"><h2 class="st">Early Warning</h2><span class="tm" style="font-size:13px">Phase 1</span></div>
-<div class="cg">
-<div class="card"><div class="cb">
-<div style="margin-bottom:16px;font-size:13px;color:var(--t2)">Breakeven Progress (Jan)</div>
-<div style="display:flex;align-items:center;gap:16px;margin-bottom:16px">
-<div style="flex:1;height:8px;background:var(--bg);border-radius:4px;overflow:hidden">
-<div style="width:40%;height:100%;background:var(--accent);border-radius:4px"></div>
-</div>
-<span style="font-size:20px;font-weight:600;">40%</span>
-</div>
-<div style="font-size:13px;line-height:2">
-<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)">
-<span>Fixed costs (avg)</span><span class="fw">&#8364;7,095</span></div>
-<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)">
-<span>Breakeven revenue</span><span class="fw">&#8364;12,900</span></div>
-<div style="display:flex;justify-content:space-between;padding:8px 0">
-<span>Current month</span><span class="tn fw">&#8364;5,145</span></div>
-</div>
-</div></div>
-<div class="card"><div class="cb">
-<div style="margin-bottom:16px;font-size:13px;color:var(--t2)">Margin Alert Status</div><div style="display:flex;gap:var(--s3);margin-bottom:16px">
-<div style="flex:1;text-align:center;padding:12px;background:rgba(74,222,128,.1);border-radius:8px">
-<div style="font-size:24px;font-weight:600;color:var(--pos)">1</div>
-<div style="font-size:11px;color:var(--t2)">Healthy</div>
-</div>
-<div style="flex:1;text-align:center;padding:12px;background:rgba(251,191,36,.1);border-radius:8px">
-<div style="font-size:24px;font-weight:600;color:#FBBF24">0</div>
-<div style="font-size:11px;color:var(--t2)">Warning</div>
-</div>
-<div style="flex:1;text-align:center;padding:12px;background:rgba(248,113,113,.1);border-radius:8px">
-<div style="font-size:24px;font-weight:600;color:var(--neg)">5</div>
-<div style="font-size:11px;color:var(--t2)">Danger</div>
-</div>
-</div><div style="padding:12px;background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);border-radius:8px;margin-top:12px">
-<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
-<span style="color:var(--neg);font-weight:600">&#9888; Revenue Alert</span>
-</div>
-<div style="font-size:12px;color:var(--t2)">Jan revenue (&#8364;5,145) is near worst month (Jan: &#8364;5,145). Consider cost reduction.</div>
-</div></div></div></div></section>
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title">Early Warning</h2>
+    <span class="section-meta">Phase 1</span>
+  </div>
+  <div class="card-grid">
+    <div class="card"><div class="card-body">
+      <div style="color: var(--t2); font-size: 13px; margin-bottom: 20px; font-weight: 450;">Breakeven Progress (Jan)</div>
+      <div class="progress-ring-wrap">
+        <div class="progress-bar-lg"><div class="progress-bar-lg-fill" style="width: 40%;"></div></div>
+        <span class="progress-pct">40%</span>
+      </div>
+      <div class="kv-row"><span class="kv-label">Fixed costs (avg)</span><span class="kv-value">&euro;7,095</span></div>
+      <div class="kv-row"><span class="kv-label">Breakeven revenue</span><span class="kv-value">&euro;12,900</span></div>
+      <div class="kv-row"><span class="kv-label">Current month</span><span class="kv-value text-neg">&euro;5,145</span></div>
+    </div></div>
+    <div class="card"><div class="card-body">
+      <div style="color: var(--t2); font-size: 13px; margin-bottom: 20px; font-weight: 450;">Margin Alert Status</div>
+      <div class="status-grid">
+        <div class="status-block" style="background: var(--pos-soft); border-radius: var(--r-sm);">
+          <div class="status-block-count text-pos">1</div>
+          <div class="status-block-label">Healthy</div>
+        </div>
+        <div class="status-block" style="background: var(--warn-soft); border-radius: var(--r-sm);">
+          <div class="status-block-count" style="color: var(--warn);">0</div>
+          <div class="status-block-label">Warning</div>
+        </div>
+        <div class="status-block" style="background: var(--neg-soft); border-radius: var(--r-sm);">
+          <div class="status-block-count text-neg">5</div>
+          <div class="status-block-label">Danger</div>
+        </div>
+      </div>
+      <div class="alert alert-danger" style="margin-top: 20px;">
+        <div class="alert-title text-neg">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          Revenue Alert
+        </div>
+        <div style="color: var(--t2);">Jan revenue (&euro;5,145) is near the worst month. Consider cost reduction strategies.</div>
+      </div>
+    </div></div>
+  </div>
+</section>
 
 <!-- Anemona -->
-<section class="s">
-<div class="sh"><h2 class="st">Anemona</h2><span class="sb">Main</span></div>
-<div class="card"><div class="tc"><table>
-<thead><tr><th>Month</th><th class="tr">Revenue</th><th class="tr">Expenses</th><th class="tr">Net</th><th class="tr">Status</th></tr></thead>
-<tbody><tr><td class="fw">Aug</td><td class="tr">9,776</td><td class="tr tm">9,712</td><td class="tr tp fw">+64</td><td class="tr"><span class="b bp">Profit</span></td></tr><tr><td class="fw">Sep</td><td class="tr">8,637</td><td class="tr tm">9,055</td><td class="tr tn fw">-418</td><td class="tr"><span class="b bn">Loss</span></td></tr><tr><td class="fw">Oct</td><td class="tr">8,704</td><td class="tr tm">12,067</td><td class="tr tn fw">-3,362</td><td class="tr"><span class="b bn">Loss</span></td></tr><tr><td class="fw">Nov</td><td class="tr">5,886</td><td class="tr tm">11,348</td><td class="tr tn fw">-5,462</td><td class="tr"><span class="b bn">Loss</span></td></tr><tr><td class="fw">Dec</td><td class="tr">5,155</td><td class="tr tm">9,531</td><td class="tr tn fw">-4,376</td><td class="tr"><span class="b bn">Loss</span></td></tr><tr><td class="fw">Jan</td><td class="tr">4,742</td><td class="tr tm">3,550</td><td class="tr tp fw">+1,192</td><td class="tr"><span class="b bp">Profit</span></td></tr><tr style="background:var(--bg3)"><td class="fw">Total</td><td class="tr fw">42,900</td><td class="tr tm">55,262</td><td class="tr tn fw">-12,362</td><td></td></tr>
-</tbody></table></div></div></section>
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title">Anemona</h2>
+    <span class="section-badge">Main Location</span>
+  </div>
+  <div class="card"><div class="table-wrap"><table>
+    <thead><tr><th>Month</th><th class="text-right">Revenue</th><th class="text-right">Expenses</th><th class="text-right">Net</th><th class="text-right">Status</th></tr></thead>
+    <tbody>
+      <tr><td class="text-bold">Aug</td><td class="text-right">9,776</td><td class="text-right text-muted">9,712</td><td class="text-right text-pos text-bold">+64</td><td class="text-right"><span class="badge badge-pos">Profit</span></td></tr>
+      <tr><td class="text-bold">Sep</td><td class="text-right">8,637</td><td class="text-right text-muted">9,055</td><td class="text-right text-neg text-bold">-418</td><td class="text-right"><span class="badge badge-neg">Loss</span></td></tr>
+      <tr><td class="text-bold">Oct</td><td class="text-right">8,704</td><td class="text-right text-muted">12,067</td><td class="text-right text-neg text-bold">-3,362</td><td class="text-right"><span class="badge badge-neg">Loss</span></td></tr>
+      <tr><td class="text-bold">Nov</td><td class="text-right">5,886</td><td class="text-right text-muted">11,348</td><td class="text-right text-neg text-bold">-5,462</td><td class="text-right"><span class="badge badge-neg">Loss</span></td></tr>
+      <tr><td class="text-bold">Dec</td><td class="text-right">5,155</td><td class="text-right text-muted">9,531</td><td class="text-right text-neg text-bold">-4,376</td><td class="text-right"><span class="badge badge-neg">Loss</span></td></tr>
+      <tr><td class="text-bold">Jan</td><td class="text-right">4,742</td><td class="text-right text-muted">3,550</td><td class="text-right text-pos text-bold">+1,192</td><td class="text-right"><span class="badge badge-pos">Profit</span></td></tr>
+      <tr class="row-total"><td class="text-bold">Total</td><td class="text-right text-bold">42,900</td><td class="text-right text-muted">55,262</td><td class="text-right text-neg text-bold">-12,362</td><td></td></tr>
+    </tbody>
+  </table></div></div>
+</section>
 
 <!-- N'Dola -->
-<section class="s">
-<div class="sh"><h2 class="st">N'Dola</h2><span class="b bm">Since Sep</span></div>
-<div class="card"><div class="tc"><table>
-<thead><tr><th>Month</th><th class="tr">Revenue</th><th class="tr">Cash</th><th class="tr">Net</th></tr></thead>
-<tbody><tr><td class="fw tm">Aug</td><td class="tr tm">&mdash;</td><td class="tr tm">&mdash;</td><td class="tr tm">&mdash;</td></tr><tr><td class="fw">Sep</td><td class="tr">366</td><td class="tr tm">103</td><td class="tr tp fw">+366</td></tr><tr><td class="fw">Oct</td><td class="tr">636</td><td class="tr tm">292</td><td class="tr tp fw">+636</td></tr><tr><td class="fw">Nov</td><td class="tr">379</td><td class="tr tm">198</td><td class="tr tp fw">+379</td></tr><tr><td class="fw">Dec</td><td class="tr">812</td><td class="tr tm">188</td><td class="tr tp fw">+749</td></tr><tr><td class="fw">Jan</td><td class="tr">403</td><td class="tr tm">194</td><td class="tr tp fw">+403</td></tr><tr style="background:var(--bg3)"><td class="fw">Total</td><td class="tr fw">2,597</td><td class="tr tm">975</td><td class="tr tp fw">+2,534</td></tr>
-</tbody></table></div></div></section>
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title">N'Dola</h2>
+    <span class="badge badge-muted">Since Sep</span>
+  </div>
+  <div class="card"><div class="table-wrap"><table>
+    <thead><tr><th>Month</th><th class="text-right">Revenue</th><th class="text-right">Cash</th><th class="text-right">Net</th></tr></thead>
+    <tbody>
+      <tr><td class="text-bold text-muted">Aug</td><td class="text-right text-muted">&mdash;</td><td class="text-right text-muted">&mdash;</td><td class="text-right text-muted">&mdash;</td></tr>
+      <tr><td class="text-bold">Sep</td><td class="text-right">366</td><td class="text-right text-muted">103</td><td class="text-right text-pos text-bold">+366</td></tr>
+      <tr><td class="text-bold">Oct</td><td class="text-right">636</td><td class="text-right text-muted">292</td><td class="text-right text-pos text-bold">+636</td></tr>
+      <tr><td class="text-bold">Nov</td><td class="text-right">379</td><td class="text-right text-muted">198</td><td class="text-right text-pos text-bold">+379</td></tr>
+      <tr><td class="text-bold">Dec</td><td class="text-right">812</td><td class="text-right text-muted">188</td><td class="text-right text-pos text-bold">+749</td></tr>
+      <tr><td class="text-bold">Jan</td><td class="text-right">403</td><td class="text-right text-muted">194</td><td class="text-right text-pos text-bold">+403</td></tr>
+      <tr class="row-total"><td class="text-bold">Total</td><td class="text-right text-bold">2,597</td><td class="text-right text-muted">975</td><td class="text-right text-pos text-bold">+2,534</td></tr>
+    </tbody>
+  </table></div></div>
+</section>
 
-<!-- Top Products -->
+<!-- Products Divider -->
 <div class="section-divider" id="products">Product Intelligence</div>
 
-<section class="s">
-<div class="sh"><h2 class="st">Top Products</h2></div>
-<div class="card"><div class="tc"><table>
-<thead><tr><th style="width:40px">#</th><th>Product</th><th class="tr">Revenue</th><th class="tr">Share</th></tr></thead>
-<tbody><tr><td class="tm">1</td><td class="fw">MENU Prato do Dia</td><td class="tr">4,115</td><td class="tr"><div style="display:flex;align-items:center;justify-content:flex-end;gap:8px"><div class="pr"><div class="pf" style="width:16.9%"></div></div><span class="tm">16.9%</span></div></td></tr><tr><td class="tm">2</td><td class="fw">Bolo a Fatia Tradicional</td><td class="tr">1,159</td><td class="tr"><div style="display:flex;align-items:center;justify-content:flex-end;gap:8px"><div class="pr"><div class="pf" style="width:4.8%"></div></div><span class="tm">4.8%</span></div></td></tr><tr><td class="tm">3</td><td class="fw">Meia Leite</td><td class="tr">1,025</td><td class="tr"><div style="display:flex;align-items:center;justify-content:flex-end;gap:8px"><div class="pr"><div class="pf" style="width:4.2%"></div></div><span class="tm">4.2%</span></div></td></tr><tr><td class="tm">4</td><td class="fw">Prato do DIA</td><td class="tr">955</td><td class="tr"><div style="display:flex;align-items:center;justify-content:flex-end;gap:8px"><div class="pr"><div class="pf" style="width:3.9%"></div></div><span class="tm">3.9%</span></div></td></tr><tr><td class="tm">5</td><td class="fw">Espresso</td><td class="tr">945</td><td class="tr"><div style="display:flex;align-items:center;justify-content:flex-end;gap:8px"><div class="pr"><div class="pf" style="width:3.9%"></div></div><span class="tm">3.9%</span></div></td></tr><tr><td class="tm">6</td><td class="fw">Bolo Vulcao c/ Cobertura</td><td class="tr">937</td><td class="tr"><div style="display:flex;align-items:center;justify-content:flex-end;gap:8px"><div class="pr"><div class="pf" style="width:3.9%"></div></div><span class="tm">3.9%</span></div></td></tr><tr><td class="tm">7</td><td class="fw">Bolo a Fatia Especialidade</td><td class="tr">868</td><td class="tr"><div style="display:flex;align-items:center;justify-content:flex-end;gap:8px"><div class="pr"><div class="pf" style="width:3.6%"></div></div><span class="tm">3.6%</span></div></td></tr><tr><td class="tm">8</td><td class="fw">Bolos Secos</td><td class="tr">755</td><td class="tr"><div style="display:flex;align-items:center;justify-content:flex-end;gap:8px"><div class="pr"><div class="pf" style="width:3.1%"></div></div><span class="tm">3.1%</span></div></td></tr><tr><td class="tm">9</td><td class="fw">Tarte Semifrio</td><td class="tr">716</td><td class="tr"><div style="display:flex;align-items:center;justify-content:flex-end;gap:8px"><div class="pr"><div class="pf" style="width:2.9%"></div></div><span class="tm">2.9%</span></div></td></tr><tr><td class="tm">10</td><td class="fw">Tosta Abacate</td><td class="tr">624</td><td class="tr"><div style="display:flex;align-items:center;justify-content:flex-end;gap:8px"><div class="pr"><div class="pf" style="width:2.6%"></div></div><span class="tm">2.6%</span></div></td></tr></tbody></table></div></div></section>
+<!-- Top Products -->
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title">Top Products</h2>
+    <span class="section-meta">By revenue</span>
+  </div>
+  <div class="card"><div class="table-wrap"><table>
+    <thead><tr><th style="width: 44px;">#</th><th>Product</th><th class="text-right">Revenue</th><th class="text-right">Share</th></tr></thead>
+    <tbody>
+      <tr><td class="text-muted">1</td><td class="text-bold">MENU Prato do Dia</td><td class="text-right">4,115</td><td class="text-right"><div style="display:flex;align-items:center;justify-content:flex-end;gap:10px"><div class="progress"><div class="progress-fill" style="width:16.9%"></div></div><span class="text-muted">16.9%</span></div></td></tr>
+      <tr><td class="text-muted">2</td><td class="text-bold">Bolo a Fatia Tradicional</td><td class="text-right">1,159</td><td class="text-right"><div style="display:flex;align-items:center;justify-content:flex-end;gap:10px"><div class="progress"><div class="progress-fill" style="width:4.8%"></div></div><span class="text-muted">4.8%</span></div></td></tr>
+      <tr><td class="text-muted">3</td><td class="text-bold">Meia Leite</td><td class="text-right">1,025</td><td class="text-right"><div style="display:flex;align-items:center;justify-content:flex-end;gap:10px"><div class="progress"><div class="progress-fill" style="width:4.2%"></div></div><span class="text-muted">4.2%</span></div></td></tr>
+      <tr><td class="text-muted">4</td><td class="text-bold">Prato do DIA</td><td class="text-right">955</td><td class="text-right"><div style="display:flex;align-items:center;justify-content:flex-end;gap:10px"><div class="progress"><div class="progress-fill" style="width:3.9%"></div></div><span class="text-muted">3.9%</span></div></td></tr>
+      <tr><td class="text-muted">5</td><td class="text-bold">Espresso</td><td class="text-right">945</td><td class="text-right"><div style="display:flex;align-items:center;justify-content:flex-end;gap:10px"><div class="progress"><div class="progress-fill" style="width:3.9%"></div></div><span class="text-muted">3.9%</span></div></td></tr>
+      <tr><td class="text-muted">6</td><td class="text-bold">Bolo Vulcao c/ Cobertura</td><td class="text-right">937</td><td class="text-right"><div style="display:flex;align-items:center;justify-content:flex-end;gap:10px"><div class="progress"><div class="progress-fill" style="width:3.9%"></div></div><span class="text-muted">3.9%</span></div></td></tr>
+      <tr><td class="text-muted">7</td><td class="text-bold">Bolo a Fatia Especialidade</td><td class="text-right">868</td><td class="text-right"><div style="display:flex;align-items:center;justify-content:flex-end;gap:10px"><div class="progress"><div class="progress-fill" style="width:3.6%"></div></div><span class="text-muted">3.6%</span></div></td></tr>
+      <tr><td class="text-muted">8</td><td class="text-bold">Bolos Secos</td><td class="text-right">755</td><td class="text-right"><div style="display:flex;align-items:center;justify-content:flex-end;gap:10px"><div class="progress"><div class="progress-fill" style="width:3.1%"></div></div><span class="text-muted">3.1%</span></div></td></tr>
+      <tr><td class="text-muted">9</td><td class="text-bold">Tarte Semifrio</td><td class="text-right">716</td><td class="text-right"><div style="display:flex;align-items:center;justify-content:flex-end;gap:10px"><div class="progress"><div class="progress-fill" style="width:2.9%"></div></div><span class="text-muted">2.9%</span></div></td></tr>
+      <tr><td class="text-muted">10</td><td class="text-bold">Tosta Abacate</td><td class="text-right">624</td><td class="text-right"><div style="display:flex;align-items:center;justify-content:flex-end;gap:10px"><div class="progress"><div class="progress-fill" style="width:2.6%"></div></div><span class="text-muted">2.6%</span></div></td></tr>
+    </tbody>
+  </table></div></div>
+</section>
 
 <!-- Menu Analysis -->
-<section class="s">
-<div class="sh"><h2 class="st">Menu Analysis</h2></div>
-<div class="cg">
-<div class="card"><div class="cb">
-<div style="display:flex;align-items:center;gap:8px;margin-bottom:16px"><span class="b bp">Stars</span><span class="tm" style="font-size:13px">47 products</span></div>
-<div class="tc"><table style="min-width:auto"><tbody><tr><td>Bolo a Fatia Tradicion</td><td class="tr fw">1,159</td></tr><tr><td>Meia Leite</td><td class="tr fw">1,025</td></tr><tr><td>Espresso</td><td class="tr fw">945</td></tr><tr><td>Bolo Vulcao c/ Cobertu</td><td class="tr fw">937</td></tr><tr><td>Bolos Secos</td><td class="tr fw">755</td></tr><tr><td>Tarte Semifrio</td><td class="tr fw">716</td></tr></tbody></table></div></div></div>
-<div class="card"><div class="cb">
-<div style="display:flex;align-items:center;gap:8px;margin-bottom:16px"><span class="b bn">Dogs</span><span class="tm" style="font-size:13px">13 products</span></div>
-<div class="tc"><table style="min-width:auto"><tbody><tr><td>Salada Salmao</td><td class="tr tn">151</td></tr><tr><td>Salada a Chefe</td><td class="tr tn">122</td></tr><tr><td>Lasanha</td><td class="tr tn">41</td></tr><tr><td>Brigadeiro 8uni</td><td class="tr tn">34</td></tr><tr><td>Salada Vegetariana</td><td class="tr tn">27</td></tr><tr><td>Quiche Especialidades</td><td class="tr tn">24</td></tr><tr><td>Pao Forma, Manteiga, Q</td><td class="tr tn">15</td></tr><tr><td>Croissant</td><td class="tr tn">8</td></tr><tr><td>Cookies Especialidades</td><td class="tr tn">7</td></tr><tr><td>Pain au Chocolat</td><td class="tr tn">5</td></tr><tr><td>Pao Rustico c/ Manteig</td><td class="tr tn">4</td></tr><tr><td>Docinhos Especialidade</td><td class="tr tn">4</td></tr><tr><td>sumol ananas</td><td class="tr tn">0</td></tr><tr style="background:var(--bg3)"><td class="fw">At risk</td><td class="tr tn fw">442</td></tr>
-</tbody></table></div></div></div></div></section>
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title">Menu Analysis</h2>
+  </div>
+  <div class="card-grid">
+    <div class="card"><div class="card-body">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;"><span class="badge badge-pos">Stars</span><span class="section-meta">47 products</span></div>
+      <div class="table-wrap"><table style="min-width:auto">
+        <tbody>
+          <tr><td>Bolo a Fatia Tradicional</td><td class="text-right text-bold">1,159</td></tr>
+          <tr><td>Meia Leite</td><td class="text-right text-bold">1,025</td></tr>
+          <tr><td>Espresso</td><td class="text-right text-bold">945</td></tr>
+          <tr><td>Bolo Vulcao c/ Cobertura</td><td class="text-right text-bold">937</td></tr>
+          <tr><td>Bolos Secos</td><td class="text-right text-bold">755</td></tr>
+          <tr><td>Tarte Semifrio</td><td class="text-right text-bold">716</td></tr>
+        </tbody>
+      </table></div>
+    </div></div>
+    <div class="card"><div class="card-body">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;"><span class="badge badge-neg">Dogs</span><span class="section-meta">13 products</span></div>
+      <div class="table-wrap"><table style="min-width:auto">
+        <tbody>
+          <tr><td>Salada Salmao</td><td class="text-right text-neg">151</td></tr>
+          <tr><td>Salada a Chefe</td><td class="text-right text-neg">122</td></tr>
+          <tr><td>Lasanha</td><td class="text-right text-neg">41</td></tr>
+          <tr><td>Brigadeiro 8uni</td><td class="text-right text-neg">34</td></tr>
+          <tr><td>Salada Vegetariana</td><td class="text-right text-neg">27</td></tr>
+          <tr><td>Quiche Especialidades</td><td class="text-right text-neg">24</td></tr>
+          <tr><td>Pao Forma, Manteiga, Queijo</td><td class="text-right text-neg">15</td></tr>
+          <tr><td>Croissant</td><td class="text-right text-neg">8</td></tr>
+          <tr><td>Cookies Especialidades</td><td class="text-right text-neg">7</td></tr>
+          <tr><td>Pain au Chocolat</td><td class="text-right text-neg">5</td></tr>
+          <tr><td>Pao Rustico c/ Manteiga</td><td class="text-right text-neg">4</td></tr>
+          <tr><td>Docinhos Especialidade</td><td class="text-right text-neg">4</td></tr>
+          <tr><td>Sumol Ananas</td><td class="text-right text-neg">0</td></tr>
+          <tr class="row-total"><td class="text-bold">At risk</td><td class="text-right text-neg text-bold">442</td></tr>
+        </tbody>
+      </table></div>
+    </div></div>
+  </div>
+</section>
 
 <!-- Expenses -->
-<section class="s">
-<div class="sh"><h2 class="st">Expenses</h2></div>
-<div class="card"><div class="tc"><table>
-<thead><tr><th>Category</th><th class="tr">Amount</th><th class="tr">Share</th></tr></thead>
-<tbody><tr><td class="fw">Salaries</td><td class="tr">21,467</td><td class="tr"><div style="display:flex;align-items:center;justify-content:flex-end;gap:8px"><div class="pr" style="width:80px"><div class="pf" style="width:41%"></div></div><span class="tm">41%</span></div></td></tr><tr><td class="fw">Daily Ops</td><td class="tr">11,363</td><td class="tr"><div style="display:flex;align-items:center;justify-content:flex-end;gap:8px"><div class="pr" style="width:80px"><div class="pf" style="width:22%"></div></div><span class="tm">22%</span></div></td></tr><tr><td class="fw">Rent</td><td class="tr">6,750</td><td class="tr"><div style="display:flex;align-items:center;justify-content:flex-end;gap:8px"><div class="pr" style="width:80px"><div class="pf" style="width:13%"></div></div><span class="tm">13%</span></div></td></tr><tr><td class="fw">Taxes</td><td class="tr">6,241</td><td class="tr"><div style="display:flex;align-items:center;justify-content:flex-end;gap:8px"><div class="pr" style="width:80px"><div class="pf" style="width:12%"></div></div><span class="tm">12%</span></div></td></tr><tr><td class="fw">Utilities</td><td class="tr">2,860</td><td class="tr"><div style="display:flex;align-items:center;justify-content:flex-end;gap:8px"><div class="pr" style="width:80px"><div class="pf" style="width:6%"></div></div><span class="tm">6%</span></div></td></tr><tr><td class="fw">Other</td><td class="tr">1,304</td><td class="tr"><div style="display:flex;align-items:center;justify-content:flex-end;gap:8px"><div class="pr" style="width:80px"><div class="pf" style="width:3%"></div></div><span class="tm">3%</span></div></td></tr><tr><td class="fw">Accounting</td><td class="tr">1,292</td><td class="tr"><div style="display:flex;align-items:center;justify-content:flex-end;gap:8px"><div class="pr" style="width:80px"><div class="pf" style="width:2%"></div></div><span class="tm">2%</span></div></td></tr><tr><td class="fw">Insurance</td><td class="tr">521</td><td class="tr"><div style="display:flex;align-items:center;justify-content:flex-end;gap:8px"><div class="pr" style="width:80px"><div class="pf" style="width:1%"></div></div><span class="tm">1%</span></div></td></tr><tr style="background:var(--bg3)"><td class="fw">Total</td><td class="tr fw">51,797</td><td></td></tr>
-</tbody></table></div></div></section>
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title">Expenses Breakdown</h2>
+  </div>
+  <div class="card"><div class="table-wrap"><table>
+    <thead><tr><th>Category</th><th class="text-right">Amount</th><th class="text-right">Share</th></tr></thead>
+    <tbody>
+      <tr><td class="text-bold">Salaries</td><td class="text-right">21,467</td><td class="text-right"><div style="display:flex;align-items:center;justify-content:flex-end;gap:10px"><div class="progress" style="width:80px"><div class="progress-fill" style="width:41%"></div></div><span class="text-muted">41%</span></div></td></tr>
+      <tr><td class="text-bold">Daily Ops</td><td class="text-right">11,363</td><td class="text-right"><div style="display:flex;align-items:center;justify-content:flex-end;gap:10px"><div class="progress" style="width:80px"><div class="progress-fill" style="width:22%"></div></div><span class="text-muted">22%</span></div></td></tr>
+      <tr><td class="text-bold">Rent</td><td class="text-right">6,750</td><td class="text-right"><div style="display:flex;align-items:center;justify-content:flex-end;gap:10px"><div class="progress" style="width:80px"><div class="progress-fill" style="width:13%"></div></div><span class="text-muted">13%</span></div></td></tr>
+      <tr><td class="text-bold">Taxes</td><td class="text-right">6,241</td><td class="text-right"><div style="display:flex;align-items:center;justify-content:flex-end;gap:10px"><div class="progress" style="width:80px"><div class="progress-fill" style="width:12%"></div></div><span class="text-muted">12%</span></div></td></tr>
+      <tr><td class="text-bold">Utilities</td><td class="text-right">2,860</td><td class="text-right"><div style="display:flex;align-items:center;justify-content:flex-end;gap:10px"><div class="progress" style="width:80px"><div class="progress-fill" style="width:6%"></div></div><span class="text-muted">6%</span></div></td></tr>
+      <tr><td class="text-bold">Other</td><td class="text-right">1,304</td><td class="text-right"><div style="display:flex;align-items:center;justify-content:flex-end;gap:10px"><div class="progress" style="width:80px"><div class="progress-fill" style="width:3%"></div></div><span class="text-muted">3%</span></div></td></tr>
+      <tr><td class="text-bold">Accounting</td><td class="text-right">1,292</td><td class="text-right"><div style="display:flex;align-items:center;justify-content:flex-end;gap:10px"><div class="progress" style="width:80px"><div class="progress-fill" style="width:2%"></div></div><span class="text-muted">2%</span></div></td></tr>
+      <tr><td class="text-bold">Insurance</td><td class="text-right">521</td><td class="text-right"><div style="display:flex;align-items:center;justify-content:flex-end;gap:10px"><div class="progress" style="width:80px"><div class="progress-fill" style="width:1%"></div></div><span class="text-muted">1%</span></div></td></tr>
+      <tr class="row-total"><td class="text-bold">Total</td><td class="text-right text-bold">51,797</td><td></td></tr>
+    </tbody>
+  </table></div></div>
+</section>
 
-<!-- Staffing Analysis -->
-<section class="s">
-<div class="sh"><h2 class="st">Staffing Analysis</h2><span class="tm" style="font-size:13px">PT labor context</span></div>
-<div class="cg">
-<div class="card"><div class="cb">
-<div style="margin-bottom:16px;font-size:13px;color:var(--t2)">Day-of-Week Pattern</div>
-<div class="tc"><table style="min-width:auto">
-<thead><tr><th>Day</th><th class="tr">Avg Rev</th><th class="tr">Load</th></tr></thead>
-<tbody><tr><td>Mon</td><td class="tr">&#8364;165</td><td class="tr tm fw">Med</td></tr><tr><td>Tue</td><td class="tr">&#8364;168</td><td class="tr tm fw">Med</td></tr><tr><td>Wed</td><td class="tr">&#8364;171</td><td class="tr tm fw">Med</td></tr><tr><td>Thu</td><td class="tr">&#8364;142</td><td class="tr tn fw">Low</td></tr><tr><td>Fri</td><td class="tr">&#8364;166</td><td class="tr tm fw">Med</td></tr><tr><td>Sat</td><td class="tr">&#8364;193</td><td class="tr tp fw">High</td></tr><tr><td>Sun</td><td class="tr">&#8364;194</td><td class="tr tp fw">High</td></tr></tbody></table></div>
-</div></div>
-<div class="card"><div class="cb">
-<div style="margin-bottom:16px;font-size:13px;color:var(--t2)">Sustainable Headcount (PT Contracts)</div>
-<div style="font-size:13px;line-height:2">
-<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)">
-<span>Worst month (Jan)</span><span class="tn fw">&#8364;5,145</span></div>
-<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)">
-<span>Best month (Aug)</span><span class="tp fw">&#8364;9,776</span></div>
-<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)">
-<span>Labor @ 30% worst month</span><span class="fw">&#8364;1,543</span></div>
-<div style="display:flex;justify-content:space-between;padding:8px 0">
-<span>Max permanent staff</span><span class="ba fw">1 people</span></div>
-</div>
-<div style="margin-top:16px;padding:12px;background:var(--bg);border-radius:8px;font-size:12px;color:var(--t2)">
-<strong style="color:var(--t1)">PT Reality:</strong> With contracts, plan for worst month. Use part-time for Sat/Sun peaks. Consider reduced hours Nov-Jan instead of more staff.
-</div>
-</div></div></div></section>
+<!-- Staffing -->
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title">Staffing Analysis</h2>
+    <span class="section-meta">PT labor context</span>
+  </div>
+  <div class="card-grid">
+    <div class="card"><div class="card-body">
+      <div style="color: var(--t2); font-size: 13px; margin-bottom: 20px; font-weight: 450;">Day-of-Week Pattern</div>
+      <div class="table-wrap"><table style="min-width:auto">
+        <thead><tr><th>Day</th><th class="text-right">Avg Rev</th><th class="text-right">Load</th></tr></thead>
+        <tbody>
+          <tr><td>Mon</td><td class="text-right">&euro;165</td><td class="text-right text-muted day-load">Med</td></tr>
+          <tr><td>Tue</td><td class="text-right">&euro;168</td><td class="text-right text-muted day-load">Med</td></tr>
+          <tr><td>Wed</td><td class="text-right">&euro;171</td><td class="text-right text-muted day-load">Med</td></tr>
+          <tr><td>Thu</td><td class="text-right">&euro;142</td><td class="text-right text-neg day-load">Low</td></tr>
+          <tr><td>Fri</td><td class="text-right">&euro;166</td><td class="text-right text-muted day-load">Med</td></tr>
+          <tr><td>Sat</td><td class="text-right">&euro;193</td><td class="text-right text-pos day-load">High</td></tr>
+          <tr><td>Sun</td><td class="text-right">&euro;194</td><td class="text-right text-pos day-load">High</td></tr>
+        </tbody>
+      </table></div>
+    </div></div>
+    <div class="card"><div class="card-body">
+      <div style="color: var(--t2); font-size: 13px; margin-bottom: 20px; font-weight: 450;">Sustainable Headcount (PT Contracts)</div>
+      <div class="kv-row"><span class="kv-label">Worst month (Jan)</span><span class="kv-value text-neg">&euro;5,145</span></div>
+      <div class="kv-row"><span class="kv-label">Best month (Aug)</span><span class="kv-value text-pos">&euro;9,776</span></div>
+      <div class="kv-row"><span class="kv-label">Labor @ 30% worst month</span><span class="kv-value">&euro;1,543</span></div>
+      <div class="kv-row"><span class="kv-label">Max permanent staff</span><span class="kv-value" style="color: var(--accent);">1 person</span></div>
+      <div class="info-box">
+        <strong>PT Reality:</strong> With contracts, plan for worst month. Use part-time for Sat/Sun peaks. Consider reduced hours Nov&ndash;Jan instead of more staff.
+      </div>
+    </div></div>
+  </div>
+</section>
 
-<!-- Revenue by Category Chart -->
-<section class="s">
-<div class="sh"><h2 class="st">Revenue by Category</h2></div>
-<div class="card"><div style="padding:var(--s4)"><div id="chart" style="height:300px"></div></div></div></section>
+<!-- Revenue by Category -->
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title">Revenue by Category</h2>
+  </div>
+  <div class="card"><div style="padding: 24px 20px 16px;"><div id="chart" style="height: 320px;"></div></div></div>
+</section>
 
 <!-- All Products -->
-<section class="s">
-<div class="sh"><h2 class="st">All Products</h2><span class="tm" style="font-size:13px">132 items</span></div>
-<div class="card"><div class="tc" style="max-height:400px;overflow-y:auto"><table>
-<thead style="position:sticky;top:0;background:var(--bg2)"><tr><th>#</th><th>Product</th><th class="tr">Units</th><th class="tr">Revenue</th><th>Class</th></tr></thead>
-<tbody><tr><td class="tm">1</td><td class="fw">MENU Prato do Dia</td><td class="tr">432</td><td class="tr">4,115</td><td><span class="b bm">Plowhorse</span></td></tr><tr><td class="tm">2</td><td class="fw">Bolo a Fatia Tradicional</td><td class="tr">271</td><td class="tr">1,159</td><td><span class="b bp">Star</span></td></tr><tr><td class="tm">3</td><td class="fw">Meia Leite</td><td class="tr">693</td><td class="tr">1,025</td><td><span class="b bp">Star</span></td></tr><tr><td class="tm">4</td><td class="fw">Prato do DIA</td><td class="tr">145</td><td class="tr">955</td><td><span class="b bm">Plowhorse</span></td></tr><tr><td class="tm">5</td><td class="fw">Espresso</td><td class="tr">1,043</td><td class="tr">945</td><td><span class="b bp">Star</span></td></tr><tr><td class="tm">6</td><td class="fw">Bolo Vulcao c/ Cobertura</td><td class="tr">313</td><td class="tr">937</td><td><span class="b bp">Star</span></td></tr><tr><td class="tm">7</td><td class="fw">Bolo a Fatia Especialida</td><td class="tr">190</td><td class="tr">868</td><td><span class="b bm">Plowhorse</span></td></tr><tr><td class="tm">8</td><td class="fw">Bolos Secos</td><td class="tr">267</td><td class="tr">755</td><td><span class="b bp">Star</span></td></tr><tr><td class="tm">9</td><td class="fw">Tarte Semifrio</td><td class="tr">210</td><td class="tr">716</td><td><span class="b bp">Star</span></td></tr><tr><td class="tm">10</td><td class="fw">Tosta Abacate</td><td class="tr">68</td><td class="tr">624</td><td><span class="b bm">Plowhorse</span></td></tr><tr><td class="tm">11</td><td class="fw">bolo abacaxi</td><td class="tr">145</td><td class="tr">559</td><td><span class="b bp">Star</span></td></tr><tr><td class="tm">12</td><td class="fw">Bolo Seco c/ Cobertura</td><td class="tr">165</td><td class="tr">552</td><td><span class="b bm">Plowhorse</span></td></tr><tr><td class="tm">13</td><td class="fw">Tosta Ovos Mexidos</td><td class="tr">70</td><td class="tr">516</td><td><span class="b bm">Plowhorse</span></td></tr><tr><td class="tm">14</td><td class="fw">Tosta Mista</td><td class="tr">176</td><td class="tr">515</td><td><span class="b bm">Plowhorse</span></td></tr><tr><td class="tm">15</td><td class="fw">Sumo Natural Laranja</td><td class="tr">147</td><td class="tr">493</td><td><span class="b bp">Star</span></td></tr><tr><td class="tm">16</td><td class="fw">Capuccino</td><td class="tr">142</td><td class="tr">425</td><td><span class="b bp">Star</span></td></tr><tr><td class="tm">17</td><td class="fw">Americano</td><td class="tr">198</td><td class="tr">388</td><td><span class="b bp">Star</span></td></tr><tr><td class="tm">18</td><td class="fw">Meia Torrada</td><td class="tr">191</td><td class="tr">366</td><td><span class="b bm">Plowhorse</span></td></tr><tr><td class="tm">19</td><td class="fw">MENU Prato do Dia c/ sop</td><td class="tr">31</td><td class="tr">364</td><td><span class="b bm">Plowhorse</span></td></tr><tr><td class="tm">20</td><td class="fw">EXTRA comida</td><td class="tr">47</td><td class="tr">349</td><td><span class="b bp">Star</span></td></tr><tr><td class="tm">21</td><td class="fw">Sumo Natural Dia</td><td class="tr">99</td><td class="tr">349</td><td><span class="b bp">Star</span></td></tr><tr><td class="tm">22</td><td class="fw">Biscoito Amanteigado</td><td class="tr">76</td><td class="tr">303</td><td><span class="b bp">Star</span></td></tr><tr><td class="tm">23</td><td class="fw">Brigadeiro 1uni</td><td class="tr">263</td><td class="tr">297</td><td><span class="b bp">Star</span></td></tr><tr><td class="tm">24</td><td class="fw">Agua c/ Gas</td><td class="tr">202</td><td class="tr">283</td><td><span class="b bp">Star</span></td></tr><tr><td class="tm">25</td><td class="fw">Tosta Salmao</td><td class="tr">30</td><td class="tr">279</td><td><span class="b bm">Plowhorse</span></td></tr><tr><td class="tm">26</td><td class="fw">Salada Frango</td><td class="tr">24</td><td class="tr">226</td><td><span class="b bm">Plowhorse</span></td></tr><tr><td class="tm">27</td><td class="fw">Cha</td><td class="tr">123</td><td class="tr">224</td><td><span class="b bp">Star</span></td></tr><tr><td class="tm">28</td><td class="fw">Agua s/ Gas</td><td class="tr">252</td><td class="tr">224</td><td><span class="b bp">Star</span></td></tr><tr><td class="tm">29</td><td class="fw">Pingo</td><td class="tr">145</td><td class="tr">195</td><td><span class="b bp">Star</span></td></tr><tr><td class="tm">30</td><td class="fw">Limonada</td><td class="tr">100</td><td class="tr">186</td><td><span class="b bp">Star</span></td></tr><tr><td class="tm">31</td><td class="fw">Pao de Queijo 6uni</td><td class="tr">51</td><td class="tr">176</td><td><span class="b bp">Star</span></td></tr><tr><td class="tm">32</td><td class="fw">Tosta Vegetariana</td><td class="tr">19</td><td class="tr">172</td><td><span class="b bm">Plowhorse</span></td></tr><tr><td class="tm">33</td><td class="fw">Brigadeiro 12uni</td><td class="tr">16</td><td class="tr">163</td><td><span class="b bp">Star</span></td></tr><tr><td class="tm">34</td><td class="fw">Bolo Vulcao Especialidad</td><td class="tr">44</td><td class="tr">160</td><td><span class="b bp">Star</span></td></tr><tr><td class="tm">35</td><td class="fw">Quiche</td><td class="tr">41</td><td class="tr">160</td><td><span class="b bm">Plowhorse</span></td></tr><tr><td class="tm">36</td><td class="fw">Torrada Pao Abobora Noz</td><td class="tr">57</td><td class="tr">160</td><td><span class="b bm">Plowhorse</span></td></tr><tr><td class="tm">37</td><td class="fw">Salada Salmao</td><td class="tr">13</td><td class="tr">151</td><td><span class="b bn">Dog</span></td></tr><tr><td class="tm">38</td><td class="fw">Quiche c/ Salada</td><td class="tr">35</td><td class="tr">151</td><td><span class="b bm">Plowhorse</span></td></tr><tr><td class="tm">39</td><td class="fw">Super Bock</td><td class="tr">85</td><td class="tr">146</td><td><span class="b bp">Star</span></td></tr><tr><td class="tm">40</td><td class="fw">Cookies Tradicionais</td><td class="tr">47</td><td class="tr">140</td><td><span class="b bp">Star</span></td></tr><tr><td class="tm">41</td><td class="fw">Prato F. S.</td><td class="tr">15</td><td class="tr">140</td><td><span class="b bm">Plowhorse</span></td></tr><tr><td class="tm">42</td><td class="fw">Espresso</td><td class="tr">301</td><td class="tr">139</td><td><span class="b bp">Star</span></td></tr><tr><td class="tm">43</td><td class="fw">Agua c/ Gas Sabores</td><td class="tr">77</td><td class="tr">131</td><td><span class="b bp">Star</span></td></tr><tr><td class="tm">44</td><td class="fw">Brigadeiro c/ Cafe</td><td class="tr">87</td><td class="tr">127</td><td><span class="b bp">Star</span></td></tr><tr><td class="tm">45</td><td class="fw">Torrada Pao Alentejano</td><td class="tr">43</td><td class="tr">124</td><td><span class="b bm">Plowhorse</span></td></tr><tr><td class="tm">46</td><td class="fw">Salada a Chefe</td><td class="tr">13</td><td class="tr">122</td><td><span class="b bn">Dog</span></td></tr><tr><td class="tm">47</td><td class="fw">Embalagem Take Away</td><td class="tr">238</td><td class="tr">116</td><td><span class="b bm">Plowhorse</span></td></tr><tr><td class="tm">48</td><td class="fw">Sopa do Dia</td><td class="tr">34</td><td class="tr">116</td><td><span class="b bm">Plowhorse</span></td></tr><tr><td class="tm">49</td><td class="fw">Pao de Queijo 12uni</td><td class="tr">14</td><td class="tr">114</td><td><span class="b bp">Star</span></td></tr><tr><td class="tm">50</td><td class="fw">Biscoito Areia</td><td class="tr">29</td><td class="tr">110</td><td><span class="b bp">Star</span></td></tr></tbody></table></div></div></section>
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title">All Products</h2>
+    <span class="section-meta">132 items &middot; Top 50 shown</span>
+  </div>
+  <div class="card"><div class="table-wrap scroll-table"><table>
+    <thead><tr><th>#</th><th>Product</th><th class="text-right">Units</th><th class="text-right">Revenue</th><th>Class</th></tr></thead>
+    <tbody>
+      <tr><td class="text-muted">1</td><td class="text-bold">MENU Prato do Dia</td><td class="text-right">432</td><td class="text-right">4,115</td><td><span class="badge badge-muted">Plowhorse</span></td></tr>
+      <tr><td class="text-muted">2</td><td class="text-bold">Bolo a Fatia Tradicional</td><td class="text-right">271</td><td class="text-right">1,159</td><td><span class="badge badge-pos">Star</span></td></tr>
+      <tr><td class="text-muted">3</td><td class="text-bold">Meia Leite</td><td class="text-right">693</td><td class="text-right">1,025</td><td><span class="badge badge-pos">Star</span></td></tr>
+      <tr><td class="text-muted">4</td><td class="text-bold">Prato do DIA</td><td class="text-right">145</td><td class="text-right">955</td><td><span class="badge badge-muted">Plowhorse</span></td></tr>
+      <tr><td class="text-muted">5</td><td class="text-bold">Espresso</td><td class="text-right">1,043</td><td class="text-right">945</td><td><span class="badge badge-pos">Star</span></td></tr>
+      <tr><td class="text-muted">6</td><td class="text-bold">Bolo Vulcao c/ Cobertura</td><td class="text-right">313</td><td class="text-right">937</td><td><span class="badge badge-pos">Star</span></td></tr>
+      <tr><td class="text-muted">7</td><td class="text-bold">Bolo a Fatia Especialidade</td><td class="text-right">190</td><td class="text-right">868</td><td><span class="badge badge-muted">Plowhorse</span></td></tr>
+      <tr><td class="text-muted">8</td><td class="text-bold">Bolos Secos</td><td class="text-right">267</td><td class="text-right">755</td><td><span class="badge badge-pos">Star</span></td></tr>
+      <tr><td class="text-muted">9</td><td class="text-bold">Tarte Semifrio</td><td class="text-right">210</td><td class="text-right">716</td><td><span class="badge badge-pos">Star</span></td></tr>
+      <tr><td class="text-muted">10</td><td class="text-bold">Tosta Abacate</td><td class="text-right">68</td><td class="text-right">624</td><td><span class="badge badge-muted">Plowhorse</span></td></tr>
+      <tr><td class="text-muted">11</td><td class="text-bold">Bolo Abacaxi</td><td class="text-right">145</td><td class="text-right">559</td><td><span class="badge badge-pos">Star</span></td></tr>
+      <tr><td class="text-muted">12</td><td class="text-bold">Bolo Seco c/ Cobertura</td><td class="text-right">165</td><td class="text-right">552</td><td><span class="badge badge-muted">Plowhorse</span></td></tr>
+      <tr><td class="text-muted">13</td><td class="text-bold">Tosta Ovos Mexidos</td><td class="text-right">70</td><td class="text-right">516</td><td><span class="badge badge-muted">Plowhorse</span></td></tr>
+      <tr><td class="text-muted">14</td><td class="text-bold">Tosta Mista</td><td class="text-right">176</td><td class="text-right">515</td><td><span class="badge badge-muted">Plowhorse</span></td></tr>
+      <tr><td class="text-muted">15</td><td class="text-bold">Sumo Natural Laranja</td><td class="text-right">147</td><td class="text-right">493</td><td><span class="badge badge-pos">Star</span></td></tr>
+      <tr><td class="text-muted">16</td><td class="text-bold">Capuccino</td><td class="text-right">142</td><td class="text-right">425</td><td><span class="badge badge-pos">Star</span></td></tr>
+      <tr><td class="text-muted">17</td><td class="text-bold">Americano</td><td class="text-right">198</td><td class="text-right">388</td><td><span class="badge badge-pos">Star</span></td></tr>
+      <tr><td class="text-muted">18</td><td class="text-bold">Meia Torrada</td><td class="text-right">191</td><td class="text-right">366</td><td><span class="badge badge-muted">Plowhorse</span></td></tr>
+      <tr><td class="text-muted">19</td><td class="text-bold">MENU Prato do Dia c/ Sopa</td><td class="text-right">31</td><td class="text-right">364</td><td><span class="badge badge-muted">Plowhorse</span></td></tr>
+      <tr><td class="text-muted">20</td><td class="text-bold">EXTRA Comida</td><td class="text-right">47</td><td class="text-right">349</td><td><span class="badge badge-pos">Star</span></td></tr>
+      <tr><td class="text-muted">21</td><td class="text-bold">Sumo Natural Dia</td><td class="text-right">99</td><td class="text-right">349</td><td><span class="badge badge-pos">Star</span></td></tr>
+      <tr><td class="text-muted">22</td><td class="text-bold">Biscoito Amanteigado</td><td class="text-right">76</td><td class="text-right">303</td><td><span class="badge badge-pos">Star</span></td></tr>
+      <tr><td class="text-muted">23</td><td class="text-bold">Brigadeiro 1uni</td><td class="text-right">263</td><td class="text-right">297</td><td><span class="badge badge-pos">Star</span></td></tr>
+      <tr><td class="text-muted">24</td><td class="text-bold">Agua c/ Gas</td><td class="text-right">202</td><td class="text-right">283</td><td><span class="badge badge-pos">Star</span></td></tr>
+      <tr><td class="text-muted">25</td><td class="text-bold">Tosta Salmao</td><td class="text-right">30</td><td class="text-right">279</td><td><span class="badge badge-muted">Plowhorse</span></td></tr>
+      <tr><td class="text-muted">26</td><td class="text-bold">Salada Frango</td><td class="text-right">24</td><td class="text-right">226</td><td><span class="badge badge-muted">Plowhorse</span></td></tr>
+      <tr><td class="text-muted">27</td><td class="text-bold">Cha</td><td class="text-right">123</td><td class="text-right">224</td><td><span class="badge badge-pos">Star</span></td></tr>
+      <tr><td class="text-muted">28</td><td class="text-bold">Agua s/ Gas</td><td class="text-right">252</td><td class="text-right">224</td><td><span class="badge badge-pos">Star</span></td></tr>
+      <tr><td class="text-muted">29</td><td class="text-bold">Pingo</td><td class="text-right">145</td><td class="text-right">195</td><td><span class="badge badge-pos">Star</span></td></tr>
+      <tr><td class="text-muted">30</td><td class="text-bold">Limonada</td><td class="text-right">100</td><td class="text-right">186</td><td><span class="badge badge-pos">Star</span></td></tr>
+      <tr><td class="text-muted">31</td><td class="text-bold">Pao de Queijo 6uni</td><td class="text-right">51</td><td class="text-right">176</td><td><span class="badge badge-pos">Star</span></td></tr>
+      <tr><td class="text-muted">32</td><td class="text-bold">Tosta Vegetariana</td><td class="text-right">19</td><td class="text-right">172</td><td><span class="badge badge-muted">Plowhorse</span></td></tr>
+      <tr><td class="text-muted">33</td><td class="text-bold">Brigadeiro 12uni</td><td class="text-right">16</td><td class="text-right">163</td><td><span class="badge badge-pos">Star</span></td></tr>
+      <tr><td class="text-muted">34</td><td class="text-bold">Bolo Vulcao Especialidade</td><td class="text-right">44</td><td class="text-right">160</td><td><span class="badge badge-pos">Star</span></td></tr>
+      <tr><td class="text-muted">35</td><td class="text-bold">Quiche</td><td class="text-right">41</td><td class="text-right">160</td><td><span class="badge badge-muted">Plowhorse</span></td></tr>
+      <tr><td class="text-muted">36</td><td class="text-bold">Torrada Pao Abobora Noz</td><td class="text-right">57</td><td class="text-right">160</td><td><span class="badge badge-muted">Plowhorse</span></td></tr>
+      <tr><td class="text-muted">37</td><td class="text-bold">Salada Salmao</td><td class="text-right">13</td><td class="text-right">151</td><td><span class="badge badge-neg">Dog</span></td></tr>
+      <tr><td class="text-muted">38</td><td class="text-bold">Quiche c/ Salada</td><td class="text-right">35</td><td class="text-right">151</td><td><span class="badge badge-muted">Plowhorse</span></td></tr>
+      <tr><td class="text-muted">39</td><td class="text-bold">Super Bock</td><td class="text-right">85</td><td class="text-right">146</td><td><span class="badge badge-pos">Star</span></td></tr>
+      <tr><td class="text-muted">40</td><td class="text-bold">Cookies Tradicionais</td><td class="text-right">47</td><td class="text-right">140</td><td><span class="badge badge-pos">Star</span></td></tr>
+      <tr><td class="text-muted">41</td><td class="text-bold">Prato F. S.</td><td class="text-right">15</td><td class="text-right">140</td><td><span class="badge badge-muted">Plowhorse</span></td></tr>
+      <tr><td class="text-muted">42</td><td class="text-bold">Espresso (N'Dola)</td><td class="text-right">301</td><td class="text-right">139</td><td><span class="badge badge-pos">Star</span></td></tr>
+      <tr><td class="text-muted">43</td><td class="text-bold">Agua c/ Gas Sabores</td><td class="text-right">77</td><td class="text-right">131</td><td><span class="badge badge-pos">Star</span></td></tr>
+      <tr><td class="text-muted">44</td><td class="text-bold">Brigadeiro c/ Cafe</td><td class="text-right">87</td><td class="text-right">127</td><td><span class="badge badge-pos">Star</span></td></tr>
+      <tr><td class="text-muted">45</td><td class="text-bold">Torrada Pao Alentejano</td><td class="text-right">43</td><td class="text-right">124</td><td><span class="badge badge-muted">Plowhorse</span></td></tr>
+      <tr><td class="text-muted">46</td><td class="text-bold">Salada a Chefe</td><td class="text-right">13</td><td class="text-right">122</td><td><span class="badge badge-neg">Dog</span></td></tr>
+      <tr><td class="text-muted">47</td><td class="text-bold">Embalagem Take Away</td><td class="text-right">238</td><td class="text-right">116</td><td><span class="badge badge-muted">Plowhorse</span></td></tr>
+      <tr><td class="text-muted">48</td><td class="text-bold">Sopa do Dia</td><td class="text-right">34</td><td class="text-right">116</td><td><span class="badge badge-muted">Plowhorse</span></td></tr>
+      <tr><td class="text-muted">49</td><td class="text-bold">Pao de Queijo 12uni</td><td class="text-right">14</td><td class="text-right">114</td><td><span class="badge badge-pos">Star</span></td></tr>
+      <tr><td class="text-muted">50</td><td class="text-bold">Biscoito Areia</td><td class="text-right">29</td><td class="text-right">110</td><td><span class="badge badge-pos">Star</span></td></tr>
+    </tbody>
+  </table></div></div>
+</section>
 
-<footer class="ft">Terracota Cafe &middot; Operations Hub</footer>
-</div>
-</div>
+<footer class="footer">
+  <div class="footer-line"></div>
+  Terracota Cafe &middot; Operations Hub
+</footer>
+
+</div><!-- /container -->
+</div><!-- /dashboard -->
 
 <script>
-function checkPwd(){const p=document.getElementById('pwd').value;if(p==='terracota2025'){sessionStorage.setItem('auth','1');document.getElementById('login').classList.add('hidden');document.getElementById('dashboard').classList.add('visible');}else{document.getElementById('loginError').style.display='block';document.getElementById('pwd').value='';}}
-if(sessionStorage.getItem('auth')==='1'){document.getElementById('login').classList.add('hidden');document.getElementById('dashboard').classList.add('visible');}
+function checkPwd(){
+  var p=document.getElementById('pwd').value;
+  if(p==='terracota2025'){
+    sessionStorage.setItem('auth','1');
+    document.getElementById('login').classList.add('hidden');
+    document.getElementById('dashboard').classList.add('visible');
+  } else {
+    document.getElementById('loginError').style.display='block';
+    document.getElementById('pwd').value='';
+  }
+}
+if(sessionStorage.getItem('auth')==='1'){
+  document.getElementById('login').classList.add('hidden');
+  document.getElementById('dashboard').classList.add('visible');
+}
 </script>
 <script>
-Plotly.newPlot('chart',[{x:[1.0, 332.8, 351.5, 2364.85, 3933.38, 17342.52],y:['Afternoon Tea /', 'Take Away', 'EXTRAS /', 'Bebidas', 'Cafetaria', 'Comidas'],type:'bar',orientation:'h',marker:{color:'#E07A5F'},hovertemplate:'<b>%{y}</b><br>%{x:,.0f}<extra></extra>'}],{paper_bgcolor:'transparent',plot_bgcolor:'transparent',font:{family:'Inter',color:'rgba(255,255,255,.56)',size:12},margin:{t:8,r:24,b:32,l:120},xaxis:{gridcolor:'rgba(255,255,255,.04)',tickformat:',.0f',zeroline:false},yaxis:{gridcolor:'transparent'},bargap:.4},{responsive:true,displayModeBar:false});
+var chartFont = {family:'Inter, -apple-system, sans-serif', color:'rgba(255,255,255,.45)', size:12};
+var gridColor = 'rgba(255,255,255,.03)';
+
+Plotly.newPlot('chart',[{
+  x:[1.0, 332.8, 351.5, 2364.85, 3933.38, 17342.52],
+  y:['Afternoon Tea', 'Take Away', 'Extras', 'Bebidas', 'Cafetaria', 'Comidas'],
+  type:'bar', orientation:'h',
+  marker:{color:'#D4775B', line:{width:0}},
+  hovertemplate:'<b>%{y}</b><br>%{x:,.0f}<extra></extra>'
+}],{
+  paper_bgcolor:'transparent', plot_bgcolor:'transparent',
+  font: chartFont,
+  margin:{t:8,r:24,b:32,l:100},
+  xaxis:{gridcolor:gridColor, tickformat:',.0f', zeroline:false, tickfont:{size:11}},
+  yaxis:{gridcolor:'transparent', tickfont:{size:12}},
+  bargap:.5
+},{responsive:true, displayModeBar:false});
+
 Plotly.newPlot('monthlyChart',[
-{x:['Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan'],y:[9775.87, 9003.44, 9340.789999999999, 6264.81, 5967.16, 5144.73],name:'Revenue',type:'bar',marker:{color:'#E07A5F'},hovertemplate:'<b>%{x}</b><br>Revenue: %{y:,.0f}<extra></extra>'},
-{x:['Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan'],y:[9711.779999999999, 9054.55, 12066.54, 11347.939999999999, 9593.74, 3550.13],name:'Expenses',type:'bar',marker:{color:'rgba(255,255,255,0.2)'},hovertemplate:'<b>%{x}</b><br>Expenses: %{y:,.0f}<extra></extra>'},
-{x:['Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan'],y:[64.09000000000196, -51.10999999999876, -2725.750000000002, -5083.129999999998, -3626.58, 1594.5999999999995],name:'Net',type:'scatter',mode:'lines+markers',line:{color:'#4ADE80',width:3},marker:{size:8},hovertemplate:'<b>%{x}</b><br>Net: %{y:+,.0f}<extra></extra>'},
-{x:['Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan'],y:[9776.0, 9390.0, 9373.0, 9373.0, 8203.0, 7191.0],name:'Forecast',type:'scatter',mode:'lines',line:{color:'#FBBF24',width:2,dash:'dash'},hovertemplate:'<b>%{x}</b><br>Forecast: %{y:,.0f}<extra></extra>'}
-],{paper_bgcolor:'transparent',plot_bgcolor:'transparent',font:{family:'Inter',color:'rgba(255,255,255,.56)',size:12},margin:{t:16,r:16,b:40,l:60},xaxis:{gridcolor:'transparent'},yaxis:{gridcolor:'rgba(255,255,255,.04)',tickformat:',.0f',zeroline:true,zerolinecolor:'rgba(255,255,255,.1)'},barmode:'group',bargap:0.3,showlegend:true,legend:{orientation:'h',y:1.15,x:0.5,xanchor:'center'}},{responsive:true,displayModeBar:false});
+  {x:['Aug','Sep','Oct','Nov','Dec','Jan'], y:[9775.87,9003.44,9340.79,6264.81,5967.16,5144.73],
+   name:'Revenue', type:'bar', marker:{color:'#D4775B',line:{width:0}},
+   hovertemplate:'<b>%{x}</b><br>Revenue: %{y:,.0f}<extra></extra>'},
+  {x:['Aug','Sep','Oct','Nov','Dec','Jan'], y:[9711.78,9054.55,12066.54,11347.94,9593.74,3550.13],
+   name:'Expenses', type:'bar', marker:{color:'rgba(255,255,255,0.12)',line:{width:0}},
+   hovertemplate:'<b>%{x}</b><br>Expenses: %{y:,.0f}<extra></extra>'},
+  {x:['Aug','Sep','Oct','Nov','Dec','Jan'], y:[64.09,-51.11,-2725.75,-5083.13,-3626.58,1594.60],
+   name:'Net', type:'scatter', mode:'lines+markers',
+   line:{color:'#34D399',width:2.5,shape:'spline'}, marker:{size:7,color:'#34D399'},
+   hovertemplate:'<b>%{x}</b><br>Net: %{y:+,.0f}<extra></extra>'},
+  {x:['Aug','Sep','Oct','Nov','Dec','Jan'], y:[9776,9390,9373,9373,8203,7191],
+   name:'Forecast', type:'scatter', mode:'lines',
+   line:{color:'rgba(251,191,36,.5)',width:1.5,dash:'dot'},
+   hovertemplate:'<b>%{x}</b><br>Forecast: %{y:,.0f}<extra></extra>'}
+],{
+  paper_bgcolor:'transparent', plot_bgcolor:'transparent',
+  font: chartFont,
+  margin:{t:16,r:16,b:40,l:56},
+  xaxis:{gridcolor:'transparent', tickfont:{size:12}},
+  yaxis:{gridcolor:gridColor, tickformat:',.0f', zeroline:true, zerolinecolor:'rgba(255,255,255,.06)', tickfont:{size:11}},
+  barmode:'group', bargap:0.35,
+  showlegend:true,
+  legend:{orientation:'h', y:1.12, x:0.5, xanchor:'center', font:{size:11, color:'rgba(255,255,255,.4)'}}
+},{responsive:true, displayModeBar:false});
 </script>
 </body>
 </html>
