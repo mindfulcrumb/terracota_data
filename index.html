@@ -616,12 +616,12 @@ tr:hover td { background: rgba(255,255,255,.015); }
     <div class="tool-name">Daily Closing Form</div>
     <div class="tool-desc">Staff closing submissions with sales, expenses via OCR, Table 20 items, and VAT. Multi-location with role-based access.</div>
   </a>
-  <a href="#" class="tool-card" onclick="event.preventDefault();alert('Export API\n\nEndpoint: /api/export\nAuth: x-admin-pin header\n\nExamples:\n?format=csv&from=2026-01-01&to=2026-01-31\n?format=json&location=anemona')">
+  <a href="#" class="tool-card" onclick="event.preventDefault();exportData()">
     <div class="tool-icon-wrap amber">
       <svg viewBox="0 0 24 24" fill="none" stroke="#FBBF24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
     </div>
-    <div class="tool-name">Data Export API</div>
-    <div class="tool-desc">CSV or JSON export of all closings. Filter by date range and location. PIN-protected for automation pipelines.</div>
+    <div class="tool-name">Data Export</div>
+    <div class="tool-desc">Download all closing data as CSV. Click to export the current month.</div>
   </a>
 </div>
 
@@ -1004,6 +1004,39 @@ function checkPwd(){
 if(sessionStorage.getItem('auth')==='1'){
   document.getElementById('login').classList.add('hidden');
   document.getElementById('dashboard').classList.add('visible');
+}
+
+function exportData(){
+  var now=new Date();
+  var y=now.getFullYear();
+  var m=String(now.getMonth()+1).padStart(2,'0');
+  var from=y+'-'+m+'-01';
+  var lastDay=new Date(y,now.getMonth()+1,0).getDate();
+  var to=y+'-'+m+'-'+String(lastDay).padStart(2,'0');
+  var url='https://terracota-closing-data.vercel.app/api/export?format=csv&from='+from+'&to='+to;
+  var card=event.currentTarget;
+  var desc=card.querySelector('.tool-desc');
+  var orig=desc.textContent;
+  desc.textContent='Downloading...';
+  fetch(url,{headers:{'x-admin-pin':'1123'}})
+    .then(function(r){
+      if(!r.ok) throw new Error('Export failed');
+      return r.text();
+    })
+    .then(function(csv){
+      var blob=new Blob([csv],{type:'text/csv'});
+      var a=document.createElement('a');
+      a.href=URL.createObjectURL(blob);
+      a.download='terracota-export-'+from+'-to-'+to+'.csv';
+      a.click();
+      URL.revokeObjectURL(a.href);
+      desc.textContent='Downloaded! Click again to re-export.';
+      setTimeout(function(){desc.textContent=orig;},3000);
+    })
+    .catch(function(e){
+      desc.textContent='Export failed. Try again.';
+      setTimeout(function(){desc.textContent=orig;},3000);
+    });
 }
 </script>
 <script>
