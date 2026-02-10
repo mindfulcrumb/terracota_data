@@ -988,6 +988,7 @@ tr:hover td { background: rgba(255,255,255,.015); }
 
 
 
+
 <!-- ===== PROFITABILITY SECTION ===== -->
 <div class="section-divider" id="profitability">Profitability Analysis &middot; True Cost per Product</div>
 
@@ -1246,7 +1247,7 @@ tr:hover td { background: rgba(255,255,255,.015); }
     <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;flex-wrap:wrap">
       <div class="sim-input-group" style="flex:1;min-width:140px"><span class="sim-label">Staff Count</span><input type="number" class="sim-input" id="simStaff" value="4" min="0" max="10" step="1" onchange="simRecalc()"></div>
       <div class="sim-input-group" style="flex:1;min-width:140px"><span class="sim-label">Avg Salary / Person</span><input type="number" class="sim-input" id="simStaffCost" value="1014" min="0" step="50" onchange="simRecalc()"></div>
-      <div class="sim-input-group" style="flex:1;min-width:140px"><span class="sim-label">Seg. Social</span><input type="number" class="sim-input" id="simSegSocial" value="1450" min="0" step="50" onchange="simRecalc()"></div>
+      <div class="sim-input-group" style="flex:1;min-width:140px"><span class="sim-label">Seg. Social / Person</span><input type="number" class="sim-input" id="simSegSocial" value="362" min="0" step="10" onchange="simRecalc()"></div>
       <div style="display:flex;align-items:flex-end;gap:8px;padding-top:18px"><button class="sim-btn sim-btn-reset" onclick="simReset()">Reset</button></div>
     </div>
     <div class="sim-grid">
@@ -1364,6 +1365,8 @@ Plotly.newPlot('monthlyChart',[
 
 
 
+
+
 <script>
 // Profitability Chart (static)
 (function() {
@@ -1414,7 +1417,7 @@ var SIM_CURRENT = {
 var SIM_DEFAULTS = {
   staff: 4,
   staffCost: 1014,
-  segSocial: 1450,
+  segSocial: 362,
   rent: 1350,
   dailyOps: 1380,
   utilities: 451,
@@ -1455,7 +1458,8 @@ function simRecalc() {
   var other = parseFloat(document.getElementById('simOther').value) || 0;
 
   var salaries = staff * staffCost;
-  var monthlyOverhead = salaries + segSocial + rent + dailyOps + utilities + accounting + pos + insurance + taxes + other;
+  var segSocialTotal = staff * segSocial;
+  var monthlyOverhead = salaries + segSocialTotal + rent + dailyOps + utilities + accounting + pos + insurance + taxes + other;
   var monthlyItemsAvg = SIM_TOTAL_ITEMS / SIM_NUM_MONTHS;
   var opCostPerItem = monthlyItemsAvg > 0 ? monthlyOverhead / monthlyItemsAvg : 0;
 
