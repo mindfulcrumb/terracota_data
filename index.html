@@ -987,6 +987,7 @@ tr:hover td { background: rgba(255,255,255,.015); }
 
 
 
+
 <!-- ===== PROFITABILITY SECTION ===== -->
 <div class="section-divider" id="profitability">Profitability Analysis &middot; True Cost per Product</div>
 
@@ -1243,18 +1244,20 @@ tr:hover td { background: rgba(255,255,255,.015); }
 </style>
   <div class="card"><div class="card-body">
     <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;flex-wrap:wrap">
-      <div class="sim-input-group" style="flex:1;min-width:140px"><span class="sim-label">Staff Count</span><input type="number" class="sim-input" id="simStaff" value="3.3" min="0" max="10" step="1" onchange="simRecalc()"></div>
-      <div class="sim-input-group" style="flex:1;min-width:140px"><span class="sim-label">Cost / Person</span><input type="number" class="sim-input" id="simStaffCost" value="1100" min="0" step="50" onchange="simRecalc()"></div>
+      <div class="sim-input-group" style="flex:1;min-width:140px"><span class="sim-label">Staff Count</span><input type="number" class="sim-input" id="simStaff" value="4" min="0" max="10" step="1" onchange="simRecalc()"></div>
+      <div class="sim-input-group" style="flex:1;min-width:140px"><span class="sim-label">Avg Salary / Person</span><input type="number" class="sim-input" id="simStaffCost" value="1014" min="0" step="50" onchange="simRecalc()"></div>
+      <div class="sim-input-group" style="flex:1;min-width:140px"><span class="sim-label">Seg. Social</span><input type="number" class="sim-input" id="simSegSocial" value="1450" min="0" step="50" onchange="simRecalc()"></div>
       <div style="display:flex;align-items:flex-end;gap:8px;padding-top:18px"><button class="sim-btn sim-btn-reset" onclick="simReset()">Reset</button></div>
     </div>
     <div class="sim-grid">
-      <div class="sim-input-group"><span class="sim-label">Rent</span><input type="number" class="sim-input" id="simRent" value="1125" min="0" step="10" onchange="simRecalc()"></div>
-      <div class="sim-input-group"><span class="sim-label">Daily Ops (COGS)</span><input type="number" class="sim-input" id="simDailyOps" value="2116" min="0" step="10" onchange="simRecalc()"></div>
-      <div class="sim-input-group"><span class="sim-label">Taxes</span><input type="number" class="sim-input" id="simTaxes" value="1040" min="0" step="10" onchange="simRecalc()"></div>
-      <div class="sim-input-group"><span class="sim-label">Utilities</span><input type="number" class="sim-input" id="simUtilities" value="477" min="0" step="10" onchange="simRecalc()"></div>
-      <div class="sim-input-group"><span class="sim-label">Accounting</span><input type="number" class="sim-input" id="simAccounting" value="215" min="0" step="10" onchange="simRecalc()"></div>
-      <div class="sim-input-group"><span class="sim-label">Insurance</span><input type="number" class="sim-input" id="simInsurance" value="87" min="0" step="10" onchange="simRecalc()"></div>
-      <div class="sim-input-group"><span class="sim-label">Other</span><input type="number" class="sim-input" id="simOther" value="217" min="0" step="10" onchange="simRecalc()"></div>
+      <div class="sim-input-group"><span class="sim-label">Rent (Aluguer)</span><input type="number" class="sim-input" id="simRent" value="1350" min="0" step="10" onchange="simRecalc()"></div>
+      <div class="sim-input-group"><span class="sim-label">Daily Ops (COGS)</span><input type="number" class="sim-input" id="simDailyOps" value="1380" min="0" step="10" onchange="simRecalc()"></div>
+      <div class="sim-input-group"><span class="sim-label">Utilities (EDP/Water/Net)</span><input type="number" class="sim-input" id="simUtilities" value="451" min="0" step="10" onchange="simRecalc()"></div>
+      <div class="sim-input-group"><span class="sim-label">Accounting</span><input type="number" class="sim-input" id="simAccounting" value="369" min="0" step="10" onchange="simRecalc()"></div>
+      <div class="sim-input-group"><span class="sim-label">POS System</span><input type="number" class="sim-input" id="simPOS" value="129" min="0" step="10" onchange="simRecalc()"></div>
+      <div class="sim-input-group"><span class="sim-label">Insurance + Security</span><input type="number" class="sim-input" id="simInsurance" value="99" min="0" step="10" onchange="simRecalc()"></div>
+      <div class="sim-input-group"><span class="sim-label">Taxes (Pag Estado)</span><input type="number" class="sim-input" id="simTaxes" value="48" min="0" step="10" onchange="simRecalc()"></div>
+      <div class="sim-input-group"><span class="sim-label">Supplies & Other</span><input type="number" class="sim-input" id="simOther" value="199" min="0" step="10" onchange="simRecalc()"></div>
     </div>
     <div class="sim-total-row">
       <span class="sim-total-label">Monthly Overhead</span>
@@ -1359,6 +1362,8 @@ Plotly.newPlot('monthlyChart',[
 
 
 
+
+
 <script>
 // Profitability Chart (static)
 (function() {
@@ -1405,28 +1410,32 @@ var SIM_CURRENT = {
   net: -2060.34
 };
 
-// Default values for reset
+// Default values for reset (December 2025 actuals from Faturacao Lojas 2025.xlsx)
 var SIM_DEFAULTS = {
-  staff: 3.3,
-  staffCost: 1100,
-  rent: 1125,
-  dailyOps: 2116,
-  taxes: 1040,
-  utilities: 477,
-  accounting: 215,
-  insurance: 87,
-  other: 217
+  staff: 4,
+  staffCost: 1014,
+  segSocial: 1450,
+  rent: 1350,
+  dailyOps: 1380,
+  utilities: 451,
+  accounting: 369,
+  pos: 129,
+  insurance: 99,
+  taxes: 48,
+  other: 199
 };
 
 function simReset() {
   document.getElementById('simStaff').value = SIM_DEFAULTS.staff;
   document.getElementById('simStaffCost').value = SIM_DEFAULTS.staffCost;
+  document.getElementById('simSegSocial').value = SIM_DEFAULTS.segSocial;
   document.getElementById('simRent').value = SIM_DEFAULTS.rent;
   document.getElementById('simDailyOps').value = SIM_DEFAULTS.dailyOps;
-  document.getElementById('simTaxes').value = SIM_DEFAULTS.taxes;
   document.getElementById('simUtilities').value = SIM_DEFAULTS.utilities;
   document.getElementById('simAccounting').value = SIM_DEFAULTS.accounting;
+  document.getElementById('simPOS').value = SIM_DEFAULTS.pos;
   document.getElementById('simInsurance').value = SIM_DEFAULTS.insurance;
+  document.getElementById('simTaxes').value = SIM_DEFAULTS.taxes;
   document.getElementById('simOther').value = SIM_DEFAULTS.other;
   simRecalc();
 }
@@ -1435,16 +1444,18 @@ function simRecalc() {
   // Read inputs
   var staff = parseFloat(document.getElementById('simStaff').value) || 0;
   var staffCost = parseFloat(document.getElementById('simStaffCost').value) || 0;
+  var segSocial = parseFloat(document.getElementById('simSegSocial').value) || 0;
   var rent = parseFloat(document.getElementById('simRent').value) || 0;
   var dailyOps = parseFloat(document.getElementById('simDailyOps').value) || 0;
-  var taxes = parseFloat(document.getElementById('simTaxes').value) || 0;
   var utilities = parseFloat(document.getElementById('simUtilities').value) || 0;
   var accounting = parseFloat(document.getElementById('simAccounting').value) || 0;
+  var pos = parseFloat(document.getElementById('simPOS').value) || 0;
   var insurance = parseFloat(document.getElementById('simInsurance').value) || 0;
+  var taxes = parseFloat(document.getElementById('simTaxes').value) || 0;
   var other = parseFloat(document.getElementById('simOther').value) || 0;
 
   var salaries = staff * staffCost;
-  var monthlyOverhead = salaries + rent + dailyOps + taxes + utilities + accounting + insurance + other;
+  var monthlyOverhead = salaries + segSocial + rent + dailyOps + utilities + accounting + pos + insurance + taxes + other;
   var monthlyItemsAvg = SIM_TOTAL_ITEMS / SIM_NUM_MONTHS;
   var opCostPerItem = monthlyItemsAvg > 0 ? monthlyOverhead / monthlyItemsAvg : 0;
 
